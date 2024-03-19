@@ -1,0 +1,44 @@
+html, body, * {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+}
+:root {
+    --blackpure: #000;
+    --black: #171718;
+    --black-border: #26292d;
+    --white: #fff;
+    --purple:  rgba(252, 66, 45, 1);;
+
+    --nav-bg: var(--black);
+    --nav-border: var(--black-border);
+    --nav-text: var(--white);
+
+
+    --header-bg: var(--black);
+    --header-text: var(--white);
+
+    --footer-bg: var(--black);
+    --footer-text: var(--white);
+
+
+    --page-bg: var(--white);
+    --text-color: var(--black);
+    --accent: var(--purple);
+    --title-1: var(--accent);
+
+    --project-card-bg: var(--white);
+    --project-card-text: var(--black);
+    --box-shadow: 0px 5px 35px rgba(0, 0, 0, 0.25);
+}
+
+.dark {
+
+    --page-bg: #252526;
+    --text-color: var(--white);
+
+    --title-1: var(--white);
+
+    --project-card-bg: var(--black);
+    --project-card-text: var(--white);
+    --box-shadow: 0px 5px 35px rgba(0, 0, 0, 0.8);
+}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Редактирование записи в таблице {{ table }}</h2>
+<form method="POST" action="{{ url_for('edit', table=table, id=id) }}">
+    {% for column, value in record.items() %}
+    <div class="form-group">
+        <label for="{{ column }}">{{ column }}</label>
+        <input type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}

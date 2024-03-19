@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Добавление записи в таблицу {{ table }}</h2>
+<form method="POST" action="{{ url_for('add_record', table=table) }}">
+    {% for column in columns %}
+    {% if column != 'id' %}
+    <div class="form-group">
+        <label>{{ column }}</label>
+        <input type="text" class="form-control" name="{{ column }}">
+    </div>
+    {% endif %}
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Добавить запись</button>
+</form>
+{% endblock %}
