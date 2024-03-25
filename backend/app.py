@@ -1,10 +1,11 @@
 from flask import Flask, request, render_template, redirect, url_for, session
 from databases import SQLiteDatabase
-import json, pathlib, hashlib
+import json, pathlib, hashlib, datetime
 
 database = SQLiteDatabase(f"{str(pathlib.Path(__file__).parent.resolve())}/database.db")
 app = Flask(__name__, template_folder="templates")
 app.secret_key = 'all_russia'
+
 
 
 @app.route("/data_news")
@@ -113,6 +114,9 @@ def edit(id, table):
         query = query[:-2]
         query += " WHERE id = ?;"
         values = list(data.values())
+        if table == "news":
+            # дата и время изменения записи
+            values[-1] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         values.append(id)
         database.execute(query, tuple(values))
         return redirect(url_for('admin_panel', table=table))
@@ -135,6 +139,9 @@ def add_record(table):
 
         columns += ', id'
         placeholders += ', ?'
+        if table == "news":
+            # дата и время изменения записи
+            values[-1] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         values.append(new_id)
 
         database.execute(f"INSERT INTO {table} ({columns}) VALUES ({placeholders})", tuple(values))
