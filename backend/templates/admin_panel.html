@@ -1,3 +1,17 @@
+<style>
+    .table-preview{
+        width: 100px;
+        margin: 5px;
+    }
+    .btn{
+        margin: 5px;
+    }
+    .btn-danger, .btn-primary{
+        width: 200px;
+    }
+</style>
+
+
 {% extends 'base.html' %}
 {% block content %}
 <a href="{{ url_for('add_record', table=table) }}" class="btn btn-secondary">Добавить запись в таблицу</a>
@@ -14,7 +28,11 @@
     {% for item in data %}
     <tr>
         {% for cell in item %}
-        <th>{{cell}}</th>
+        <th>{{cell}}
+        {% if cell == item.url %}
+        <img class="table-preview" src="{{ url_for('send_file', filename=cell) }}" alt="No image">
+        {% endif %}
+            </th>
         {% endfor %}
         <th>
             <a href="{{ url_for('edit', table=table, id=item.id) }}" class="btn btn-primary">Редактировать</a>

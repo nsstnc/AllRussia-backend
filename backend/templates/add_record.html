@@ -1,12 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Добавление записи в таблицу {{ table }}</h2>
-<form method="POST" action="{{ url_for('add_record', table=table) }}">
+<form method="POST" action="{{ url_for('add_record', table=table) }}" enctype="multipart/form-data">
     {% for column in columns %}
-    {% if column != 'id' %}
+    {% if column != 'id' and column != 'updated' %}
     <div class="form-group">
+
+        {% if column == "url" %}
+        <label>image</label>
+        <input hidden type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
+        <input type="file" class="form-control" id="file" name="file">
+        {% else %}
         <label>{{ column }}</label>
-        <input type="text" class="form-control" name="{{ column }}">
+        <input type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
+        {% endif %}
     </div>
     {% endif %}
     {% endfor %}
