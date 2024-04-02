@@ -1,5 +1,6 @@
 import sqlite3
 import hashlib
+import json
 from typing import List
 from post import Post
 from partner import Partner
@@ -107,3 +108,24 @@ class SQLiteDatabase():
     def get_all_tables(self):
         self.cursor.execute("SELECT * FROM sqlite_master WHERE type='table';")
         return self.cursor.fetchall()
+    
+    def get_news_politics(self):
+        return [Post(id, url, title, subtitle, tag, block, updated).__dict__ for id, url, title, subtitle, tag, block, updated in
+                self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news WHERE tag='Политика'")]
+
+    def get_news_economics(self):
+        return [Post(id, url, title, subtitle, tag, block, updated).__dict__ for id, url, title, subtitle, tag, block, updated in
+                self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news WHERE tag='Экономика'")]
+
+    def get_news_science_education(self):
+        return [Post(id, url, title, subtitle, tag, block, updated).__dict__ for id, url, title, subtitle, tag, block, updated in
+                self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news WHERE tag='Наука и образование'")]
+
+    def get_news_culture_history(self):
+        return [Post(id, url, title, subtitle, tag, block, updated).__dict__ for id, url, title, subtitle, tag, block, updated in
+                self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news WHERE tag='Культура и история'")]
+
+    def get_news_sorted_by_date(self):
+        return [Post(id, url, title, subtitle, tag, block, updated).__dict__ for id, url, title, subtitle, tag, block, updated in
+                self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news ORDER BY updated")]
+

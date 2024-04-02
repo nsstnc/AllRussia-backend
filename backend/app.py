@@ -193,6 +193,25 @@ def verifyExt(filename):
         return True
     return False
 
+@app.route("/data_news_sorted_by_date")
+def data_news_sorted_by_date():
+    return json.dumps(database.get_news_sorted_by_date(), ensure_ascii=False)
+
+@app.route("/data_news_politics")
+def data_news_politics():
+    return json.dumps(database.get_news_politics(), ensure_ascii=False)
+
+@app.route("/data_news_economics")
+def data_news_economics():
+    return json.dumps(database.get_news_economics(), ensure_ascii=False)
+
+@app.route("/data_news_science_education")
+def data_news_science_education():
+    return json.dumps(database.get_news_science_education(), ensure_ascii=False)
+
+@app.route("/data_news_culture_history")
+def data_news_culture_history():
+    return json.dumps(database.get_news_culture_history(), ensure_ascii=False)
 
 
 print(__name__)
