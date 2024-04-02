@@ -1,11 +1,13 @@
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory
 from databases import SQLiteDatabase
-import json, pathlib, hashlib
+import json, pathlib, hashlib, datetime
 
 database = SQLiteDatabase(f"{str(pathlib.Path(__file__).parent.resolve())}/database.db")
 app = Flask(__name__, template_folder="templates")
 app.secret_key = 'all_russia'
 
+# путь к изображениям
+UPLOAD_FOLDER = str(pathlib.Path(__file__).parent.resolve()) + "/public"
 
 @app.route("/data_news")
 def data_news():
@@ -106,13 +108,30 @@ def delete(id, table):
 @app.route('/admin_panel/edit/<int:id>/<string:table>', methods=['GET', 'POST'])
 def edit(id, table):
     if request.method == 'POST':
-        data = request.form
+        # данные из формы
+        data = dict(request.form)
+        # файл, загруженный в форму
+        file = request.files['file']
+        if file:
+            if verifyExt(file.filename):
+                # сохранение нового файла
+                file.save(pathlib.Path(UPLOAD_FOLDER, file.filename))
+                # удаление старого файла из директории
+                pathlib.Path(UPLOAD_FOLDER, data['url']).unlink()
+                # запись нового url в словарь
+                data['url'] = file.filename
+
+        if table == "news":
+            # дата и время изменения записи
+            data["updated"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
         query = f"UPDATE {table} SET "
         for key in data.keys():
             query += f"{key} = ?, "
         query = query[:-2]
         query += " WHERE id = ?;"
         values = list(data.values())
+
         values.append(id)
         database.execute(query, tuple(values))
         return redirect(url_for('admin_panel', table=table))
@@ -125,7 +144,22 @@ def edit(id, table):
 @app.route('/admin_panel/add/<string:table>', methods=['GET', 'POST'])
 def add_record(table):
     if request.method == 'POST':
-        data = request.form
+        # данные из формы
+        data = dict(request.form)
+
+        # файл, загруженный в форму
+        file = request.files['file']
+        if file:
+            if verifyExt(file.filename):
+                # сохранение нового файла
+                file.save((pathlib.Path(UPLOAD_FOLDER, file.filename)))
+                # запись url в словарь
+                data['url'] = file.filename
+
+        if table == "news":
+            # дата и время изменения записи
+            data["updated"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
         columns = ', '.join(data.keys())
         placeholders = ', '.join(['?' for _ in data.keys()])
         values = list(data.values())
@@ -135,6 +169,7 @@ def add_record(table):
 
         columns += ', id'
         placeholders += ', ?'
+
         values.append(new_id)
 
         database.execute(f"INSERT INTO {table} ({columns}) VALUES ({placeholders})", tuple(values))
@@ -143,6 +178,21 @@ def add_record(table):
     else:
         columns = [column[1] for column in database.cursor.execute('PRAGMA table_info({})'.format(table)).fetchall()]
         return render_template('add_record.html', table=table, columns=columns)
+
+
+# загрузка файла из директории файлов
+@app.route('/uploads/<filename>')
+def send_file(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
+
+
+# проверка формата изображения
+def verifyExt(filename):
+    ext = filename.rsplit('.', 1)[1]
+    if ext in ['JPEG', 'JPG', 'png', 'jpg', 'PNG']:
+        return True
+    return False
+
 
 
 print(__name__)

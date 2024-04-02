@@ -1,12 +1,26 @@
+<style>
+    .edit-preview{
+        width: 200px;
+        margin: 10px;
+    }
+</style>
 {% extends 'base.html' %}
 {% block content %}
 <h2>Редактирование записи в таблице {{ table }}</h2>
-<form method="POST" action="{{ url_for('edit', table=table, id=id) }}">
+<form method="POST" action="{{ url_for('edit', table=table, id=id) }}" enctype="multipart/form-data">
     {% for column, value in record.items() %}
-    <div class="form-group">
-        <label for="{{ column }}">{{ column }}</label>
-        <input type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
-    </div>
+        {% if column != 'id' and column != 'updated' %}
+            {% if column == "url" %}
+                <label for="{{ column }}">image</label>
+                <input hidden type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
+                <input type="file" class="form-control" id="file" name="file">
+                <label>Текущее изображение</label>
+                <img class="edit-preview" src="{{ url_for('send_file', filename=value) }}" alt="No image">
+            {% else %}
+                <p><label for="{{ column }}">{{ column }}</label></p>
+                <input type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
+            {% endif %}
+        {% endif %}
     {% endfor %}
     <button type="submit" class="btn btn-primary">Сохранить</button>
 </form>
