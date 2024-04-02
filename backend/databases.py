@@ -1,6 +1,5 @@
 import sqlite3
 import hashlib
-import json
 from typing import List
 from post import Post
 from partner import Partner

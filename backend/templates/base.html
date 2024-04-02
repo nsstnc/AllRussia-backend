@@ -49,11 +49,11 @@
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
-                    {% for table in tables %}
+                    {% for table, display_name in tables.items() %}
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{url_for('admin_panel', table = table)}}">
                             <span data-feather="home"></span>
-                            {{ table }}
+                            {{ display_name }}
                         </a>
 <!--                        <form action="admin_panel" method="POST">-->
 <!--                            <input type="submit" id="post-btn" class="d-none">-->

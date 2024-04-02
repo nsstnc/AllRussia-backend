@@ -9,6 +9,14 @@ app.secret_key = 'all_russia'
 # путь к изображениям
 UPLOAD_FOLDER = str(pathlib.Path(__file__).parent.resolve()) + "/public"
 
+table_names = {
+    'articles': 'Статьи',
+    'partners': 'Партнеры',
+    'contacts': 'Контакты',
+    'users': 'Пользователи',
+    'news': 'Новости',
+}
+
 @app.route("/data_news")
 def data_news():
     return json.dumps(database.get_all_posts_news())
@@ -87,7 +95,7 @@ def admin_panel(table):
     data = database.select_all('SELECT * FROM "{}"'.format(table))
 
     # Загрузка и отображение админ-панели
-    return render_template('admin_panel.html', tables=tables, table=table, columns=columns, data=data)
+    return render_template('admin_panel.html', tables=table_names, table=table, columns=columns, data=data)
 
 
 # маршрут выхода из админ-панели
