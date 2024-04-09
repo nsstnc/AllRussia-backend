@@ -1,10 +1,12 @@
 from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory
 from databases import SQLiteDatabase
-import json, pathlib, hashlib, datetime
+import pathlib, hashlib, datetime
+from get_data import get_data_app
 
 database = SQLiteDatabase(f"{str(pathlib.Path(__file__).parent.resolve())}/database.db")
 app = Flask(__name__, template_folder="templates")
 app.secret_key = 'all_russia'
+app.register_blueprint(get_data_app)
 
 # путь к изображениям
 UPLOAD_FOLDER = str(pathlib.Path(__file__).parent.resolve()) + "/public"
@@ -17,40 +19,43 @@ table_names = {
     'news': 'Новости',
 }
 
-@app.route("/data_news")
-def data_news():
-    return json.dumps(database.get_all_posts_news())
 
+# вроде как пока не нужно и не функционирует
 
-@app.route("/data_contacts")
-def data_contacts():
-    return json.dumps(database.get_contacts_info())
-
-
-@app.route("/data_main_page")
-def data_main_page():
-    return json.dumps(database.get_main_page_news())
-
-
-@app.route("/data_articles")
-def data_articles():
-    return json.dumps(database.get_all_posts_articles())
-
-
-@app.route("/data_partners")
-def data_partners():
-    return json.dumps(database.get_all_partners())
-
-
-@app.route('/add', methods=['POST'])
-def add():
-    data = request.json
-    url = data['url']
-    title = data['title']
-    subtitle = data['subtitle']
-    tag = data['tag']
-    database.add_post(url, title, subtitle, tag)
-    return data
+# @app.route("/data_news")
+# def data_news():
+#     return json.dumps(database.get_all_posts_news())
+#
+#
+# @app.route("/data_contacts")
+# def data_contacts():
+#     return json.dumps(database.get_contacts_info())
+#
+#
+# @app.route("/data_main_page")
+# def data_main_page():
+#     return json.dumps(database.get_main_page_news())
+#
+#
+# @app.route("/data_articles")
+# def data_articles():
+#     return json.dumps(database.get_all_posts_articles())
+#
+#
+# @app.route("/data_partners")
+# def data_partners():
+#     return json.dumps(database.get_all_partners())
+#
+#
+# @app.route('/add', methods=['POST'])
+# def add():
+#     data = request.json
+#     url = data['url']
+#     title = data['title']
+#     subtitle = data['subtitle']
+#     tag = data['tag']
+#     database.add_post(url, title, subtitle, tag)
+#     return data
 
 
 # маршрут страницы формы для входа в админ-панель
@@ -113,6 +118,7 @@ def delete(id, table):
     print("delete", id, table)
     return redirect(url_for('admin_panel', table=table))
 
+
 @app.route('/admin_panel/edit/<int:id>/<string:table>', methods=['GET', 'POST'])
 def edit(id, table):
     if request.method == 'POST':
@@ -149,6 +155,7 @@ def edit(id, table):
         record_dict = dict(record)
         return render_template('edit_record.html', table=table, id=id, record=record_dict)
 
+
 @app.route('/admin_panel/add/<string:table>', methods=['GET', 'POST'])
 def add_record(table):
     if request.method == 'POST':
@@ -173,7 +180,7 @@ def add_record(table):
         values = list(data.values())
 
         last_id = database.select_one(f'SELECT MAX(id) FROM {table}')[0]
-        new_id = last_id + 1 if last_id is not None else 1  
+        new_id = last_id + 1 if last_id is not None else 1
 
         columns += ', id'
         placeholders += ', ?'
@@ -200,26 +207,6 @@ def verifyExt(filename):
     if ext in ['JPEG', 'JPG', 'png', 'jpg', 'PNG']:
         return True
     return False
-
-@app.route("/data_news_sorted_by_date")
-def data_news_sorted_by_date():
-    return json.dumps(database.get_news_sorted_by_date(), ensure_ascii=False)
-
-@app.route("/data_news_politics")
-def data_news_politics():
-    return json.dumps(database.get_news_politics(), ensure_ascii=False)
-
-@app.route("/data_news_economics")
-def data_news_economics():
-    return json.dumps(database.get_news_economics(), ensure_ascii=False)
-
-@app.route("/data_news_science_education")
-def data_news_science_education():
-    return json.dumps(database.get_news_science_education(), ensure_ascii=False)
-
-@app.route("/data_news_culture_history")
-def data_news_culture_history():
-    return json.dumps(database.get_news_culture_history(), ensure_ascii=False)
 
 
 print(__name__)
