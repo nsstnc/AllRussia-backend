@@ -9,40 +9,40 @@ app.secret_key = 'all_russia'
 # путь к изображениям
 UPLOAD_FOLDER = str(pathlib.Path(__file__).parent.resolve()) + "/public"
 
-@app.route("/data_news")
-def data_news():
-    return json.dumps(database.get_all_posts_news())
-
-
-@app.route("/data_contacts")
-def data_contacts():
-    return json.dumps(database.get_contacts_info())
-
-
-@app.route("/data_main_page")
-def data_main_page():
-    return json.dumps(database.get_main_page_news())
-
-
-@app.route("/data_articles")
-def data_articles():
-    return json.dumps(database.get_all_posts_articles())
-
-
-@app.route("/data_partners")
-def data_partners():
-    return json.dumps(database.get_all_partners())
-
-
-@app.route('/add', methods=['POST'])
-def add():
-    data = request.json
-    url = data['url']
-    title = data['title']
-    subtitle = data['subtitle']
-    tag = data['tag']
-    database.add_post(url, title, subtitle, tag)
-    return data
+# @app.route("/data_news")
+# def data_news():
+#     return json.dumps(database.get_all_posts_news())
+#
+#
+# @app.route("/data_contacts")
+# def data_contacts():
+#     return json.dumps(database.get_contacts_info())
+#
+#
+# @app.route("/data_main_page")
+# def data_main_page():
+#     return json.dumps(database.get_main_page_news())
+#
+#
+# @app.route("/data_articles")
+# def data_articles():
+#     return json.dumps(database.get_all_posts_articles())
+#
+#
+# @app.route("/data_partners")
+# def data_partners():
+#     return json.dumps(database.get_all_partners())
+#
+#
+# @app.route('/add', methods=['POST'])
+# def add():
+#     data = request.json
+#     url = data['url']
+#     title = data['title']
+#     subtitle = data['subtitle']
+#     tag = data['tag']
+#     database.add_post(url, title, subtitle, tag)
+#     return data
 
 
 # маршрут страницы формы для входа в админ-панель
