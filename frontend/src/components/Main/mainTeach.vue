@@ -12,24 +12,24 @@ export default {
     <h3>НАУКА И ОБРАЗОВАНИЕ</h3>
       <div class="container">
         <div class="item item_1">
-          <img class="item_1-img" src="@/assets/syrikaty-2%201.png" alt="">
+          <img class="item_1-img" src="../../assets/syrikaty-2%201.png" alt="">
           <p class="asd">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.</p>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Mollis aliquam ut porttitor leo a diam sollicitudin tempor. Curabitur vitae nunc sed velit dignissim sodales ut eu sem. </p>
         </div>
         <div class="item item_2">
-          <img src="@/assets/prem1%20(2).png" alt="">
+          <img src="../../assets/prem1%20(2).png" alt="">
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.</p>
         </div>
         <div class="item item_3">
-          <img src="@/assets/prem1%20(3).png" alt="">
+          <img src="../../assets/prem1%20(3).png" alt="">
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.</p>
         </div>
         <div class="item item_4">
-          <img src="@/assets/prem1%20(4).png" alt="">
+          <img src="../../assets/prem1%20(4).png" alt="">
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
         </div>
         <div class="item item_5">
-          <img src="@/assets/prem1%20(1).png" alt="">
+          <img src="../../assets/prem1%20(1).png" alt="">
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
         </div>
       </div>
@@ -68,7 +68,7 @@ export default {
     width: 69px; /* ширина прямоугольника */
     height: 8px; /* высота прямоугольника */
     background-color: #AA0000; /* цвет фона прямоугольника */
-    margin-left: 60px;
+    margin-left: 4%;
     margin-bottom: 10px;
   }
   h3 {

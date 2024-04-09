@@ -16,7 +16,9 @@
 </template>
 
 <style scoped>
+
   .header__help {
+    font-family: "Roboto Condensed", sans-serif;
     height: 50px;
     background-color: #222222;
     display: flex;

@@ -10,29 +10,22 @@
           </div>
         </button >
         <span class="header__logo">ALLRUSSIA</span>
-
+        <div class="vertical-line"></div>
       </div>
       <div class="item item_2">
 
         <ul class="header__list">
-          <li class="header__items">ВсяРоссия</li>
+          <li class="header__items">ВСЯРОССИЯ</li>
           <li class="header__items">РФ</li>
           <li class="header__items">СНГ</li>
-          <li class="header__items">Арабский Мир</li>
-          <li class="header__items">Школа русского языка РКИ+</li>
-          <li class="vertical-line_1"></li>
+          <li class="header__items">АРАБСКИЙ МИР</li>
+          <li class="header__items">ШКОЛА РУССКОГО ЯЗЫКА РКИ+</li>
+          <li class="vertical-line"></li>
         </ul>
+
       </div>
 
       <div class="item item_3">
-        <div class="search-box">
-          <input
-            type="text"
-            placeholder="Поиск"
-            class="search-input"
-          />
-        </div>
-        <img src="@/assets/loop.svg" class="loop">
         <img class="img" src="@/assets/yarussski.png" alt="">
       </div>
 
@@ -68,8 +61,9 @@ name: 'HeaderSide',
 
 <style scoped>
 
-
 .header {
+  font-family: "Roboto Condensed";
+  font-weight: bold;
   display: grid;
   align-items: center;
   grid-template-columns: 1fr 1.5fr 1fr;
@@ -130,7 +124,7 @@ name: 'HeaderSide',
 
 .item_3{
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
@@ -166,14 +160,9 @@ name: 'HeaderSide',
 .content {
   transition: transform 0.3s ease-out;
 }
-.loop {
-  position: absolute;
-  right: calc(403px - 26px);
-  top: 27px;
-  cursor: pointer;
-}
-
-.open {
+.vertical-line {
+  height: 36px;
+  border-left: 3px solid white; /* задаем стиль и цвет вертикальной линии */
 }
 
 

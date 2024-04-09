@@ -8,13 +8,19 @@
                 <p class="contact__text">Адрес для корреспонденции: 121170, г.Москва, Кутузовский пр.,36,стр.7Б (Муса АЖ) </p>
                 <p class="contact__text contact__text-underline">E-mail: info@allrussia.info</p>
                 <p class="contact__text">Телефоны: +7 (495) 784-73-55; +7 (926) 393-40-64</p>
-                <img class="contact__img" src="" alt="Map">
             </div>
+          <MapSection/>
+<!--          <NavigateComponent/>-->
         </div>
     </div>
 </template>
 
 <script>
+  import MapSection from "@/components/Contact/MapSection.vue";
+  import {defineComponent} from "vue";
+  export default defineComponent({
+    components: { MapSection}
+  })
 
 </script>
 

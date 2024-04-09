@@ -1,6 +1,33 @@
-html, body, * {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
+@font-face {
+    font-family: "Roboto Condensed";
+    src: url(../assets/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf);
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Roboto Condensed";
+    src: url(../assets/fonts/Roboto_Condensed/RobotoCondensed-SemiBold.ttf);
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Roboto";
+    src: url(../assets/fonts/Roboto/Roboto-Regular.ttf);
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Roboto";
+    src: url(../assets/fonts/Roboto/Roboto-Bold.ttf);
+    font-weight: bold;
+    font-style: normal;
+}
+.container, p {
+    font-family: "Roboto";
+}
+h1, h2, h3 {
+    font-family: "Roboto Condensed";
+    font-weight: bold;
 }
 :root {
     --blackpure: #000;

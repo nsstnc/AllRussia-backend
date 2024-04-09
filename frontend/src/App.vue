@@ -19,17 +19,19 @@ export default {
 </script>
 
 <style>
- body {
-   margin:0;
- }
+@import "@/styles/main.css";
 
- .main{
+body {
+  margin:0;
+}
+
+.main{
   margin-top: 20px;
- }
+}
 
- .red-line{
-    width: 32px;
-    height: 8px;
-    background-color: red;
+.red-line{
+  width: 32px;
+  height: 8px;
+  background-color: red;
 }
 </style>

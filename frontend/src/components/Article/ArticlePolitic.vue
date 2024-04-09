@@ -3,7 +3,7 @@
         <h2 class="section-title">Политика</h2>
         <h1 class="article-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</h1>
         <p class="byline">Александр Новиков | Опубликовано: 21 фев, 2024, 21:08 | Изменено: 21 фев, 2024, 22:31</p>
-        <img src="../assets/first.png" alt="" class="article-image">
+        <img src="../../assets/first.png" alt="" class="article-image">
         <h3 class="subtitle">Volutpat ac tincidunt vitae semper. Felis bibendum ut tristique et egestas quis ipsum suspendisse.</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Volutpat ac tincidunt vitae semper. Felis bibendum ut tristique et egestas quis ipsum suspendisse. Consequat id porta nibh venenatis. Cursus euismod quis viverra nibh cras pulvinar mattis nunc.</p>
         <p>Rhoncus aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque habitant. Imperdiet dui accumsan sit amet nulla facilisi morbi.</p>
@@ -11,7 +11,7 @@
         <h2>Rhoncus aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque habitant.</h2>
         <p>Volutpat ac tincidunt vitae semper. Felis bibendum ut tristique et egestas quis ipsum suspendisse. Consequat id porta nibh venenatis. Cursus euismod quis viverra nibh cras pulvinar mattis nunc. Id aliquet lectus proin nibh. Donec massa sapien faucibus et molestie.</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Volutpat ac tincidunt vitae semper. Felis bibendum ut tristique et egestas quis ipsum suspendisse. Consequat id porta nibh venenatis. Cursus euismod quis viverra nibh cras pulvinar mattis nunc.</p>
-        <img src="../assets/second.png" alt="" class="article-image">
+        <img src="../../assets/second.png" alt="" class="article-image">
         <p>Rhoncus aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque habitant. Imperdiet dui accumsan sit amet nulla facilisi morbi.</p>
         <p>Volutpat ac tincidunt vitae semper. Felis bibendum ut tristique et egestas quis ipsum suspendisse.</p>
         <p>Imperdiet dui accumsan sit amet nulla facilisi morbi. Tempor commodo ullamcorper a lacus vestibulum sed. Proin fermentum leo vel orci. In mollis nunc sed id semper risus in hendrerit.</p>

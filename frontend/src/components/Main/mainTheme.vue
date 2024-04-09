@@ -12,7 +12,7 @@ export default {
     <div class="container">
       <div class="item item_1">
         <h2>СПОРТ</h2>
-        <img src="@/assets/rapper.png" alt="12">
+        <img src="../../assets/rapper.png" alt="12">
         <p class="item_2-subtitle">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
         </p>
@@ -32,7 +32,7 @@ export default {
       </div>
       <div class="item item_2">
         <h2>ТУРИЗМ</h2>
-          <img src="@/assets/brige.png" alt="12">
+          <img src="../../assets/brige.png" alt="12">
             <p class="item_2-subtitle">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
             </p>
@@ -51,7 +51,7 @@ export default {
       </div>
       <div class="item item_3">
         <h2>ПАРТНЕРЫ</h2>
-          <img src="@/assets/islam.png" alt="12">
+          <img src="../../assets/islam.png" alt="12">
             <p class="item_2-subtitle">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
             </p>
@@ -70,7 +70,7 @@ export default {
       </div>
       <div class="item item_4">
         <h2>ПРОЕКТЫ</h2>
-          <img src="@/assets/september11.png" alt="12">
+          <img src="../../assets/september11.png" alt="12">
             <p class="item_2-subtitle">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
             </p>
@@ -118,7 +118,7 @@ h3 {
   width: 69px; /* ширина прямоугольника */
   height: 8px; /* высота прямоугольника */
   background-color: #AA0000; /* цвет фона прямоугольника */
-  margin-left: 60px;
+  margin-left: 4%;
   margin-bottom: 10px;
 }
 .diviver {

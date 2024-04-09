@@ -71,7 +71,7 @@ export default {
 
 <style scoped>
 .main-container {
-
+  font-family: "Roboto", sans-serif;
 }
 .wrapper {
   max-width: 1440px;
@@ -84,10 +84,13 @@ export default {
   color: white;
   height: 685px;
   align-items: center;
-  background-image:url('../assets/city.png') ;
+  background-image:url('@/assets/city.png') ;
+  background-repeat: no-repeat;
+  background-size: cover;
+
 }
 .text {
- font-size: 200px;
+ font-size: 120px;
 }
 .sub_title {
   font-size: 36px;

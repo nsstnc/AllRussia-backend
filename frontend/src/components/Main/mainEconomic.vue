@@ -18,14 +18,14 @@ export default {
           <p class="item_1-txt">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.</p>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Mollis aliquam ut porttitor leo a diam sollicitudin tempor. Curabitur vitae nunc sed velit dignissim sodales ut eu sem. </p>
         </div>
-        <img src="@/assets/5.png" alt="">
+        <img src="../../assets/5.png" alt="">
       </div>
       <div class="item item_2">
         <div class="asd">
           <p class="item_1-txt">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.</p>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Mollis aliquam ut porttitor leo a diam sollicitudin tempor. Curabitur vitae nunc sed velit dignissim sodales ut eu sem. </p>
         </div>
-        <img src="@/assets/6.png" alt="">
+        <img src="../../assets/6.png" alt="">
       </div>
     </div>
   </div>
@@ -71,7 +71,7 @@ h3 {
   width: 69px; /* ширина прямоугольника */
   height: 8px; /* высота прямоугольника */
   background-color: #AA0000; /* цвет фона прямоугольника */
-  margin-left: 60px;
+  margin-left: 4%;
   margin-bottom: 10px;
 }
 
