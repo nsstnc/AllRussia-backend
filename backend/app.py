@@ -9,6 +9,7 @@ app.secret_key = 'all_russia'
 # путь к изображениям
 UPLOAD_FOLDER = str(pathlib.Path(__file__).parent.resolve()) + "/public"
 
+<<<<<<< HEAD
 # @app.route("/data_news")
 # def data_news():
 #     return json.dumps(database.get_all_posts_news())
@@ -43,6 +44,50 @@ UPLOAD_FOLDER = str(pathlib.Path(__file__).parent.resolve()) + "/public"
 #     tag = data['tag']
 #     database.add_post(url, title, subtitle, tag)
 #     return data
+=======
+table_names = {
+    'articles': 'Статьи',
+    'partners': 'Партнеры',
+    'contacts': 'Контакты',
+    'users': 'Пользователи',
+    'news': 'Новости',
+}
+
+@app.route("/data_news")
+def data_news():
+    return json.dumps(database.get_all_posts_news())
+
+
+@app.route("/data_contacts")
+def data_contacts():
+    return json.dumps(database.get_contacts_info())
+
+
+@app.route("/data_main_page")
+def data_main_page():
+    return json.dumps(database.get_main_page_news())
+
+
+@app.route("/data_articles")
+def data_articles():
+    return json.dumps(database.get_all_posts_articles())
+
+
+@app.route("/data_partners")
+def data_partners():
+    return json.dumps(database.get_all_partners())
+
+
+@app.route('/add', methods=['POST'])
+def add():
+    data = request.json
+    url = data['url']
+    title = data['title']
+    subtitle = data['subtitle']
+    tag = data['tag']
+    database.add_post(url, title, subtitle, tag)
+    return data
+>>>>>>> origin/main
 
 
 # маршрут страницы формы для входа в админ-панель
@@ -87,7 +132,7 @@ def admin_panel(table):
     data = database.select_all('SELECT * FROM "{}"'.format(table))
 
     # Загрузка и отображение админ-панели
-    return render_template('admin_panel.html', tables=tables, table=table, columns=columns, data=data)
+    return render_template('admin_panel.html', tables=table_names, table=table, columns=columns, data=data)
 
 
 # маршрут выхода из админ-панели
@@ -193,6 +238,25 @@ def verifyExt(filename):
         return True
     return False
 
+@app.route("/data_news_sorted_by_date")
+def data_news_sorted_by_date():
+    return json.dumps(database.get_news_sorted_by_date(), ensure_ascii=False)
+
+@app.route("/data_news_politics")
+def data_news_politics():
+    return json.dumps(database.get_news_politics(), ensure_ascii=False)
+
+@app.route("/data_news_economics")
+def data_news_economics():
+    return json.dumps(database.get_news_economics(), ensure_ascii=False)
+
+@app.route("/data_news_science_education")
+def data_news_science_education():
+    return json.dumps(database.get_news_science_education(), ensure_ascii=False)
+
+@app.route("/data_news_culture_history")
+def data_news_culture_history():
+    return json.dumps(database.get_news_culture_history(), ensure_ascii=False)
 
 
 print(__name__)
