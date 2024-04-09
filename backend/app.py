@@ -1,10 +1,12 @@
 from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory
 from databases import SQLiteDatabase
-import json, pathlib, hashlib, datetime
+import pathlib, hashlib, datetime
+from get_data import get_data_app
 
 database = SQLiteDatabase(f"{str(pathlib.Path(__file__).parent.resolve())}/database.db")
 app = Flask(__name__, template_folder="templates")
 app.secret_key = 'all_russia'
+app.register_blueprint(get_data_app)
 
 # путь к изображениям
 UPLOAD_FOLDER = str(pathlib.Path(__file__).parent.resolve()) + "/public"
@@ -16,7 +18,10 @@ table_names = {
     'users': 'Пользователи',
     'news': 'Новости',
 }
-#
+
+
+# вроде как пока не нужно и не функционирует
+
 # @app.route("/data_news")
 # def data_news():
 #     return json.dumps(database.get_all_posts_news())
@@ -113,6 +118,7 @@ def delete(id, table):
     print("delete", id, table)
     return redirect(url_for('admin_panel', table=table))
 
+
 @app.route('/admin_panel/edit/<int:id>/<string:table>', methods=['GET', 'POST'])
 def edit(id, table):
     if request.method == 'POST':
@@ -149,6 +155,7 @@ def edit(id, table):
         record_dict = dict(record)
         return render_template('edit_record.html', table=table, id=id, record=record_dict)
 
+
 @app.route('/admin_panel/add/<string:table>', methods=['GET', 'POST'])
 def add_record(table):
     if request.method == 'POST':
@@ -173,7 +180,7 @@ def add_record(table):
         values = list(data.values())
 
         last_id = database.select_one(f'SELECT MAX(id) FROM {table}')[0]
-        new_id = last_id + 1 if last_id is not None else 1  
+        new_id = last_id + 1 if last_id is not None else 1
 
         columns += ', id'
         placeholders += ', ?'
@@ -200,64 +207,6 @@ def verifyExt(filename):
     if ext in ['JPEG', 'JPG', 'png', 'jpg', 'PNG']:
         return True
     return False
-
-# @app.route("/data_news_sorted_by_date")
-# def data_news_sorted_by_date():
-#     return json.dumps(database.get_news_sorted_by_date(), ensure_ascii=False)
-#
-# @app.route("/data_news_politics")
-# def data_news_politics():
-#     return json.dumps(database.get_news_politics(), ensure_ascii=False)
-#
-# @app.route("/data_news_economics")
-# def data_news_economics():
-#     return json.dumps(database.get_news_economics(), ensure_ascii=False)
-#
-# @app.route("/data_news_science_education")
-# def data_news_science_education():
-#     return json.dumps(database.get_news_science_education(), ensure_ascii=False)
-#
-# @app.route("/data_news_culture_history")
-# def data_news_culture_history():
-#     return json.dumps(database.get_news_culture_history(), ensure_ascii=False)
-
-
-@app.route("/data_all_news")
-def data_news_sorted_by_date():
-    return json.dumps(database.get_news(sort_by_date_descending=True), ensure_ascii=False)
-
-@app.route("/data_news_politics")
-def data_news_politics():
-    return json.dumps(database.get_news(tag='Политика', sort_by_date_descending=True), ensure_ascii=False)
-
-@app.route("/data_news_economics")
-def data_news_economics():
-    return json.dumps(database.get_news(tag='Экономика', sort_by_date_descending=True), ensure_ascii=False)
-
-@app.route("/data_news_science_education")
-def data_news_science_education():
-    return json.dumps(database.get_news(tag='Наука и образование', sort_by_date_descending=True), ensure_ascii=False)
-
-@app.route("/data_news_culture_history")
-def data_news_culture_history():
-    return json.dumps(database.get_news(tag='Культура и история', sort_by_date_descending=True), ensure_ascii=False)
-
-@app.route("/data_news_sport")
-def sport_data():
-    return json.dumps(database.get_news(tag='Спорт', sort_by_date_descending=True), ensure_ascii=False)
-
-@app.route("/data_news_tourism")
-def toursim_data():
-    return json.dumps(database.get_news(tag='Туризм', sort_by_date_descending=True), ensure_ascii=False)
-
-@app.route("/data_news_partners")
-def partners_data():
-    return json.dumps(database.get_news(tag='Партнеры', sort_by_date_descending=True), ensure_ascii=False)
-
-@app.route("/data_news_projects")
-def projects_data():
-    return json.dumps(database.get_news(tag='Проекты', sort_by_date_descending=True), ensure_ascii=False)
-
 
 
 print(__name__)
