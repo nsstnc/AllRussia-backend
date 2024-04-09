@@ -110,21 +110,21 @@ class SQLiteDatabase():
     
     def get_news_politics(self):
         return [Post(id, url, title, subtitle, tag, block, updated).__dict__ for id, url, title, subtitle, tag, block, updated in
-                self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news WHERE tag='Политика'")]
+                self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news WHERE tag='Политика' ORDER BY updated DESC")]
 
     def get_news_economics(self):
         return [Post(id, url, title, subtitle, tag, block, updated).__dict__ for id, url, title, subtitle, tag, block, updated in
-                self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news WHERE tag='Экономика'")]
+                self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news WHERE tag='Экономика' ORDER BY updated DESC")]
 
     def get_news_science_education(self):
         return [Post(id, url, title, subtitle, tag, block, updated).__dict__ for id, url, title, subtitle, tag, block, updated in
-                self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news WHERE tag='Наука и образование'")]
+                self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news WHERE tag='Наука и образование' ORDER BY updated DESC")]
 
     def get_news_culture_history(self):
         return [Post(id, url, title, subtitle, tag, block, updated).__dict__ for id, url, title, subtitle, tag, block, updated in
-                self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news WHERE tag='Культура и история'")]
+                self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news WHERE tag='Культура и история' ORDER BY updated DESC")]
 
     def get_news_sorted_by_date(self):
         return [Post(id, url, title, subtitle, tag, block, updated).__dict__ for id, url, title, subtitle, tag, block, updated in
-                self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news ORDER BY updated")]
+                self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news ORDER BY updated DESC")]
 
