@@ -25,6 +25,10 @@ body {
   margin:0;
 }
 
+.wrapper {
+  max-width: 1440px
+}
+
 .main{
   margin-top: 20px;
 }

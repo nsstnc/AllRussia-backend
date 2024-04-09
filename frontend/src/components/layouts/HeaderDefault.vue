@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="header">
+    <div class="header">
       <div class="item item_1">
         <button class="header__btn" @click="showSideBar = !showSideBar">
           <div class="menu-icon" :class="{'open': showSideBar}">
@@ -29,7 +29,7 @@
         <img class="img" src="@/assets/yarussski.png" alt="">
       </div>
 
-    </header>
+    </div>
 
     <div class="divider"></div>
 
@@ -104,8 +104,11 @@ name: 'HeaderSide',
 }
 
 .header__logo {
-  padding-right: 26px;
   font-size: 36px;
+}
+
+.header__items {
+  font-size: 24px;
 }
 
 .item_1 {
