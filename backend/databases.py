@@ -1,3 +1,4 @@
+import json
 import sqlite3
 import hashlib
 from typing import List
@@ -43,55 +44,6 @@ class SQLiteDatabase():
         except Exception as e:
             print(e.with_traceback())
             return []
-        
-    def add_post_news(self, url, title, subtitle, tag, block) -> None:
-        self.execute(f"INSERT INTO news (url, title, subtitle, tag, block) VALUES ('{url}', '{title}', '{subtitle}', '{tag}', '{block}')")
-
-    def get_all_posts_news(self) -> List[Post]:
-        return [Post(id, url, title, subtitle, tag, block).__dict__ for id, url, title, subtitle, tag, block in
-                self.select_all("SELECT * FROM news")]
-    
-    def add_post_articles(self, url, title, subtitle, tag) -> None:
-        self.execute(f"INSERT INTO articles (url, title, subtitle, tag) VALUES ('{url}', '{title}', '{subtitle}', '{tag}')")
-
-    def get_all_posts_articles(self) -> List[Post]:
-        return [Post(id, url, title, subtitle, tag).__dict__ for id, url, title, subtitle, tag in
-                self.select_all("SELECT * FROM articles")]
-                
-    def get_all_partners(self) -> List[Post]:
-        return [Partner(id, url, title).__dict__ for id, url, title in
-                self.select_all("SELECT * FROM partners")]
-
-    def set_two_cards_section_news(self, id1, id2) -> None:
-        self.execute(f"UPDATE news SET block='two_cards_section' WHERE id IN ({id1}, {id2})")
-
-    def set_four_cards_section_news(self, id1, id2, id3, id4) -> None:
-        self.execute(f"UPDATE news SET block='four_cards_section' WHERE id IN ({id1}, {id2}, {id3}, {id4})")
-
-    def set_bad_news(self, id1, id2, id3) -> None:
-        self.execute(f"UPDATE news SET block='bad_news' WHERE id IN ({id1}, {id2}, {id3})")
-
-    def set_last_news(self, id1, id2, id3, id4, id5) -> None:
-        self.execute(f"UPDATE news SET block='last_news' WHERE id IN ({id1}, {id2}, {id3}, {id4}, {id5})")
-
-    def get_main_page_news(self):
-        main_news = [Post(id, url, title, subtitle, tag, block).__dict__ for id, url, title, subtitle, tag, block in
-                       self.select_all("SELECT * FROM news WHERE block='main_news'")]
-        two_section_news = [Post(id, url, title, subtitle, tag, block).__dict__ for id, url, title, subtitle, tag, block in
-                self.select_all("SELECT * FROM news WHERE block='two_cards_section'")]
-        four_section_news = [Post(id, url, title, subtitle, tag, block).__dict__ for id, url, title, subtitle, tag, block in
-                       self.select_all("SELECT * FROM news WHERE block='four_cards_section'")]
-        bad_news = [Post(id, url, title, subtitle, tag, block).__dict__ for id, url, title, subtitle, tag, block in
-                self.select_all("SELECT * FROM news WHERE block='bad_news'")]
-        last_news = [Post(id, url, title, subtitle, tag, block).__dict__ for id, url, title, subtitle, tag, block in
-                       self.select_all("SELECT * FROM news WHERE block='last_news'")]
-
-        return [{
-                "main_news": main_news,
-                "two_section_news": two_section_news,
-                "four_section_news": four_section_news,
-                "bad_news": bad_news,
-                "last_news": last_news}]
 
     def get_contacts_info(self):
         return [Contact(id, address, correspondence_address, email, phones, url).__dict__ for id, address, correspondence_address, email, phones, url in
@@ -129,7 +81,7 @@ class SQLiteDatabase():
     #             self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news ORDER BY updated DESC")]
 
     def get_news(self, tag=None, sort_by_date_descending=False):
-        query = "SELECT id, url, title, subtitle, tag, block, updated FROM news"
+        query = "SELECT id, url, title, subtitle, tag, updated FROM news"
 
         if tag:
             query += f" WHERE tag='{tag}'"
@@ -137,4 +89,9 @@ class SQLiteDatabase():
         if sort_by_date_descending:
             query += " ORDER BY updated DESC"
 
-        return [Post(id, url, title, subtitle, tag, block, updated).__dict__ for id, url, title, subtitle, tag, block, updated in self.select_all(query)]
+        return [Post(id, url, title, subtitle, tag, updated).__dict__ for id, url, title, subtitle, tag, updated in self.select_all(query)]
+
+    def get_main_article(self):
+        query = "SELECT id, url, title, subtitle, tag, updated FROM news WHERE id IN (SELECT id FROM main_article)"
+        return [Post(id, url, title, subtitle, tag, updated).__dict__ for id, url, title, subtitle, tag, updated in
+                self.select_all(query)]

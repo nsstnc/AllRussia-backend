@@ -99,10 +99,10 @@ def admin_panel(table):
     columns = list(map(lambda x: x[0], database.cursor.execute('SELECT * FROM "{}"'.format(table)).description))
     if table == "news":
         data = database.select_all('SELECT * FROM "{}" ORDER BY updated DESC'.format(table))
-        main_news = dict(database.select_one(f'SELECT id FROM main_news'))['id']
+        main_article = dict(database.select_one(f'SELECT id FROM main_article'))['id']
         # Загрузка и отображение админ-панели
         return render_template('admin_panel.html', tables=table_names, table=table, columns=columns, data=data,
-                               main_news=main_news)
+                               main_article=main_article)
     else:
         data = database.select_all('SELECT * FROM "{}"'.format(table))
         # Загрузка и отображение админ-панели
@@ -205,7 +205,7 @@ def add_record(table):
 @app.route('/admin_panel/make_main/<int:id>', methods=['GET'])
 def make_main(id):
     if request.method == 'GET':
-        database.execute(f'UPDATE main_news SET id={id}')
+        database.execute(f'UPDATE main_article SET id={id}')
         return redirect(url_for('admin_panel', table="news"))
 
 

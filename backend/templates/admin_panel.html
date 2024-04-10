@@ -31,7 +31,7 @@
             </thead>
             <tbody>
             {% for item in data %}
-                {% if main_news == item.id %}
+                {% if main_article == item.id %}
                     <tr class="main_news">
                         {% for cell in item %}
                         <th>{{cell}}
