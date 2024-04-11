@@ -16,6 +16,19 @@
                 <input type="file" class="form-control" id="file" name="file">
                 <label>Текущее изображение</label>
                 <img class="edit-preview" src="{{ url_for('send_file', filename=value) }}" alt="No image">
+            {% elif column == "tag" %}
+                <label>{{ column }}</label>
+                <select class="form-control" id="{{ column }}" name="{{ column }}">
+                        <option selected disabled hidden>{{ value}}</option>
+                        <option>Политика</option>
+                        <option>Экономика</option>
+                        <option>Наука и образование</option>
+                        <option>Культура и история</option>
+                        <option>Спорт</option>
+                        <option>Туризм</option>
+                        <option>Партнёры</option>
+                        <option>Проекты</option>
+                </select>
             {% else %}
                 <p><label for="{{ column }}">{{ column }}</label></p>
                 <input type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">

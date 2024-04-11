@@ -6,84 +6,173 @@
     .btn{
         margin: 5px;
     }
-    .btn-danger, .btn-primary{
-        width: 200px;
+    .btn-danger, .btn-primary, .btn-success{
+        width: 150px;
+    }
+    .main_news{
+        background: #B3D2C3;
     }
 </style>
+
 
 
 {% extends 'base.html' %}
 {% block content %}
 <a href="{{ url_for('add_record', table=table) }}" class="btn btn-secondary">Добавить запись в таблицу</a>
-<table class="table">
-    <thead>
-    <tr>
-        {% for column in columns%}
-        <th scope="col">{{column}}</th>
-        {% endfor %}
-        <th scope="col">Действия</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for item in data %}
-    <tr>
-        {% for cell in item %}
-        <th>{{cell}}
-        {% if cell == item.url %}
-        <img class="table-preview" src="{{ url_for('send_file', filename=cell) }}" alt="No image">
-        {% endif %}
-            </th>
-        {% endfor %}
-        <th>
-            <a href="{{ url_for('edit', table=table, id=item.id) }}" class="btn btn-primary">Редактировать</a>
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal" data-bs-id="{{item.id}}" data-bs-table-name="{{table}}">Удалить запись
-            </button>
+    <div class="table-container">
+        <table class="table">
+            <thead>
+            <tr>
+                {% for column in columns %}
+                <th scope="col">{{column}}</th>
+                {% endfor %}
+                <th scope="col">Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in data %}
+                {% if main_article == item.id %}
+                    <tr class="main_news">
+                        {% for cell in item %}
+                        <th>{{cell}}
+                            {% if cell == item.url %}
+                            <img class="table-preview" src="{{ url_for('send_file', filename=cell) }}" alt="No image">
+                            {% endif %}
+                        </th>
+                        {% endfor %}
 
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Удаление записи</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Закрыть"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Вы уверены, что хотите удалить запись?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
-                            <a href="" type="button" class="delete-path btn btn-danger">Да</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </th>
 
-    </tr>
+                        <th>
+                            {% if table == "news" %}
+                                <button class="btn btn-success make-main" value="{{ item.id }}">Сделать главной</button>
 
-    {% endfor %}
+                            {% endif %}
+                            <a href="{{ url_for('edit', table=table, id=item.id) }}" class="btn btn-primary">Редактировать</a>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" data-bs-id="{{item.id}}" data-bs-table-name="{{table}}">Удалить запись
+                            </button>
 
-    <script>
-        var exampleModal = document.getElementById('exampleModal');
-        exampleModal.addEventListener('show.bs.modal', function (event) {
-            // Кнопка, запускающая модальное окно
-            var button = event.relatedTarget;
-            // Извлечь информацию из атрибутов data-bs- *
-            var id = button.getAttribute('data-bs-id');
-            var table = button.getAttribute('data-bs-table-name');
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Удаление записи</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Закрыть"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Вы уверены, что хотите удалить запись?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                                            <a href="" type="button" class="delete-path btn btn-danger">Да</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
 
-            // Обновите содержимое модального окна.
-            var deletePath = exampleModal.querySelector('.delete-path');
-            console.log("/admin_panel/delete/" + id + "/" + table);
-            deletePath.href = "/admin_panel/delete/" + id + "/" + table;
-        })
+                    </tr>
 
-       
-    </script>
 
-    </tbody>
-</table>
+                {% else %}
+
+
+                    <tr>
+                        {% for cell in item %}
+                        <th>{{cell}}
+                            {% if cell == item.url %}
+                            <img class="table-preview" src="{{ url_for('send_file', filename=cell) }}" alt="No image">
+                            {% endif %}
+                        </th>
+                        {% endfor %}
+
+
+                        <th>
+                            {% if table == "news" %}
+                                <button class="btn btn-success make-main" value="{{ item.id }}">Сделать главной</button>
+                            {% endif %}
+                            <a href="{{ url_for('edit', table=table, id=item.id) }}" class="btn btn-primary">Редактировать</a>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" data-bs-id="{{item.id}}" data-bs-table-name="{{table}}">Удалить запись
+                            </button>
+
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Удаление записи</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Закрыть"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Вы уверены, что хотите удалить запись?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                                            <a href="" type="button" class="delete-path btn btn-danger">Да</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+
+                    </tr>
+
+                {% endif %}
+
+
+            {% endfor %}
+
+            <script>
+                 $(document).ready(function() {
+                    $('.make-main').click(function() {
+
+                        var id = $(this).val();
+                        {#console.log("/admin_panel/make_main/" + id);#}
+
+                        $.ajax({
+                            method: "GET",
+                            url: "/admin_panel/make_main/" + id,
+                            dataType: "html",
+                            success:
+                            function(data) {
+                                // Создаем временный элемент div, чтобы разместить в нем HTML контент и выполнить поиск
+                                var tempDiv = $('<div>').html(data);
+                                // Ищем таблицу внутри полученного HTML
+                                var table = tempDiv.find('table');
+                                // Теперь вы можете использовать эту таблицу для дальнейшей обработки
+                                console.log(table);
+                                $('.table-container').html(table);
+
+                            }
+                        });
+                    });
+                });
+
+                var exampleModal = document.getElementById('exampleModal');
+                exampleModal.addEventListener('show.bs.modal', function (event) {
+                    // Кнопка, запускающая модальное окно
+                    var button = event.relatedTarget;
+                    // Извлечь информацию из атрибутов data-bs- *
+                    var id = button.getAttribute('data-bs-id');
+                    var table = button.getAttribute('data-bs-table-name');
+
+                    // Обновите содержимое модального окна.
+                    var deletePath = exampleModal.querySelector('.delete-path');
+                    console.log("/admin_panel/delete/" + id + "/" + table);
+                    deletePath.href = "/admin_panel/delete/" + id + "/" + table;
+                })
+
+
+            </script>
+
+            </tbody>
+        </table>
+    </div>
+
+
+
 
 {% endblock %}
 
