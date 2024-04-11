@@ -6,7 +6,8 @@
 
 <template>
   <div class="container">
-    <ul>
+    <ul class="sideBar_list-start">
+      <li class="sideBar-name">ALLRUSSIA</li>
       <li>
         <img src="@/assets/loop.svg" alt="" class="sideBar-img">
       </li>
@@ -23,13 +24,13 @@
     </ul>
     <div class="divider"></div>
     <ul class="sieBar_list-two">
-      <li class="sideVar-item-two"><a href="/partner">ПАРТНЕРЫ</a></li>
-      <li class="sideVar-item-two"><a href="/about">ПРОЕКТЫ</a></li>
+      <li class="sideBar-item-two"><a href="/partner">ПАРТНЕРЫ</a></li>
+      <li class="sideBar-item-two"><a href="/about">ПРОЕКТЫ</a></li>
     </ul>
     <div class="divider"></div>
     <ul class="sieBar_list-three">
-      <li class="sideVar-item-three"><a href="/">ИНФОРМАЦИЯ</a></li>
-      <li class="sideVar-item-three"><a href="/">СВЯЗАТЬСЯ С НАМИ</a></li>
+      <li class="sideBar-item-three"><a href="/">ИНФОРМАЦИЯ</a></li>
+      <li class="sideBar-item-three"><a href="/">СВЯЗАТЬСЯ С НАМИ</a></li>
     </ul>
     <ul class="sideBar_logos">
       <li class="sideBar_logos-item">
@@ -45,12 +46,28 @@
         <img src="@/assets/livejournal-svgrepo-com%201.png">
       </li>
     </ul>
+    <ul class="sideBar_list-four">
+      <li class="sideBar-item-four">ПОРТАЛ «ВСЯ РОССИЯ»</li>
+      <li class="sideBar-item-four">ВСЕ ПРАВА ЗАЩИЩЕНЫ</li>
+    </ul>
   </div>
 </template>
 
 <style scoped>
 .container {
+  font-family: "Roboto Condensed";
+  position: fixed; /* Закрепляем сайдбар */
+  top: 71px; /* Расположение сверху */
+  width: 350px;
+  height: 100%;
+  background-color: #222222;
+  color: #FFFFFF;
+  z-index: 1000; /* Убедитесь, что сайдбар находится поверх другого контента */
+}
 
+.sideBar-name {
+  font-size: 24px;
+  font-weight: bold;
 }
 
 ul {
@@ -59,9 +76,8 @@ ul {
 }
 
 li a{
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: bold;
   color: #ffffff;
   text-decoration: none;
 }
@@ -76,17 +92,7 @@ li {
 }
 
 .sideBar-img {
-}
-
-.container {
-  position: fixed; /* Закрепляем сайдбар */
-  top: 70px; /* Расположение сверху */
-  left: 10px; /* Расположение слева */
-  width: 310px;
-  height: calc(100% - 150px);
-  background-color: #222222;
-  color: #FFFFFF;
-  z-index: 1000; /* Убедитесь, что сайдбар находится поверх другого контента */
+  padding-top: 10px;
 }
 
 .divider {
@@ -96,14 +102,30 @@ li {
   height: 2px; /* Толщина линии */
   background-color: #FFFFFF; /* Цвет линии */
 }
-.sideVar-item-three{
+
+.sideBar_list-start {
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.sideBar-item-three:last-child {
+  padding-bottom: 40px;
+}
+.sideBar-item-three > a{
+  font-weight: normal;
   opacity: 0.7;
+}
+.sideBar-item-four {
+  padding: 0 0 8px;
+  font-size: 12px;
+  opacity: 0.75;
 }
 .sideBar_logos {
   display: flex;
+  padding-bottom: 40px;
 }
 .sideBar_logos-item {
-  padding-right: 10px;
+  padding: 0 10px 0 0;
 }
 
 </style>

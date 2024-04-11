@@ -11,13 +11,13 @@
 </template>
 
 <script>
-import mainEconomic from '@/components/mainEconomic.vue';
-import MainSection from '@/components/mainSection.vue';
-import mainGrid from '@/components/mainGrid.vue';
-import mainPolitic from '@/components/mainPolitic.vue';
-import mainTeach from '@/components/mainTeach.vue';
-import mainCulture from '@/components/mainCulture.vue';
-import mainTheme from "@/components/mainTheme.vue";
+import mainEconomic from '@/components/Main/mainEconomic.vue';
+import MainSection from '@/components/Main/mainSection.vue';
+import mainGrid from '@/components/Main/mainGrid.vue';
+import mainPolitic from '@/components/Main/mainPolitic.vue';
+import mainTeach from '@/components/Main/mainTeach.vue';
+import mainCulture from '@/components/Main/mainCulture.vue';
+import mainTheme from "@/components/Main/mainTheme.vue";
 export default {
   name: 'MainPage',
   components: { MainSection, mainGrid, mainEconomic, mainPolitic, mainTeach, mainCulture, mainTheme },

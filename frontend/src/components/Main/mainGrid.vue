@@ -25,7 +25,7 @@ export default {
         </ul>
       </div>
       <div class="item_1-two">
-        <img class="item_1-img" src="@/assets/comunicacion%20politica%20(1)%201.png" style="height: 400px; width: 600px;" alt="123">
+        <img class="item_1-img" src="../../assets/comunicacion%20politica%20(1)%201.png" style="height: 400px; width: 600px;" alt="123">
       </div>
     </div>
     <div class="item item_2">
@@ -34,7 +34,7 @@ export default {
       <h3 class="item_2-title">
         Последние новости
       </h3>
-      <img src="@/assets/284320788be7027b8bea3f687155b7fb%201.png" alt="asd" style="width: 300px">
+      <img src="../../assets/284320788be7027b8bea3f687155b7fb%201.png" alt="asd" style="width: 300px">
       <p class="item_2-subtitle">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
       </p>
@@ -62,15 +62,15 @@ export default {
 
     </div>
     <div class="item item_3">
-      <img src="@/assets/1.png" alt="">
+      <img src="../../assets/1.png" alt="">
       <p class="dsa">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
     </div>
     <div class="item item_4">
-      <img src="@/assets/2.png" alt="">
+      <img src="../../assets/2.png" alt="">
       <p class="dsa">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
     </div>
     <div class="item item_5">
-      <img src="@/assets/3.png" alt="">
+      <img src="../../assets/3.png" alt="">
       <p class="dsa">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
     </div>
   </div>
@@ -83,7 +83,7 @@ export default {
 .container {
   margin: 0 auto;
   margin-top: 80px;
-  max-width: 1400px;
+  width: 1440px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: repeat(2, 400px);
@@ -119,14 +119,27 @@ export default {
   width: 100%;
   background-color: black;
 }
+.item_2-title {
+  margin: 8px 0;
+  font-weight: normal;
+}
 .item_2-subtitle {
-  font-size: 18px;
-  font-weight: 600;
+  font-family: "Roboto Condensed";
+  margin: 8px 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+.item_2-list {
+  font-family: "Roboto";
+  font-size: 16px;
+  font-weight: normal;
 }
 
 .asd {
+  margin-top: 0;
+  margin-bottom: 12px;
   color: #AA0000;
-  font-size: 14px;
+  font-size: 12px;
 }
 .dsa {
   font-weight: 600;

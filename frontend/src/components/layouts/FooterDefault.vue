@@ -2,9 +2,9 @@
     <div>
         <footer class="footer">
           <div class="footer__wrapper wrapper">
-            <div class="footer__logo logo">
-              <img class="logo__img" src="" alt="ALLRUSSIA">
-            </div>
+            <h2 class="footer__logo logo">
+              ALLRUSSIA
+            </h2>
             <div class="footer__list list">
               <div class="list__contact contact line-top">
                 <p class=" contact__text line-bottom">Связаться с нами</p>
@@ -36,20 +36,43 @@ export default {
 </script>
 
 <style scoped>
+
 .wrapper{
   max-width: 1440px;
   margin: 0 auto;
 }
 
+p {
+  font-size: 14px;
+}
+
+a {
+  font-size: 14px;
+}
+
 .footer{
+  font-family: "Roboto", sans-serif;
   margin-top: 40px;
   background-color: #222222;
   color: white;
   padding-top: 29px;
 }
 
-.logo__img{
-  margin-left: 152px;
+.bottom__text {
+  margin-top: 8px;
+  margin-bottom: 2px;
+  opacity: 0.75;
+}
+
+.bottom__text:last-child {
+  margin: 0;
+  margin-bottom: 16px;
+}
+
+.logo {
+  font-size: 64px;
+  margin: 0;
+  margin-left: 40px;
 }
 
 .footer__wrapper{

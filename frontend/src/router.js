@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from './components/HomePage.vue';
-import ArticlePolitic from './components/ArticlePolitic.vue';
-import AboutPortal from './components/AboutPortal.vue';
-import Contact from './components/ContactPage.vue';
+import Home from './components/pages/HomePage.vue';
+import ArticlePolitic from './components/Article/ArticlePolitic.vue';
+import AboutPortal from './components/About/AboutPortal.vue';
+import Contact from './components/pages/ContactPage.vue';
 import MoscowScreen from './components/MoscowScreen.vue';
-import PartnerPage from './components/PartnerPage.vue';
+import PartnerPage from './components/pages/PartnerPage.vue';
 
 
 
