@@ -9,26 +9,20 @@
             <span></span>
           </div>
         </button >
-        <span class="header__logo">ALLRUSSIA</span>
-        <div class="vertical-line"></div>
       </div>
-      <div class="item item_2">
-
-        <ul class="header__list">
-          <li class="header__items">ВСЯРОССИЯ</li>
-          <li class="header__items">РФ</li>
-          <li class="header__items">СНГ</li>
-          <li class="header__items">АРАБСКИЙ МИР</li>
-          <li class="header__items">ШКОЛА РУССКОГО ЯЗЫКА РКИ+</li>
-          <li class="vertical-line"></li>
-        </ul>
-
+      <div class="wrapper">
+        <div class="menu__container">
+          <div class="header__logo">ALLRUSSIA</div>
+          <div class="vertical__line"></div>
+          <div class="header__items">ВСЯРОССИЯ</div>
+          <div class="header__items">РФ</div>
+          <div class="header__items">СНГ</div>
+          <div class="header__items">АРАБСКИЙ МИР</div>
+          <div class="header__items">ШКОЛА РУССКОГО ЯЗЫКА РКИ+</div>
+          <div class="vertical__line"></div>
+          <div class="header__items"><img class="img" src="@/assets/yarussski.png" alt=""></div>
+        </div>
       </div>
-
-      <div class="item item_3">
-        <img class="img" src="@/assets/yarussski.png" alt="">
-      </div>
-
     </div>
 
     <div class="divider"></div>
@@ -60,35 +54,42 @@ name: 'HeaderSide',
 </script>
 
 <style scoped>
-
 .header {
+  display: flex;
+  align-items: center;
   font-family: "Roboto Condensed";
   font-weight: bold;
-  display: grid;
-  align-items: center;
-  grid-template-columns: 1fr 1.5fr 1fr;
   background-color: #222222;
   color: #FFFFFF;
   height: 70px;
-  position: fixed; /* Добавляем это свойство */
-  top: 0; /* Устанавливаем заголовок в верхней части страницы */
-  left: 0; /* Растягиваем заголовок на всю ширину слева */
-  right: 0; /* Растягиваем заголовок на всю ширину справа */
-  z-index: 1000; /* Убедитесь, что заголовок находится поверх других элементов */
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
 }
-.menu-icon {
-  padding-left: 26px;
+
+.menu__container {
+  width: 1440px;
+  margin: auto;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
-.img {
-  padding-right: 70px;
+
+.vertical__line {
+  border: 2px solid white;
+  height: 40px;
 }
-.menu-icon span {
+
+.menu-icon > span {
   display: block;
-  width: 33px;
-  height: 4px;
+  width: 35px;
   margin-bottom: 5px;
-  background: #FFFFFF;
+  border: 2px solid white;
   transition: all 0.3s ease-in-out;
+}
+
+.menu-icon > span:last-child {
+  margin-bottom: 0;
 }
 
 .menu-icon.open span:nth-child(1) {
@@ -104,42 +105,22 @@ name: 'HeaderSide',
 }
 
 .header__logo {
+  cursor: default;
   font-size: 36px;
 }
 
 .header__items {
+  cursor: pointer;
   font-size: 24px;
 }
 
-.item_1 {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-}
-
 .header__list {
-  align-items: center;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
   list-style: none;
+  padding: 0;
   font-size: 16px;
-}
-
-.item_3{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.search-input {
-  margin-left: 26px;
-  width: 237px;
-  height: 33px;
-  font-size: 16px;
-  padding-left: 40px;
-  color: #FFFFFF;
-  background-color: #333333;
-  border: none;
 }
 
 .divider {
@@ -148,26 +129,21 @@ name: 'HeaderSide',
 }
 
 .header__btn {
-  border: none; /* Убираем стандартные границы кнопки */
-  cursor: pointer; /* Добавляем стиль курсора, указывающего на возможность клика */
-  background-color: transparent; /* Делаем фон кнопки прозрачным */
-  padding: 0; /* Убираем внутренние отступы */
+  margin-left: 40px;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  padding: 0;
 }
 
 .image-button img {
-  width: 50px; /* Устанавливаем желаемую ширину изображения */
-  height: auto; /* Автоматически рассчитываем высоту, чтобы сохранить пропорции */
-  display: block; /* Убираем возможные отступы вокруг изображения */
+  width: 50px;
+  height: auto;
+  display: block;
 }
 
 .content {
   transition: transform 0.3s ease-out;
 }
-.vertical-line {
-  height: 36px;
-  border-left: 3px solid white; /* задаем стиль и цвет вертикальной линии */
-}
-
-
 
 </style>
