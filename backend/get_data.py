@@ -46,7 +46,7 @@ def toursim_data():
 
 @get_data_app.route("/data_news_partners")
 def partners_data():
-    return json.dumps(database.get_news(tag='Партнеры', sort_by_date_descending=True), ensure_ascii=False)
+    return json.dumps(database.get_news(tag='Партнёры', sort_by_date_descending=True), ensure_ascii=False)
 
 
 @get_data_app.route("/data_news_projects")

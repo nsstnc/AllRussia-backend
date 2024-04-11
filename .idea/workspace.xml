@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3aab897f-9c3c-4701-91ec-72a3144f7026" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/cosine_similarity.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/databases.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/databases.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/get_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/get_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/templates/add_record.html" beforeDir="false" afterPath="$PROJECT_DIR$/backend/templates/add_record.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/templates/edit_record.html" beforeDir="false" afterPath="$PROJECT_DIR$/backend/templates/edit_record.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cosine_similarity.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/cosine_similarity.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +123,8 @@
       <workItem from="1711381564243" duration="3567000" />
       <workItem from="1711971639398" duration="1378000" />
       <workItem from="1712764083745" duration="10230000" />
-      <workItem from="1712834242672" duration="11525000" />
+      <workItem from="1712834242672" duration="11908000" />
+      <workItem from="1712850005165" duration="358000" />
     </task>
     <servers />
   </component>
