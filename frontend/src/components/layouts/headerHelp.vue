@@ -27,7 +27,7 @@
     list-style: none;
     height: 50px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
   }
   .header__help__container > li {
@@ -38,8 +38,6 @@
   .header_item {
     font-size: 14px;
     color: #ffffff;
-    padding-right: 100px;
-    padding-left: 100px;
   }
   .item_dang {
     padding-left: 8px;

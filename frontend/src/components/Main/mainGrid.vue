@@ -83,7 +83,7 @@ export default {
 .container {
   margin: 0 auto;
   margin-top: 80px;
-  max-width: 1400px;
+  width: 1440px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: repeat(2, 400px);
@@ -119,14 +119,27 @@ export default {
   width: 100%;
   background-color: black;
 }
+.item_2-title {
+  margin: 8px 0;
+  font-weight: normal;
+}
 .item_2-subtitle {
-  font-size: 18px;
-  font-weight: 600;
+  font-family: "Roboto Condensed";
+  margin: 8px 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+.item_2-list {
+  font-family: "Roboto";
+  font-size: 16px;
+  font-weight: normal;
 }
 
 .asd {
+  margin-top: 0;
+  margin-bottom: 12px;
   color: #AA0000;
-  font-size: 14px;
+  font-size: 12px;
 }
 .dsa {
   font-weight: 600;

@@ -5,10 +5,10 @@ export default {
 </script>
 
 <template>
-  <div class="global">
+  <div class="wrapper">
     <div class="horizontal-line"></div>
     <div class="red-rectangle"></div>
-    <h3 >ЭКОНОМИКА</h3>
+    <h3 >ПОЛИТИКА</h3>
 
       <div class="container">
         <div class="item item_1">
@@ -36,7 +36,6 @@ export default {
 
 
 .container {
-  max-width: 1400px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -44,25 +43,32 @@ export default {
 }
 
 h3 {
-  margin: 0 0 10px 58px;
   font-size: 24px;
-  font-weight: 500;
+  font-weight: normal;
+  margin-top: 16px;
+  margin-bottom: 24px;
 }
 
 .horizontal-line {
   height: 0.3px;
   opacity: 0.4;
-  width: 1400px;
+  width: 100%;
   background-color: #000;
   margin: 0 auto;
 }
 
 .red-rectangle {
-  width: 69px; /* ширина прямоугольника */
+  width: 88px; /* ширина прямоугольника */
   height: 8px; /* высота прямоугольника */
   background-color: #AA0000; /* цвет фона прямоугольника */
-  margin-left: 4%;
   margin-bottom: 10px;
+}
+
+.item > p {
+  font-family: "Roboto Condensed";
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 16px;
 }
 
 </style>
