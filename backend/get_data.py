@@ -1,6 +1,7 @@
 from flask import Blueprint
 from databases import SQLiteDatabase
 import json, pathlib
+from cosine_similarity import get_nearest_neighbours
 
 get_data_app = Blueprint('get_data_app', __name__)
 
@@ -57,8 +58,8 @@ def projects_data():
 def main_page():
     main_article = {'main_article': database.get_main_article()}
 
-    # TODO настроить подбор 6 похожих на главную новостей
-    same_as_main = {'same_as_main': []}
+    ids = get_nearest_neighbours(main_article_id=main_article['main_article'][0]['id'], count_neighbours=6)
+    same_as_main = {'same_as_main': database.get_news_by_id(*ids)}
 
     last_news = {'last_news': json.loads(data_news_sorted_by_date())[:6]}
 
@@ -75,3 +76,5 @@ def main_page():
         main_article | same_as_main | last_news | politics | economics |
         science_education | culture_history | sport | tourism | partners | projects,
         ensure_ascii=False)
+
+

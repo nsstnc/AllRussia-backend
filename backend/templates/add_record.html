@@ -10,6 +10,18 @@
         <label>image</label>
         <input hidden type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
         <input type="file" class="form-control" id="file" name="file">
+        {% elif column == "tag" %}
+            <label>{{ column }}</label>
+            <select class="form-control" id="{{ column }}" name="{{ column }}">
+                    <option>Политика</option>
+                    <option>Экономика</option>
+                    <option>Наука и образование</option>
+                    <option>Культура и история</option>
+                    <option>Спорт</option>
+                    <option>Туризм</option>
+                    <option>Партнёры</option>
+                    <option>Проекты</option>
+                </select>
         {% else %}
         <label>{{ column }}</label>
         <input type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
