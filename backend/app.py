@@ -97,10 +97,17 @@ def admin_panel(table):
         return redirect(url_for('admin_login'))
     # названия колонок таблицы в базе данных
     columns = list(map(lambda x: x[0], database.cursor.execute('SELECT * FROM "{}"'.format(table)).description))
-    data = database.select_all('SELECT * FROM "{}"'.format(table))
+    if table == "news":
+        data = database.select_all('SELECT * FROM "{}" ORDER BY updated DESC'.format(table))
+        main_article = dict(database.select_one(f'SELECT id FROM main_article'))['id']
+        # Загрузка и отображение админ-панели
+        return render_template('admin_panel.html', tables=table_names, table=table, columns=columns, data=data,
+                               main_article=main_article)
+    else:
+        data = database.select_all('SELECT * FROM "{}"'.format(table))
+        # Загрузка и отображение админ-панели
+        return render_template('admin_panel.html', tables=table_names, table=table, columns=columns, data=data)
 
-    # Загрузка и отображение админ-панели
-    return render_template('admin_panel.html', tables=table_names, table=table, columns=columns, data=data)
 
 
 # маршрут выхода из админ-панели
@@ -153,7 +160,7 @@ def edit(id, table):
         record = database.select_one(f'SELECT * FROM {table} WHERE id=?', (id,))
         columns = record.keys()
         record_dict = dict(record)
-        return render_template('edit_record.html', table=table, id=id, record=record_dict)
+        return render_template('edit_record.html', tables=table_names, table=table, id=id, record=record_dict)
 
 
 @app.route('/admin_panel/add/<string:table>', methods=['GET', 'POST'])
@@ -192,7 +199,16 @@ def add_record(table):
         return redirect(url_for('admin_panel', table=table))
     else:
         columns = [column[1] for column in database.cursor.execute('PRAGMA table_info({})'.format(table)).fetchall()]
-        return render_template('add_record.html', table=table, columns=columns)
+        return render_template('add_record.html', tables=table_names, table=table, columns=columns)
+
+
+@app.route('/admin_panel/make_main/<int:id>', methods=['GET'])
+def make_main(id):
+    if request.method == 'GET':
+        database.execute(f'UPDATE main_article SET id={id}')
+        return redirect(url_for('admin_panel', table="news"))
+
+
 
 
 # загрузка файла из директории файлов
