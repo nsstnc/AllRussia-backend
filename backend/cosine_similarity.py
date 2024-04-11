@@ -25,7 +25,7 @@ def get_nearest_neighbours(main_article_id, count_neighbours):
 
     df_news = pd.concat([df1, df2], ignore_index=True).drop_duplicates()
 
-    # df_news.set_index('id', inplace=True)
+    
     df_news = df_news.sort_index()
 
     df_news['title'] = df_news['title'].apply(remove_punctuation)
