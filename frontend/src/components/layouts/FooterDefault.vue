@@ -42,18 +42,37 @@ export default {
   margin: 0 auto;
 }
 
+p {
+  font-size: 14px;
+}
+
+a {
+  font-size: 14px;
+}
+
 .footer{
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Roboto", sans-serif;
   margin-top: 40px;
   background-color: #222222;
   color: white;
   padding-top: 29px;
 }
 
-.logo {
-  font-size: 34px;
+.bottom__text {
+  margin-top: 8px;
+  margin-bottom: 2px;
+  opacity: 0.75;
+}
+
+.bottom__text:last-child {
   margin: 0;
-  margin-left: 120px;
+  margin-bottom: 16px;
+}
+
+.logo {
+  font-size: 64px;
+  margin: 0;
+  margin-left: 40px;
 }
 
 .footer__wrapper{
