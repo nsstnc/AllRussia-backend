@@ -5,6 +5,7 @@ import AboutPortal from './components/About/AboutPortal.vue';
 import Contact from './components/pages/ContactPage.vue';
 import MoscowScreen from './components/MoscowScreen.vue';
 import PartnerPage from './components/pages/PartnerPage.vue';
+import CenterFO from "@/components/pages/CenterFO.vue";
 
 
 
@@ -43,6 +44,11 @@ const router = createRouter({
       path: '/partner',
       name: 'PartnerPage',
       component: PartnerPage
+    },
+    {
+      path: '/CenterFO',
+      name: 'CenterPage',
+      component: CenterFO
     },
   ]
 });
