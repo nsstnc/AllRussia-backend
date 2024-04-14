@@ -114,7 +114,7 @@ justify-content: center;
 .red-line {
   width: 80px;
   height: 13px;
-  background-color:red ;
+  background-color: #AA0000;
   margin-right: auto;
 
 }

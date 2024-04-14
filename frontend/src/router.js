@@ -6,6 +6,7 @@ import Contact from './components/pages/ContactPage.vue';
 import MoscowScreen from './components/MoscowScreen.vue';
 import PartnerPage from './components/pages/PartnerPage.vue';
 import CenterFO from "@/components/pages/CenterFO.vue";
+import ProjectPage from '@/components/pages/ProjectPage.vue'
 
 
 
@@ -39,7 +40,6 @@ const router = createRouter({
       name: 'MoscowScreen',
       component: MoscowScreen
     },
-
     {
       path: '/partner',
       name: 'PartnerPage',
@@ -49,6 +49,11 @@ const router = createRouter({
       path: '/CenterFO',
       name: 'CenterPage',
       component: CenterFO
+    },
+    {
+      path: '/project',
+      name: 'ProjectPage',
+      component: ProjectPage
     },
   ]
 });

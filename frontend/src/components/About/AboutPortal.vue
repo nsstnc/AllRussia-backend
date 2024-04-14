@@ -24,7 +24,7 @@
 
       <div class="block">
         <span class="red-line"></span>
-        <h2 class="block-title">МИССИЯ И ЗАДАЧИ ПОРТАЛА</h2>
+        <h2 class="block-title">УНИКАЛЬНОСТЬ ПРОЕКТА «Вся Россия»</h2>
         <p class="block-text">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut tellus elementum sagittis vitae et leo duis. Nulla porttitor massa id neque aliquam vestibulum morbi blandit. Sollicitudin nibh sit amet commodo nulla. Phasellus vestibulum lorem sed risus ultricies tristique nulla aliquet enim. Id semper risus in hendrerit gravida rutrum quisque non tellus. Gravida arcu ac tortor dignissim convallis aenean et. Adipiscing diam donec adipiscing tristique risus nec feugiat. Fames ac turpis egestas maecenas pharetra.
           <br>
@@ -35,7 +35,7 @@
 
       <div class="block">
         <span class="red-line"></span>
-        <h2 class="block-title">МИССИЯ И ЗАДАЧИ ПОРТАЛА</h2>
+        <h2 class="block-title">ДЛЯ КОГО НАШ МАТЕРИАЛ</h2>
         <p class="block-text">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut tellus elementum sagittis vitae et leo duis. Nulla porttitor massa id neque aliquam vestibulum morbi blandit. Sollicitudin nibh sit amet commodo nulla. Phasellus vestibulum lorem sed risus ultricies tristique nulla aliquet enim. Id semper risus in hendrerit gravida rutrum quisque non tellus. Gravida arcu ac tortor dignissim convallis aenean et. Adipiscing diam donec adipiscing tristique risus nec feugiat. Fames ac turpis egestas maecenas pharetra.
           <br>
@@ -118,7 +118,7 @@ justify-content: center;
 .red-line {
   width: 80px;
   height: 13px;
-  background-color:red ;
+  background-color: #AA0000 ;
   margin-right: auto;
 
 }
