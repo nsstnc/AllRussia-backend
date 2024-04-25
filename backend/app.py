@@ -2,11 +2,19 @@ from flask import Flask, request, render_template, redirect, url_for, session, s
 from databases import SQLiteDatabase
 import pathlib, hashlib, datetime
 from get_data import get_data_app
+import requests
+import sys
+import json
+import os
 
 database = SQLiteDatabase(f"{str(pathlib.Path(__file__).parent.resolve())}/database.db")
 app = Flask(__name__, template_folder="templates")
 app.secret_key = 'all_russia'
 app.register_blueprint(get_data_app)
+
+SMARTCAPTCHA_SERVER_KEY = os.getenv('SMARTCAPTCHA_SERVER_KEY')
+SMARTCAPTCHA_CLIENT_KEY = os.getenv('SMARTCAPTCHA_CLIENT_KEY')
+
 
 # путь к изображениям
 UPLOAD_FOLDER = str(pathlib.Path(__file__).parent.resolve()) + "/public"
@@ -63,6 +71,32 @@ table_names = {
 def admin_login():
     error = None
     if request.method == 'POST':
+
+        def check_captcha(token):
+            resp = requests.get(
+                "https://smartcaptcha.yandexcloud.net/validate",
+                {
+                    "secret": SMARTCAPTCHA_SERVER_KEY,
+                    "token": token
+                },
+                timeout=1
+            )
+            server_output = resp.content.decode()
+            if resp.status_code != 200:
+                print(f"Allow access due to an error: code={resp.status_code}; message={server_output}",
+                      file=sys.stderr)
+                return True
+            return json.loads(server_output)["status"] == "ok"
+
+        token = request.form["smart-token"]
+
+        if check_captcha(token):
+            print("Passed")
+        else:
+            print("Robot")
+
+
+
         # имя пользователя из формы
         username = request.form['username']
         # пароль из формы
@@ -83,7 +117,7 @@ def admin_login():
             error = 'Неправильное имя пользователя или пароль'
 
     # Если GET запрос, показываем форму входа
-    return render_template('admin_login.html', error=error)
+    return render_template('admin_login.html', captcha_key=SMARTCAPTCHA_CLIENT_KEY, error=error)
 
 
 # маршрут страницы админ-панели c выбранной таблицей
@@ -107,7 +141,6 @@ def admin_panel(table):
         data = database.select_all('SELECT * FROM "{}"'.format(table))
         # Загрузка и отображение админ-панели
         return render_template('admin_panel.html', tables=table_names, table=table, columns=columns, data=data)
-
 
 
 # маршрут выхода из админ-панели
@@ -207,8 +240,6 @@ def make_main(id):
     if request.method == 'GET':
         database.execute(f'UPDATE main_article SET id={id}')
         return redirect(url_for('admin_panel', table="news"))
-
-
 
 
 # загрузка файла из директории файлов
