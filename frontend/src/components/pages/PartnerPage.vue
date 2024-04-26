@@ -53,6 +53,7 @@ export default {
 }
 
 .partners{
+    margin: 80px auto;
     width: 1150px;
     border-top: 1px solid black;
 }
@@ -68,7 +69,9 @@ export default {
 }
 
 .title__headding{
+    font-family: "Roboto Condensed";
     font-size: 24px;
+    text-transform: uppercase;
 }
 
 .list__card{

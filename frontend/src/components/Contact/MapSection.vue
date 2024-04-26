@@ -1,6 +1,5 @@
 <template>
  <div>
-   <h2 class="maps__title">Мы на карте:</h2>
    <div class="maps container">
      <div ref="map" style="width: 1000px; height: 500px"></div>
    </div>
@@ -36,9 +35,5 @@ export default {
 </script>
 
 <style scoped>
-.maps {
-  display: flex;
-  justify-content: center;
 
-}
 </style>

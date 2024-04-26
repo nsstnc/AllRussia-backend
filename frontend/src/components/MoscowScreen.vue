@@ -56,15 +56,21 @@ export default {
 <style scoped>
 
 .headding{
+  margin-bottom: 40px;
   display: flex;
   justify-content: center;
-  font-size: 100px;
-  color: red;
-  font-weight: bold;
+  align-items: center;
 }
 
 .headding__text{
+  margin: 0;
+  font-family: "Roboto Condensed";
+  color: red;
+  font-weight: bold;
+  font-size: 100px;
+  line-height: normal;
   margin-left: 30px;
+  text-transform: uppercase;
 }
 
 .wrapper{

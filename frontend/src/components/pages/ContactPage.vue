@@ -32,6 +32,7 @@
 }
 
 .contact{
+    margin-top: 80px;
     border-top: 1px solid #AAAAAA;
 }
 
@@ -43,7 +44,18 @@
 }
 
 .contact__headding{
+    font-family: "Roboto Condensed";
+    font-size: 24px;
     text-transform: uppercase;
+}
+
+p {
+    font-family: "Roboto";
+    font-size: 20px;
+}
+
+.contact__text:last-child {
+    margin-bottom: 48px;
 }
 
 </style>
