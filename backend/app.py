@@ -92,29 +92,25 @@ def admin_login():
 
         if check_captcha(token):
             print("Passed")
+            # имя пользователя из формы
+            username = request.form['username']
+            # пароль из формы
+            password = request.form['password']
+            # шифруем пароль в sha-256
+            hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+            # получаем пользователя из БД с таким именем
+            user = database.select_one('SELECT * FROM users WHERE username = ?', (username,))
+
+            # проверяем сходятся ли данные формы с данными БД
+            if user and user['password'] == hashed_password:
+                # в случае успеха создаем сессию в которую записываем id пользователя
+                session['user_id'] = user['id']
+                # и делаем переадресацию пользователя на новую страницу -> в нашу адимнку
+                return redirect(url_for('admin_panel'))
+            else:
+                error = 'Неправильное имя пользователя или пароль'
         else:
             print("Robot")
-
-
-
-        # имя пользователя из формы
-        username = request.form['username']
-        # пароль из формы
-        password = request.form['password']
-        # шифруем пароль в sha-256
-        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-        # получаем пользователя из БД с таким именем
-        user = database.select_one('SELECT * FROM users WHERE username = ?', (username,))
-
-        # проверяем сходятся ли данные формы с данными БД
-        if user and user['password'] == hashed_password:
-            # в случае успеха создаем сессию в которую записываем id пользователя
-            session['user_id'] = user['id']
-            # и делаем переадресацию пользователя на новую страницу -> в нашу адимнку
-            return redirect(url_for('admin_panel'))
-
-        else:
-            error = 'Неправильное имя пользователя или пароль'
 
     # Если GET запрос, показываем форму входа
     return render_template('admin_login.html', captcha_key=SMARTCAPTCHA_CLIENT_KEY, error=error)
