@@ -1,30 +1,32 @@
 <style>
-    .table-preview{
+    .table-preview {
         width: 100px;
         margin: 5px;
     }
-    .btn{
+
+    .btn {
         margin: 5px;
     }
-    .btn-danger, .btn-primary, .btn-success{
+
+    .btn-danger, .btn-primary, .btn-success {
         width: 150px;
     }
-    .main_news{
+
+    .main_news {
         background: #B3D2C3;
     }
 </style>
 
 
-
 {% extends 'base.html' %}
 {% block content %}
-<a href="{{ url_for('add_record', table=table) }}" class="btn btn-secondary">Добавить запись в таблицу</a>
+    <a href="{{ url_for('add_record', table=table) }}" class="btn btn-secondary">Добавить запись в таблицу</a>
     <div class="table-container">
         <table class="table">
             <thead>
             <tr>
                 {% for column in columns %}
-                <th scope="col">{{column}}</th>
+                    <th scope="col">{{ column }}</th>
                 {% endfor %}
                 <th scope="col">Действия</th>
             </tr>
@@ -34,11 +36,12 @@
                 {% if main_article == item.id %}
                     <tr class="main_news">
                         {% for cell in item %}
-                        <th>{{cell}}
-                            {% if cell == item.url %}
-                            <img class="table-preview" src="{{ url_for('send_file', filename=cell) }}" alt="No image">
-                            {% endif %}
-                        </th>
+                            <th>{{ cell }}
+                                {% if cell == item.url %}
+                                    <img class="table-preview" src="{{ url_for('send_file', filename=cell) }}"
+                                         alt="No image">
+                                {% endif %}
+                            </th>
                         {% endfor %}
 
 
@@ -49,7 +52,8 @@
                             {% endif %}
                             <a href="{{ url_for('edit', table=table, id=item.id) }}" class="btn btn-primary">Редактировать</a>
                             <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" data-bs-id="{{item.id}}" data-bs-table-name="{{table}}">Удалить запись
+                                    data-bs-target="#exampleModal" data-bs-id="{{ item.id }}"
+                                    data-bs-table-name="{{ table }}">Удалить запись
                             </button>
 
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
@@ -64,7 +68,9 @@
                                             <p>Вы уверены, что хотите удалить запись?</p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Нет
+                                            </button>
                                             <a href="" type="button" class="delete-path btn btn-danger">Да</a>
                                         </div>
                                     </div>
@@ -80,11 +86,12 @@
 
                     <tr>
                         {% for cell in item %}
-                        <th>{{cell}}
-                            {% if cell == item.url %}
-                            <img class="table-preview" src="{{ url_for('send_file', filename=cell) }}" alt="No image">
-                            {% endif %}
-                        </th>
+                            <th>{{ cell }}
+                                {% if cell == item.url %}
+                                    <img class="table-preview" src="{{ url_for('send_file', filename=cell) }}"
+                                         alt="No image">
+                                {% endif %}
+                            </th>
                         {% endfor %}
 
 
@@ -94,7 +101,8 @@
                             {% endif %}
                             <a href="{{ url_for('edit', table=table, id=item.id) }}" class="btn btn-primary">Редактировать</a>
                             <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" data-bs-id="{{item.id}}" data-bs-table-name="{{table}}">Удалить запись
+                                    data-bs-target="#exampleModal" data-bs-id="{{ item.id }}"
+                                    data-bs-table-name="{{ table }}">Удалить запись
                             </button>
 
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
@@ -109,7 +117,9 @@
                                             <p>Вы уверены, что хотите удалить запись?</p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Нет
+                                            </button>
                                             <a href="" type="button" class="delete-path btn btn-danger">Да</a>
                                         </div>
                                     </div>
@@ -125,8 +135,8 @@
             {% endfor %}
 
             <script>
-                 $(document).ready(function() {
-                    $('.make-main').click(function() {
+                $(document).ready(function () {
+                    $('.make-main').click(function () {
 
                         var id = $(this).val();
                         {#console.log("/admin_panel/make_main/" + id);#}
@@ -136,16 +146,16 @@
                             url: "/admin_panel/make_main/" + id,
                             dataType: "html",
                             success:
-                            function(data) {
-                                // Создаем временный элемент div, чтобы разместить в нем HTML контент и выполнить поиск
-                                var tempDiv = $('<div>').html(data);
-                                // Ищем таблицу внутри полученного HTML
-                                var table = tempDiv.find('table');
-                                // Теперь вы можете использовать эту таблицу для дальнейшей обработки
-                                console.log(table);
-                                $('.table-container').html(table);
+                                function (data) {
+                                    // Создаем временный элемент div, чтобы разместить в нем HTML контент и выполнить поиск
+                                    var tempDiv = $('<div>').html(data);
+                                    // Ищем таблицу внутри полученного HTML
+                                    var table = tempDiv.find('table');
+                                    // Теперь вы можете использовать эту таблицу для дальнейшей обработки
+                                    console.log(table);
+                                    $('.table-container').html(table);
 
-                            }
+                                }
                         });
                     });
                 });

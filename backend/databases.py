@@ -83,7 +83,7 @@ class SQLiteDatabase():
     #             self.select_all("SELECT id, url, title, subtitle, tag, block, updated FROM news ORDER BY updated DESC")]
 
     def get_news(self, tag=None, sort_by_date_descending=False):
-        query = "SELECT id, url, title, subtitle, tag, updated FROM news"
+        query = "SELECT id, url, title, title_arabian, subtitle, subtitle_arabian, tag, tag_arabian, updated FROM news"
 
         if tag:
             query += f" WHERE tag='{tag}'"
@@ -91,18 +91,18 @@ class SQLiteDatabase():
         if sort_by_date_descending:
             query += " ORDER BY updated DESC"
 
-        return [Post(id, url, title, subtitle, tag, updated).__dict__ for id, url, title, subtitle, tag, updated in
+        return [Post(id, url, title, title_arabian, subtitle, subtitle_arabian, tag, tag_arabian, updated).__dict__ for id, url, title, title_arabian, subtitle, subtitle_arabian, tag, tag_arabian, updated in
                 self.select_all(query)]
 
     def get_main_article(self):
-        query = "SELECT id, url, title, subtitle, tag, updated FROM news WHERE id IN (SELECT id FROM main_article)"
-        return [Post(id, url, title, subtitle, tag, updated).__dict__ for id, url, title, subtitle, tag, updated in
+        query = "SELECT id, url, title, title_arabian, subtitle, subtitle_arabian, tag, tag_arabian, updated FROM news WHERE id IN (SELECT id FROM main_article)"
+        return [Post(id, url, title, title_arabian, subtitle, subtitle_arabian, tag, tag_arabian, updated).__dict__ for id, url, title, title_arabian, subtitle, subtitle_arabian, tag, tag_arabian, updated in
                 self.select_all(query)]
 
     def get_news_by_id(self, *args):
         placeholders = ', '.join([str(i) for i in args])
         print(placeholders)
-        query = f"SELECT id, url, title, subtitle, tag, updated FROM news WHERE id IN ({placeholders})"
+        query = f"SELECT id, url, title, title_arabian, subtitle, subtitle_arabian, tag, tag_arabian, updated FROM news WHERE id IN ({placeholders})"
 
-        return [Post(id, url, title, subtitle, tag, updated).__dict__ for id, url, title, subtitle, tag, updated in
+        return [Post(id, url, title, title_arabian, subtitle, subtitle_arabian, tag, tag_arabian, updated).__dict__ for id, url, title, title_arabian, subtitle, subtitle_arabian, tag, tag_arabian, updated in
                 self.select_all(query)]
