@@ -20,11 +20,17 @@ SMARTCAPTCHA_CLIENT_KEY = os.getenv('SMARTCAPTCHA_CLIENT_KEY')
 UPLOAD_FOLDER = str(pathlib.Path(__file__).parent.resolve()) + "/public"
 
 table_names = {
+    #Русские
     'articles': 'Статьи',
     'partners': 'Партнеры',
     'contacts': 'Контакты',
     'users': 'Пользователи',
     'news': 'Новости',
+    #Арабские
+    'ar_articles': 'Articles',
+    'ar_partners': 'Partners',
+    'ar_contacts': 'Contacts',
+    'ar_news': 'News', 
 }
 
 
@@ -171,7 +177,7 @@ def edit(id, table):
                 # запись нового url в словарь
                 data['url'] = file.filename
 
-        if table == "news":
+        if table == "news" or table == "ar_news":
             # дата и время изменения записи
             data["updated"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -207,7 +213,7 @@ def add_record(table):
                 # запись url в словарь
                 data['url'] = file.filename
 
-        if table == "news":
+        if table == "news" or table == "ar_news":
             # дата и время изменения записи
             data["updated"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
