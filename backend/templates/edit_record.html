@@ -1,40 +1,43 @@
 <style>
-    .edit-preview{
+    .edit-preview {
         width: 200px;
         margin: 10px;
     }
 </style>
 {% extends 'base.html' %}
 {% block content %}
-<h2>Редактирование записи в таблице {{ table }}</h2>
-<form method="POST" action="{{ url_for('edit', table=table, id=id) }}" enctype="multipart/form-data">
-    {% for column, value in record.items() %}
-        {% if column != 'id' and column != 'updated' %}
-            {% if column == "url" %}
-                <label for="{{ column }}">image</label>
-                <input hidden type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
-                <input type="file" class="form-control" id="file" name="file">
-                <label>Текущее изображение</label>
-                <img class="edit-preview" src="{{ url_for('send_file', filename=value) }}" alt="No image">
-            {% elif column == "tag" %}
-                <label>{{ column }}</label>
-                <select class="form-control" id="{{ column }}" name="{{ column }}">
-                        <option selected disabled hidden>{{ value}}</option>
-                        <option>Политика</option>
-                        <option>Экономика</option>
-                        <option>Наука и образование</option>
-                        <option>Культура и история</option>
-                        <option>Спорт</option>
-                        <option>Туризм</option>
-                        <option>Партнёры</option>
-                        <option>Проекты</option>
-                </select>
-            {% else %}
-                <p><label for="{{ column }}">{{ column }}</label></p>
-                <input type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
+    <h2>Редактирование записи в таблице {{ table }}</h2>
+    <form method="POST" action="{{ url_for('edit', table=table, id=id) }}" enctype="multipart/form-data">
+        {% for column, value in record.items() %}
+            {% if column != 'id' and column != 'updated' %}
+                {% if column == "url" %}
+                    <label for="{{ column }}">image</label>
+                    <input hidden type="text" class="form-control" id="{{ column }}" name="{{ column }}"
+                           value="{{ value }}">
+                    <input type="file" class="form-control" id="file" name="file">
+                    <label>Текущее изображение</label>
+                    <img class="edit-preview" src="{{ url_for('send_file', filename=value) }}" alt="No image">
+                {% elif column == "tag" %}
+                    <label>{{ column }}</label>
+                    <select class="form-control" id="{{ column }}" name="{{ column }}">
+                        <option selected disabled hidden>{{ value }}/{{ record.tag_arabian }}</option>
+                        <option>Политика/السياسة</option>
+                        <option>Экономика/الاقتصاد</option>
+                        <option>Наука и образование/العلوم والتعليم</option>
+                        <option>Культура и история/الثقافة والتاريخ</option>
+                        <option>Спорт/الرياضة</option>
+                        <option>Туризм/السياحة</option>
+                        <option>Партнёры/الشركاء</option>
+                        <option>Проекты/المشاريع</option>
+                    </select>
+                {% elif column == "tag_arabian" %}
+                    <input style="display: none;" type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
+                {% else %}
+                    <p><label for="{{ column }}">{{ column }}</label></p>
+                    <input type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
+                {% endif %}
             {% endif %}
-        {% endif %}
-    {% endfor %}
-    <button type="submit" class="btn btn-primary">Сохранить</button>
-</form>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
 {% endblock %}

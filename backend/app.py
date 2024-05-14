@@ -20,11 +20,10 @@ SMARTCAPTCHA_CLIENT_KEY = os.getenv('SMARTCAPTCHA_CLIENT_KEY')
 UPLOAD_FOLDER = str(pathlib.Path(__file__).parent.resolve()) + "/public"
 
 table_names = {
-    'articles': 'Статьи',
-    'partners': 'Партнеры',
-    'contacts': 'Контакты',
-    'users': 'Пользователи',
-    'news': 'Новости',
+    'partners': 'Partners',
+    'contacts': 'Contacts',
+    'users': 'Users',
+    'news': 'News',
 }
 
 
@@ -120,8 +119,7 @@ def admin_login():
 @app.route('/admin_panel/', defaults={'table': 'news'})
 @app.route('/admin_panel/<string:table>', methods=['GET', 'POST'])
 def admin_panel(table):
-    # названия таблиц
-    tables = list(map(lambda x: x[1], database.get_all_tables()))
+
     # если пользователь не в сессии, то отправляем его на страницу входа
     if 'user_id' not in session:
         return redirect(url_for('admin_login'))
@@ -175,6 +173,12 @@ def edit(id, table):
             # дата и время изменения записи
             data["updated"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+            # разбиваем значение поля tag на русский и арабский
+            tag_russian, tag_arabian = data["tag"].split("/")
+            data["tag"] = tag_russian
+            data["tag_arabian"] = tag_arabian
+
+
         query = f"UPDATE {table} SET "
         for key in data.keys():
             query += f"{key} = ?, "
@@ -210,6 +214,11 @@ def add_record(table):
         if table == "news":
             # дата и время изменения записи
             data["updated"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+            # разбиваем значение поля tag на русский и арабский
+            tag_russian, tag_arabian = data["tag"].split("/")
+            data["tag"] = tag_russian
+            data["tag_arabian"] = tag_arabian
 
         columns = ', '.join(data.keys())
         placeholders = ', '.join(['?' for _ in data.keys()])
