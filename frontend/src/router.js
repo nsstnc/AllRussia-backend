@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from './components/pages/HomePage.vue';
 import ArticlePolitic from './components/Article/ArticlePolitic.vue';
-import AboutPortal from './components/About/AboutPortal.vue';
+import AboutPortal from './components/pages/AboutPortal.vue';
 import Contact from './components/pages/ContactPage.vue';
 import MoscowScreen from './components/MoscowScreen.vue';
 import PartnerPage from './components/pages/PartnerPage.vue';

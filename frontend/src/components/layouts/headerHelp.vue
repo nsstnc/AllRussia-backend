@@ -1,56 +1,99 @@
 <script >
- export default {
-   name: 'HeaderHelp',
- }
+import axios from 'axios';
+export default {
+  name: "HeaderHelp",
+  data() {
+    return {
+      loading: true,
+      rates: {},
+      filteredRates: {},
+      apiUrl: 'https://openexchangerates.org/api/latest.json?app_id=b32cd1fe2c5548c78b31cdd514660010', // замените на свой URL API
+      currenciesOfInterest: ['USD', 'EUR', 'CNY', 'BYN'],
+      difference: Math.random(),
+    };
+  },
+  mounted() {
+    this.fetchData();
+
+  },
+  methods: {
+    fetchData() {
+      axios.get(this.apiUrl, {
+        params: {
+          // base: 'EUR'
+        }
+      })
+          .then(response => {
+            this.rates = response.data.rates;
+            this.filterRates();
+            this.loading = false;
+          })
+          .catch(error => {
+            console.error('Ошибка при получении данных:', error);
+            this.loading = false;
+          });
+    },
+
+    filterRates() {
+      this.filteredRates = {};
+      for (const currency of this.currenciesOfInterest) {
+        if (Object.prototype.hasOwnProperty.call(this.rates, currency)) {
+          this.filteredRates[currency] = this.rates[currency];
+        }
+      }
+    },
+
+  }
+};
+
 </script>
 
 <template>
 
   <div class="header__help">
-    <ul class="wrapper header__help__container">
-      <li class="header_item">USD 81,95 <span class="item_dang">-0,02  <img src="@/assets/Arrow%201.png"></span></li>
-      <li class="header_item">EUR 89,99 <span class="item_acc">+0,41  <img src="@/assets/Arrow%201(1).png"></span></li>
-      <li class="header_item">CNY 11,87 <span class="item_acc">+0,02  <img src="@/assets/Arrow%201(1).png"></span></li>
-      <li class="header_item">USD 81,95 <span class="item_acc">+0,03  <img src="@/assets/Arrow%201(1).png"></span></li>
+    <ul class="wrapper header__help__container" v-for="(rate, currency) in filteredRates" :key="currency">
+      <li class="header_item">{{ currency }} {{ rate }} <span class="item_acc">{{this.difference.toFixed(2)}}<img src="@/assets/Arrow%201(1).png"></span></li>
     </ul>
   </div>
 
 </template>
 
 <style scoped>
-  .header__help {
-    background-color: #222222;
-  }
-  .header__help__container {
-    padding: 0;
-    margin: 0 auto;
-    list-style: none;
-    height: 50px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-  .header__help__container > li {
-    font-family: "Roboto Condensed";
-    font-weight: bold;
-    font-size: 20px;
-  }
-  .header_item {
-    font-size: 14px;
-    color: #ffffff;
-  }
-  .item_dang {
-    padding-left: 8px;
-    color: #FF3F3F;
-  }
-  .item_acc{
-    padding-left: 8px;
-    color: #4BFF68;
-  }
+.header__help {
+  display: flex;
+  justify-content: space-between;
+  background-color: #222222;
+}
+.header__help__container {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0 auto;
+  list-style: none;
+  height: 50px;
 
-  img {
-    width: 10px;
-    height: 15px;
-  }
+}
+.header__help__container > li {
+  font-family: "Roboto Condensed";
+  font-weight: bold;
+  font-size: 20px;
+}
+.header_item {
+  font-size: 14px;
+  color: #ffffff;
+}
+.item_dang {
+  padding-left: 8px;
+  color: #FF3F3F;
+}
+.item_acc{
+  padding-left: 8px;
+  color: #4BFF68;
+}
+
+img {
+  width: 10px;
+  height: 15px;
+}
 
 </style>
