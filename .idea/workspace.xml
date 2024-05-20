@@ -5,37 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3aab897f-9c3c-4701-91ec-72a3144f7026" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/_speedups.cp312-win_amd64.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/console.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/database.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/flask.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/less.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/more.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/pip-3.12.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/pip.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/pip3.12.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/pip3.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/python.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/pythonw.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/t32.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/t64-arm.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/t64.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/w32.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/w64-arm.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM_[Changes]/w64.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_19_2024_2_39_PM__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/layouts/NavigateBar.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/main-politic.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/mainmama.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/politic(1).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/politic(2).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/politic(3).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/politic(4).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/pages/PoliticPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/About/AboutPortal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/AboutPortal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layouts/NavigateComponent.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layouts/headerHelp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layouts/headerHelp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/AboutPage.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/ContactPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/ContactPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/PartnerPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/PartnerPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/ProjectPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/ProjectPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -47,6 +24,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="Vue Composition API Component" />
       </list>
     </option>
   </component>
@@ -84,10 +62,16 @@
     "nodejs_package_manager_path": "npm",
     "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.3.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "vue.recent.templates": [
+      "Vue Composition API Component"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\timas\OneDrive\Рабочий стол\Сайты\allrus\frontend\src\assets" />
       <recent name="C:\Users\timas\OneDrive\Рабочий стол\Сайты\allrus\frontend\src\components\pages" />
     </key>
   </component>

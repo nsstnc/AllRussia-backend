@@ -7,6 +7,7 @@ import MoscowScreen from './components/MoscowScreen.vue';
 import PartnerPage from './components/pages/PartnerPage.vue';
 import CenterFO from "@/components/pages/CenterFO.vue";
 import ProjectPage from '@/components/pages/ProjectPage.vue'
+import PoliticPage from "@/components/pages/PoliticPage.vue";
 
 
 
@@ -54,6 +55,11 @@ const router = createRouter({
       path: '/project',
       name: 'ProjectPage',
       component: ProjectPage
+    },
+    {
+      path: '/politic',
+      name: 'PoliticPage',
+      component: PoliticPage
     },
   ]
 });
