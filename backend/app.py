@@ -169,8 +169,11 @@ def edit(id, table):
                 unique_filename = f"{uuid.uuid4()}_{file.filename}"
                 # сохранение нового файла
                 file.save(pathlib.Path(UPLOAD_FOLDER, unique_filename))
-                # удаление старого файла из директории
-                pathlib.Path(UPLOAD_FOLDER, data['url']).unlink()
+                try:
+                    # удаление старого файла из директории
+                    pathlib.Path(UPLOAD_FOLDER, data['url']).unlink()
+                except FileNotFoundError:
+                    print("Не удалось найти файл")
                 # запись нового url в словарь
                 data['url'] = unique_filename
 
