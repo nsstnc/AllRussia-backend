@@ -6,6 +6,7 @@ import requests
 import sys
 import json
 import os
+import uuid
 from flask_cors import CORS
 
 database = SQLiteDatabase(f"{str(pathlib.Path(__file__).parent.resolve())}/database.db")
@@ -164,12 +165,14 @@ def edit(id, table):
         file = request.files['file']
         if file:
             if verifyExt(file.filename):
+                # Генерация уникального имени файла
+                unique_filename = f"{uuid.uuid4()}_{file.filename}"
                 # сохранение нового файла
-                file.save(pathlib.Path(UPLOAD_FOLDER, file.filename))
+                file.save(pathlib.Path(UPLOAD_FOLDER, unique_filename))
                 # удаление старого файла из директории
                 pathlib.Path(UPLOAD_FOLDER, data['url']).unlink()
                 # запись нового url в словарь
-                data['url'] = file.filename
+                data['url'] = unique_filename
 
         if table == "news":
             # дата и время изменения записи
@@ -208,8 +211,10 @@ def add_record(table):
         file = request.files['file']
         if file:
             if verifyExt(file.filename):
+                # Генерация уникального имени файла
+                unique_filename = f"{uuid.uuid4()}_{file.filename}"
                 # сохранение нового файла
-                file.save((pathlib.Path(UPLOAD_FOLDER, file.filename)))
+                file.save(pathlib.Path(UPLOAD_FOLDER, unique_filename))
                 # запись url в словарь
                 data['url'] = file.filename
 
