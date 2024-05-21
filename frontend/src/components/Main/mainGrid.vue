@@ -1,7 +1,30 @@
 <script>
+import axios from 'axios';
+
 export default {
   name: 'mainGrid',
-}
+  data() {
+    return {
+      same_as_article: [],
+      main_article: {},
+    };
+  },
+  mounted() {
+    this.fetchMainArticle();
+  },
+  methods: {
+    async fetchMainArticle() {
+      try {
+        const response = await axios.get('http://127.0.0.1:5000/data_main_page');
+        this.main_article = response.data.main_article[0];
+        this.same_as_article = response.data.same_as_main.slice(0, 3);
+        console.log(this.same_as_article)
+      } catch (error) {
+        console.error('Error fetching main article:', error);
+      }
+    }
+  }
+};
 
 </script>
 
@@ -11,17 +34,17 @@ export default {
     <div class="item item_1">
       <div class="item_1-one">
         <h3 class="item_1-title">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
+          {{main_article.title}}
         </h3>
         <p class="item_1-subtitle">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Mollis aliquam ut porttitor leo a diam sollicitudin tempor. Curabitur vitae nunc sed velit dignissim sodales ut eu sem.
+          {{main_article.subtitle}}
         </p>
         <div class="vertical-line"></div>
         <p class="item_1-text">Похожие новости</p>
         <ul class="item_1-list">
-          <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</li>
-          <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</li>
-          <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</li>
+          <li v-for="article in same_as_article" :key="article.id">
+            {{ article.title }}
+          </li>
         </ul>
       </div>
       <div class="item_1-two">
