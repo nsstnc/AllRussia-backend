@@ -6,9 +6,11 @@ import requests
 import sys
 import json
 import os
+from flask_cors import CORS
 
 database = SQLiteDatabase(f"{str(pathlib.Path(__file__).parent.resolve())}/database.db")
 app = Flask(__name__, template_folder="templates")
+CORS(app)
 app.secret_key = 'all_russia'
 app.register_blueprint(get_data_app)
 
