@@ -78,3 +78,10 @@ def main_page():
         ensure_ascii=False)
 
 
+@get_data_app.route("/get_partners")
+def get_partners():
+    return json.dumps(database.get_partners(), ensure_ascii=False)
+
+@get_data_app.route("/get_contacts")
+def get_contacts():
+    return json.dumps(database.get_contacts_info(), ensure_ascii=False)

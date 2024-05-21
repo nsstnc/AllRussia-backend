@@ -47,8 +47,8 @@ class SQLiteDatabase():
             return []
 
     def get_contacts_info(self):
-        return [Contact(id, address, correspondence_address, email, phones, url).__dict__ for
-                id, address, correspondence_address, email, phones, url in
+        return [Contact(id, address, correspondence_address, email, phones).__dict__ for
+                id, address, correspondence_address, email, phones in
                 self.select_all("SELECT * FROM contacts")]
 
     def create_user(self, username: str, password: str):
@@ -106,3 +106,8 @@ class SQLiteDatabase():
 
         return [Post(id, url, title, title_arabian, subtitle, subtitle_arabian, tag, tag_arabian, updated).__dict__ for id, url, title, title_arabian, subtitle, subtitle_arabian, tag, tag_arabian, updated in
                 self.select_all(query)]
+
+    def get_partners(self):
+        return [Partner(id, url, title).__dict__ for
+                id, url, title in
+                self.select_all("SELECT * FROM partners")]

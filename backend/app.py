@@ -6,6 +6,7 @@ import requests
 import sys
 import json
 import os
+import uuid
 from flask_cors import CORS
 
 database = SQLiteDatabase(f"{str(pathlib.Path(__file__).parent.resolve())}/database.db")
@@ -160,16 +161,22 @@ def edit(id, table):
     if request.method == 'POST':
         # данные из формы
         data = dict(request.form)
-        # файл, загруженный в форму
-        file = request.files['file']
-        if file:
-            if verifyExt(file.filename):
-                # сохранение нового файла
-                file.save(pathlib.Path(UPLOAD_FOLDER, file.filename))
-                # удаление старого файла из директории
-                pathlib.Path(UPLOAD_FOLDER, data['url']).unlink()
-                # запись нового url в словарь
-                data['url'] = file.filename
+        if 'file' in request.files:
+            # файл, загруженный в форму
+            file = request.files['file']
+            if file:
+                if verifyExt(file.filename):
+                    # Генерация уникального имени файла
+                    unique_filename = f"{uuid.uuid4()}_{file.filename}"
+                    # сохранение нового файла
+                    file.save(pathlib.Path(UPLOAD_FOLDER, unique_filename))
+                    try:
+                        # удаление старого файла из директории
+                        pathlib.Path(UPLOAD_FOLDER, data['url']).unlink()
+                    except FileNotFoundError:
+                        print("Не удалось найти файл")
+                    # запись нового url в словарь
+                    data['url'] = unique_filename
 
         if table == "news":
             # дата и время изменения записи
@@ -203,15 +210,17 @@ def add_record(table):
     if request.method == 'POST':
         # данные из формы
         data = dict(request.form)
-
-        # файл, загруженный в форму
-        file = request.files['file']
-        if file:
-            if verifyExt(file.filename):
-                # сохранение нового файла
-                file.save((pathlib.Path(UPLOAD_FOLDER, file.filename)))
-                # запись url в словарь
-                data['url'] = file.filename
+        if 'file' in request.files:
+            # файл, загруженный в форму
+            file = request.files['file']
+            if file:
+                if verifyExt(file.filename):
+                    # Генерация уникального имени файла
+                    unique_filename = f"{uuid.uuid4()}_{file.filename}"
+                    # сохранение нового файла
+                    file.save(pathlib.Path(UPLOAD_FOLDER, unique_filename))
+                    # запись url в словарь
+                    data['url'] = file.filename
 
         if table == "news":
             # дата и время изменения записи
