@@ -1,43 +1,112 @@
-<style>
-    .edit-preview {
-        width: 200px;
-        margin: 10px;
-    }
-</style>
 {% extends 'base.html' %}
+
 {% block content %}
     <h2>Редактирование записи в таблице {{ table }}</h2>
     <form method="POST" action="{{ url_for('edit', table=table, id=id) }}" enctype="multipart/form-data">
         {% for column, value in record.items() %}
             {% if column != 'id' and column != 'updated' %}
-                {% if column == "url" %}
-                    <label for="{{ column }}">image</label>
-                    <input hidden type="text" class="form-control" id="{{ column }}" name="{{ column }}"
-                           value="{{ value }}">
-                    <input type="file" class="form-control" id="file" name="file">
-                    <label>Текущее изображение</label>
-                    <img class="edit-preview" src="{{ url_for('send_file', filename=value) }}" alt="No image">
-                {% elif column == "tag" %}
-                    <label>{{ column }}</label>
-                    <select class="form-control" id="{{ column }}" name="{{ column }}">
-                        <option selected disabled hidden>{{ value }}/{{ record.tag_arabian }}</option>
-                        <option>Политика/السياسة</option>
-                        <option>Экономика/الاقتصاد</option>
-                        <option>Наука и образование/العلوم والتعليم</option>
-                        <option>Культура и история/الثقافة والتاريخ</option>
-                        <option>Спорт/الرياضة</option>
-                        <option>Туризм/السياحة</option>
-                        <option>Партнёры/الشركاء</option>
-                        <option>Проекты/المشاريع</option>
-                    </select>
-                {% elif column == "tag_arabian" %}
-                    <input style="display: none;" type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
-                {% else %}
-                    <p><label for="{{ column }}">{{ column }}</label></p>
-                    <input type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
-                {% endif %}
+                <div class="form-group">
+                    {% if column == "url" %}
+                        <label for="{{ column }}">Изображение</label>
+                        <input hidden type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
+                        <input type="file" class="form-control" id="file" name="file">
+                        <label>Текущее изображение</label>
+                        <img class="edit-preview" src="{{ url_for('send_file', filename=value) }}" alt="No image">
+                    {% elif column == "tag" %}
+                        <label>{{ column }}</label>
+                        <select class="form-control" id="{{ column }}" name="{{ column }}">
+                            <option selected disabled hidden>{{ value }}/{{ record.tag_arabian }}</option>
+                            <option>Политика/السياسة</option>
+                            <option>Экономика/الاقتصاد</option>
+                            <option>Наука и образование/العلوم والتعليم</option>
+                            <option>Культура и история/الثقافة والتاريخ</option>
+                            <option>Спорт/الرياضة</option>
+                            <option>Туризм/السياحة</option>
+                            <option>Партнёры/الشركاء</option>
+                            <option>Проекты/المشاريع</option>
+                        </select>
+                    {% elif column == "tag_arabian" %}
+                        <input style="display: none;" type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
+                    {% elif column == "subtitle" %}
+                        <label for="{{ column }}">Subtitle</label>
+                        <textarea id="subtitle" name="subtitle">{{ value }}</textarea>
+                    {% elif column == "subtitle_arabian" %}
+                        <label for="{{ column }}">Subtitle (Arabian)</label>
+                        <textarea id="subtitle_arabian" name="subtitle_arabian">{{ value }}</textarea>
+                    {% else %}
+                        <label for="{{ column }}">{{ column }}</label>
+                        <input type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
+                    {% endif %}
+                </div>
             {% endif %}
         {% endfor %}
-        <button type="submit" class="btn btn-primary">Сохранить</button>
+
+        <!-- Добавляем скрипт для TinyMCE для subtitle -->
+        <script src="https://cdn.tiny.cloud/1/o8mjpww40gaecbuhw9wuf1jq4cr76riuvcg9043cpej8bqkj/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+        <script>
+            tinymce.init({
+                selector: 'textarea#subtitle',
+                plugins: 'image code',
+                toolbar: 'undo redo | link image | code',
+                images_upload_url: '/upload_image',
+                automatic_uploads: true,
+                file_picker_types: 'image',
+                images_upload_handler: function (blobInfo, success, failure) {
+                    var xhr, formData;
+                    xhr = new XMLHttpRequest();
+                    xhr.withCredentials = false;
+                    xhr.open('POST', '/upload_image');
+                    xhr.onload = function() {
+                        var json;
+                        if (xhr.status != 200) {
+                            failure('HTTP Error: ' + xhr.status);
+                            return;
+                        }
+                        json = JSON.parse(xhr.responseText);
+                        if (!json || typeof json.location != 'string') {
+                            failure('Invalid JSON: ' + xhr.responseText);
+                            return;
+                        }
+                        success(json.location);
+                    };
+                    formData = new FormData();
+                    formData.append('file', blobInfo.blob(), blobInfo.filename());
+                    xhr.send(formData);
+                }
+            });
+
+            tinymce.init({
+                selector: 'textarea#subtitle_arabian',
+                plugins: 'image code',
+                toolbar: 'undo redo | link image | code',
+                images_upload_url: '/upload_image',
+                automatic_uploads: true,
+                file_picker_types: 'image',
+                images_upload_handler: function (blobInfo, success, failure) {
+                    var xhr, formData;
+                    xhr = new XMLHttpRequest();
+                    xhr.withCredentials = false;
+                    xhr.open('POST', '/upload_image');
+                    xhr.onload = function() {
+                        var json;
+                        if (xhr.status != 200) {
+                            failure('HTTP Error: ' + xhr.status);
+                            return;
+                        }
+                        json = JSON.parse(xhr.responseText);
+                        if (!json || typeof json.location != 'string') {
+                            failure('Invalid JSON: ' + xhr.responseText);
+                            return;
+                        }
+                        success(json.location);
+                    };
+                    formData = new FormData();
+                    formData.append('file', blobInfo.blob(), blobInfo.filename());
+                    xhr.send(formData);
+                }
+            });
+        </script>
+
+        <button type="submit" class="btn btn-primary">Сохранить запись</button>
     </form>
 {% endblock %}

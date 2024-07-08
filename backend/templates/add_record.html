@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
+
 {% block content %}
     <h2>Добавление записи в таблицу {{ table }}</h2>
     <form method="POST" action="{{ url_for('add_record', table=table) }}" enctype="multipart/form-data">
         {% for column in columns %}
             {% if column != 'id' and column != 'updated' %}
                 <div class="form-group">
-
                     {% if column == "url" %}
-                        <label>image</label>
-                        <input hidden type="text" class="form-control" id="{{ column }}" name="{{ column }}"
-                               value="{{ value }}">
+                        <label>Изображение</label>
+                        <input hidden type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
                         <input type="file" class="form-control" id="file" name="file">
                     {% elif column == "tag" %}
                         <label>{{ column }}</label>
@@ -25,16 +24,118 @@
                             <option>Проекты/المشاريع</option>
                         </select>
                     {% elif column == "tag_arabian" %}
-                        <input style="display: none;" type="text" class="form-control" id="{{ column }}"
-                               name="{{ column }}" value="{{ value }}">
+                        <input style="display: none;" type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
+                    {% elif column == "subtitle" %}
+                        <label for="{{ column }}">Subtitle</label>
+                        <textarea id="subtitle" name="subtitle"></textarea>
+                    {% elif column == "subtitle_arabian" %}
+                        <label for="{{ column }}">Subtitle (Arabian)</label>
+                        <textarea id="subtitle_arabian" name="subtitle_arabian"></textarea>
                     {% else %}
                         <label>{{ column }}</label>
-                        <input type="text" class="form-control" id="{{ column }}" name="{{ column }}"
-                               value="{{ value }}">
+                        <input type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
                     {% endif %}
                 </div>
             {% endif %}
         {% endfor %}
+
         <button type="submit" class="btn btn-primary">Добавить запись</button>
     </form>
+
+    <!-- Включаем скрипт для TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/o8mjpww40gaecbuhw9wuf1jq4cr76riuvcg9043cpej8bqkj/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea#content',
+            plugins: 'image code',
+            toolbar: 'undo redo | link image | code',
+            images_upload_url: '/upload_image',
+            automatic_uploads: true,
+            file_picker_types: 'image',
+            images_upload_handler: function (blobInfo, success, failure) {
+                var xhr, formData;
+                xhr = new XMLHttpRequest();
+                xhr.withCredentials = false;
+                xhr.open('POST', '/upload_image');
+                xhr.onload = function() {
+                    var json;
+                    if (xhr.status != 200) {
+                        failure('HTTP Error: ' + xhr.status);
+                        return;
+                    }
+                    json = JSON.parse(xhr.responseText);
+                    if (!json || typeof json.location != 'string') {
+                        failure('Invalid JSON: ' + xhr.responseText);
+                        return;
+                    }
+                    success(json.location);
+                };
+                formData = new FormData();
+                formData.append('file', blobInfo.blob(), blobInfo.filename());
+                xhr.send(formData);
+            }
+        });
+
+        tinymce.init({
+            selector: 'textarea#subtitle',
+            plugins: 'image code',
+            toolbar: 'undo redo | link image | code',
+            images_upload_url: '/upload_image',
+            automatic_uploads: true,
+            file_picker_types: 'image',
+            images_upload_handler: function (blobInfo, success, failure) {
+                var xhr, formData;
+                xhr = new XMLHttpRequest();
+                xhr.withCredentials = false;
+                xhr.open('POST', '/upload_image');
+                xhr.onload = function() {
+                    var json;
+                    if (xhr.status != 200) {
+                        failure('HTTP Error: ' + xhr.status);
+                        return;
+                    }
+                    json = JSON.parse(xhr.responseText);
+                    if (!json || typeof json.location != 'string') {
+                        failure('Invalid JSON: ' + xhr.responseText);
+                        return;
+                    }
+                    success(json.location);
+                };
+                formData = new FormData();
+                formData.append('file', blobInfo.blob(), blobInfo.filename());
+                xhr.send(formData);
+            }
+        });
+
+        tinymce.init({
+            selector: 'textarea#subtitle_arabian',
+            plugins: 'image code',
+            toolbar: 'undo redo | link image | code',
+            images_upload_url: '/upload_image',
+            automatic_uploads: true,
+            file_picker_types: 'image',
+            images_upload_handler: function (blobInfo, success, failure) {
+                var xhr, formData;
+                xhr = new XMLHttpRequest();
+                xhr.withCredentials = false;
+                xhr.open('POST', '/upload_image');
+                xhr.onload = function() {
+                    var json;
+                    if (xhr.status != 200) {
+                        failure('HTTP Error: ' + xhr.status);
+                        return;
+                    }
+                    json = JSON.parse(xhr.responseText);
+                    if (!json || typeof json.location != 'string') {
+                        failure('Invalid JSON: ' + xhr.responseText);
+                        return;
+                    }
+                    success(json.location);
+                };
+                formData = new FormData();
+                formData.append('file', blobInfo.blob(), blobInfo.filename());
+                xhr.send(formData);
+            }
+        });
+    </script>
 {% endblock %}

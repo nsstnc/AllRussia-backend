@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory
+from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory, jsonify
 from databases import SQLiteDatabase
 import pathlib, hashlib, datetime
 from get_data import get_data_app
@@ -182,11 +182,16 @@ def edit(id, table):
             # дата и время изменения записи
             data["updated"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-            # разбиваем значение поля tag на русский и арабский
-            tag_russian, tag_arabian = data["tag"].split("/")
-            data["tag"] = tag_russian
-            data["tag_arabian"] = tag_arabian
+            # Проверяем наличие ключа 'tag' в данных формы
+            if 'tag' in data:
+                # разбиваем значение поля tag на русский и арабский
+                tag_russian, tag_arabian = data["tag"].split("/")
+                data["tag"] = tag_russian
+                data["tag_arabian"] = tag_arabian
 
+        # Обработка содержимого TinyMCE
+        if 'content' in request.form:
+            data['content'] = request.form['content']
 
         query = f"UPDATE {table} SET "
         for key in data.keys():
@@ -205,50 +210,58 @@ def edit(id, table):
         return render_template('edit_record.html', tables=table_names, table=table, id=id, record=record_dict)
 
 
+
+
 @app.route('/admin_panel/add/<string:table>', methods=['GET', 'POST'])
 def add_record(table):
     if request.method == 'POST':
-        # данные из формы
         data = dict(request.form)
+        
+        # Обработка изображения, если есть
         if 'file' in request.files:
-            # файл, загруженный в форму
             file = request.files['file']
-            if file:
-                if verifyExt(file.filename):
-                    # Генерация уникального имени файла
-                    unique_filename = f"{uuid.uuid4()}_{file.filename}"
-                    # сохранение нового файла
-                    file.save(pathlib.Path(UPLOAD_FOLDER, unique_filename))
-                    # запись url в словарь
-                    data['url'] = file.filename
+            if file and verifyExt(file.filename):
+                unique_filename = f"{uuid.uuid4()}_{file.filename}"
+                file.save(pathlib.Path(UPLOAD_FOLDER, unique_filename))
+                data['url'] = unique_filename  # сохраняем основное изображение
+        
+        # Обработка содержимого TinyMCE для content
+        if 'content' in request.form:
+            data['content'] = request.form['content']
+        
+        # Обработка содержимого TinyMCE для subtitle
+        if 'subtitle' in request.form:
+            data['subtitle'] = request.form['subtitle']
+        
+        # Обработка содержимого TinyMCE для subtitle_arabian
+        if 'subtitle_arabian' in request.form:
+            data['subtitle_arabian'] = request.form['subtitle_arabian']
 
-        if table == "news":
-            # дата и время изменения записи
-            data["updated"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # Получаем максимальный ID и увеличиваем его на 1 для новой записи
+        last_id = database.select_one(f'SELECT MAX(id) FROM {table}')[0]
+        new_id = last_id + 1 if last_id is not None else 1
 
-            # разбиваем значение поля tag на русский и арабский
-            tag_russian, tag_arabian = data["tag"].split("/")
-            data["tag"] = tag_russian
-            data["tag_arabian"] = tag_arabian
+        # Добавляем ID в данные для вставки в БД
+        data['id'] = new_id
 
+        # Формируем запрос SQL для вставки данных
         columns = ', '.join(data.keys())
         placeholders = ', '.join(['?' for _ in data.keys()])
         values = list(data.values())
 
-        last_id = database.select_one(f'SELECT MAX(id) FROM {table}')[0]
-        new_id = last_id + 1 if last_id is not None else 1
-
-        columns += ', id'
-        placeholders += ', ?'
-
-        values.append(new_id)
-
-        database.execute(f"INSERT INTO {table} ({columns}) VALUES ({placeholders})", tuple(values))
+        # Выполняем SQL-запрос для вставки данных в таблицу
+        query = f"INSERT INTO {table} ({columns}) VALUES ({placeholders})"
+        database.execute(query, tuple(values))
 
         return redirect(url_for('admin_panel', table=table))
     else:
+        # Получаем названия колонок таблицы для формирования формы
         columns = [column[1] for column in database.cursor.execute('PRAGMA table_info({})'.format(table)).fetchall()]
         return render_template('add_record.html', tables=table_names, table=table, columns=columns)
+
+
+
+
 
 
 @app.route('/admin_panel/make_main/<int:id>', methods=['GET'])
@@ -270,6 +283,30 @@ def verifyExt(filename):
     if ext in ['JPEG', 'JPG', 'png', 'jpg', 'PNG']:
         return True
     return False
+
+@app.route('/upload_image', methods=['POST'])
+def upload_image():
+    if 'file' not in request.files:
+        return jsonify({'success': False, 'error': 'No file part'})
+    
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'success': False, 'error': 'No selected file'})
+
+    if file and verifyExt(file.filename):
+        # Генерация уникального имени файла
+        unique_filename = f"{uuid.uuid4()}_{file.filename}"
+        # Сохранение нового файла
+        file.save(pathlib.Path(UPLOAD_FOLDER, unique_filename))
+        # Возвращаем URL загруженного изображения для TinyMCE
+        return jsonify({'success': True, 'location': url_for('send_file', filename=unique_filename)})
+    else:
+        return jsonify({'success': False, 'error': 'Invalid file format'})
+
+# Функция проверки формата изображения
+def verifyExt(filename):
+    ext = filename.rsplit('.', 1)[1].lower()
+    return ext in {'jpg', 'jpeg', 'png'}
 
 
 print(__name__)
