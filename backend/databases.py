@@ -2,9 +2,7 @@ import json
 import sqlite3
 import hashlib
 from typing import List
-from post import Post
-from partner import Partner
-from contact import Contact
+from models import Post, Partner, Contact
 
 
 class SQLiteDatabase():
