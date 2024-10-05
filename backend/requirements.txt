@@ -3,3 +3,4 @@ pandas==2.2.2
 scikit_learn==1.4.2
 requests==2.32.3
 Flask-Cors==5.0.0
+flask-jwt-extended==4.6.0
