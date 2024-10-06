@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory, jsonify
+from flask_paginate import Pagination, get_page_args
 from databases import SQLiteDatabase
 import pathlib, hashlib, datetime
 from get_data import get_data_app
@@ -118,26 +119,43 @@ def admin_login():
     return render_template('admin_login.html', captcha_key=SMARTCAPTCHA_CLIENT_KEY, error=error)
 
 
-# маршрут страницы админ-панели c выбранной таблицей
-@app.route('/admin_panel/', defaults={'table': 'news'})
+@app.route('/admin_panel/', defaults={'table': 'news', 'page': 1, 'sort': 'updated', 'order': 'desc'})
 @app.route('/admin_panel/<string:table>', methods=['GET', 'POST'])
-def admin_panel(table):
-
-    # если пользователь не в сессии, то отправляем его на страницу входа
+@app.route('/admin_panel/<string:table>/<int:page>', methods=['GET', 'POST'])
+@app.route('/admin_panel/<string:table>/<int:page>/<string:sort>/<string:order>', methods=['GET', 'POST'])
+def admin_panel(table, page=1, sort='updated', order='desc'):
     if 'user_id' not in session:
         return redirect(url_for('admin_login'))
-    # названия колонок таблицы в базе данных
+
+    # Параметры пагинации
+    per_page = 10
+    offset = (page - 1) * per_page
+
+    search_query = request.args.get('search_query', '')
+
     columns = list(map(lambda x: x[0], database.cursor.execute('SELECT * FROM "{}"'.format(table)).description))
-    if table == "news":
-        data = database.select_all('SELECT * FROM "{}" ORDER BY updated DESC'.format(table))
-        main_article = dict(database.select_one(f'SELECT id FROM main_article'))['id']
-        # Загрузка и отображение админ-панели
-        return render_template('admin_panel.html', tables=table_names, table=table, columns=columns, data=data,
-                               main_article=main_article)
+
+    main_article = None
+
+    order_clause = f"ORDER BY {sort} {order}"
+    if search_query:
+        total = database.select_one(f'SELECT COUNT(*) FROM "{table}" WHERE title LIKE ?', (f'%{search_query}%',))['COUNT(*)']
+        data = database.select_all(f'SELECT * FROM "{table}" WHERE title LIKE ? {order_clause} LIMIT {per_page} OFFSET {offset}', (f'%{search_query}%',))
     else:
-        data = database.select_all('SELECT * FROM "{}"'.format(table))
-        # Загрузка и отображение админ-панели
-        return render_template('admin_panel.html', tables=table_names, table=table, columns=columns, data=data)
+        if table == "news":
+            total = database.select_one('SELECT COUNT(*) FROM "{}"'.format(table))['COUNT(*)']
+            data = database.select_all(f'SELECT * FROM "{table}" {order_clause} LIMIT {per_page} OFFSET {offset}')
+            main_article = dict(database.select_one(f'SELECT id FROM main_article'))['id']
+        else:
+            data = database.select_all('SELECT * FROM "{}"'.format(table))
+            return render_template('admin_panel.html', tables=table_names, table=table, columns=columns, data=data)
+
+    # Настройка объекта пагинации
+    pagination = Pagination(page=page, per_page=per_page, total=total, record_name='items')
+
+    return render_template('admin_panel.html', tables=table_names, table=table, columns=columns, data=data,
+                           main_article=main_article, pagination=pagination, search_query=search_query,
+                           sort=sort, order=order, page=page)  # Добавлено page
 
 
 # маршрут выхода из админ-панели
