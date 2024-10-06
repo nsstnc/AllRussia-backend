@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory, jsonify
 from flask_paginate import Pagination, get_page_args
 from databases import SQLiteDatabase
+from flask_jwt_extended import *
 import pathlib, hashlib, datetime
 from get_data import get_data_app
 import requests
@@ -14,11 +15,14 @@ database = SQLiteDatabase(f"{str(pathlib.Path(__file__).parent.resolve())}/datab
 app = Flask(__name__, template_folder="templates")
 CORS(app)
 app.secret_key = 'all_russia'
+app.config['JWT_SECRET_KEY'] = app.secret_key
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(weeks=2)
+jwt = JWTManager(app)
 app.register_blueprint(get_data_app)
-
 SMARTCAPTCHA_SERVER_KEY = os.getenv('SMARTCAPTCHA_SERVER_KEY')
 SMARTCAPTCHA_CLIENT_KEY = os.getenv('SMARTCAPTCHA_CLIENT_KEY')
-
 
 # путь к изображениям
 UPLOAD_FOLDER = str(pathlib.Path(__file__).parent.resolve()) + "/public"
@@ -29,6 +33,16 @@ table_names = {
     'users': 'Users',
     'news': 'News',
 }
+
+
+@jwt.expired_token_loader
+@jwt.invalid_token_loader
+@jwt.needs_fresh_token_loader
+@jwt.unauthorized_loader
+def expired_token(*args):
+    resp = redirect(url_for("admin_login"))
+    unset_jwt_cookies(resp)
+    return resp
 
 
 # вроде как пока не нужно и не функционирует
@@ -70,59 +84,69 @@ table_names = {
 
 
 # маршрут страницы формы для входа в админ-панель
-@app.route('/adm_login', methods=['GET', 'POST'])
+@app.route('/admin_login', methods=['GET', 'POST'])
+@jwt_required(optional=True)
 def admin_login():
     error = None
-    if request.method == 'POST':
+    if get_jwt() and get_jwt()["fresh"]:
+        return redirect(url_for('admin_panel'))
 
-        def check_captcha(token):
-            resp = requests.get(
-                "https://smartcaptcha.yandexcloud.net/validate",
-                {
-                    "secret": SMARTCAPTCHA_SERVER_KEY,
-                    "token": token
-                },
-                timeout=1
-            )
-            server_output = resp.content.decode()
-            if resp.status_code != 200:
-                print(f"Allow access due to an error: code={resp.status_code}; message={server_output}",
-                      file=sys.stderr)
-                return True
-            return json.loads(server_output)["status"] == "ok"
+    if request.method == 'GET':
+        # Если GET запрос, показываем форму входа
+        return render_template('admin_login.html', captcha_key=SMARTCAPTCHA_CLIENT_KEY, error=error)
 
-        token = request.form["smart-token"]
+    def check_captcha(token):
+        resp = requests.get(
+            "https://smartcaptcha.yandexcloud.net/validate",
+            {
+                "secret": SMARTCAPTCHA_SERVER_KEY,
+                "token": token
+            },
+            timeout=1
+        )
+        server_output = resp.content.decode()
+        if resp.status_code != 200:
+            print(f"Allow access due to an error: code={resp.status_code}; message={server_output}",
+                  file=sys.stderr)
+            return True
+        return json.loads(server_output)["status"] == "ok"
 
-        if check_captcha(token):
-            print("Passed")
-            # имя пользователя из формы
-            username = request.form['username']
-            # пароль из формы
-            password = request.form['password']
-            # шифруем пароль в sha-256
-            hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-            # получаем пользователя из БД с таким именем
-            user = database.select_one('SELECT * FROM users WHERE username = ?', (username,))
+    token = request.form["smart-token"]
 
-            # проверяем сходятся ли данные формы с данными БД
-            if user and user['password'] == hashed_password:
-                # в случае успеха создаем сессию в которую записываем id пользователя
-                session['user_id'] = user['id']
-                # и делаем переадресацию пользователя на новую страницу -> в нашу адимнку
-                return redirect(url_for('admin_panel'))
-            else:
-                error = 'Неправильное имя пользователя или пароль'
+    if check_captcha(token):
+        print("Passed")
+        # имя пользователя из формы
+        username = request.form['username']
+        # пароль из формы
+        password = request.form['password']
+        # шифруем пароль в sha-256
+        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        # получаем пользователя из БД с таким именем
+        user = database.select_one('SELECT * FROM users WHERE username = ?', (username,))
+
+        # проверяем сходятся ли данные формы с данными БД
+        if user and user['password'] == hashed_password:
+            # в случае успеха создаем токен
+            # # и делаем переадресацию пользователя на новую страницу -> в нашу адимнку
+            response = redirect(url_for('admin_panel'))
+            create_jwt_token(response, user)
+            return response
         else:
-            print("Robot")
+            error = 'Неправильное имя пользователя или пароль'
+    else:
+        print("Robot")
 
-    # Если GET запрос, показываем форму входа
-    return render_template('admin_login.html', captcha_key=SMARTCAPTCHA_CLIENT_KEY, error=error)
+
+def create_jwt_token(resp, user):
+    token = create_access_token(identity=user['username'], fresh=True)
+    set_access_cookies(resp, token)
 
 
 @app.route('/admin_panel/', defaults={'table': 'news', 'page': 1, 'sort': 'updated', 'order': 'desc'})
 @app.route('/admin_panel/<string:table>', methods=['GET', 'POST'])
 @app.route('/admin_panel/<string:table>/<int:page>', methods=['GET', 'POST'])
 @app.route('/admin_panel/<string:table>/<int:page>/<string:sort>/<string:order>', methods=['GET', 'POST'])
+@jwt_required()
 def admin_panel(table, page=1, sort='updated', order='desc'):
     if 'user_id' not in session:
         return redirect(url_for('admin_login'))
@@ -161,13 +185,15 @@ def admin_panel(table, page=1, sort='updated', order='desc'):
 # маршрут выхода из админ-панели
 @app.route('/logout')
 def logout():
-    # Удаление данных пользователя из сессии
-    session.clear()
+    resp = redirect(url_for("admin_login"))
+    # Удаление данных jwt
+    unset_jwt_cookies(resp)
     # Перенаправление на страницу входа
-    return redirect(url_for("admin_login"))
+    return resp
 
 
 @app.route('/admin_panel/delete/<int:id>/<string:table>', methods=['GET', 'POST'])
+@jwt_required()
 def delete(id, table):
     database.execute('DELETE FROM {} WHERE id =?;'.format(table), (id,))
     print("delete", id, table)
@@ -175,6 +201,7 @@ def delete(id, table):
 
 
 @app.route('/admin_panel/edit/<int:id>/<string:table>', methods=['GET', 'POST'])
+@jwt_required()
 def edit(id, table):
     if request.method == 'POST':
         # данные из формы
@@ -228,9 +255,8 @@ def edit(id, table):
         return render_template('edit_record.html', tables=table_names, table=table, id=id, record=record_dict)
 
 
-
-
 @app.route('/admin_panel/add/<string:table>', methods=['GET', 'POST'])
+@jwt_required()
 def add_record(table):
     if request.method == 'POST':
         data = dict(request.form)
@@ -278,11 +304,8 @@ def add_record(table):
         return render_template('add_record.html', tables=table_names, table=table, columns=columns)
 
 
-
-
-
-
 @app.route('/admin_panel/make_main/<int:id>', methods=['GET'])
+@jwt_required()
 def make_main(id):
     if request.method == 'GET':
         database.execute(f'UPDATE main_article SET id={id}')
@@ -291,6 +314,7 @@ def make_main(id):
 
 # загрузка файла из директории файлов
 @app.route('/uploads/<filename>')
+@jwt_required()
 def send_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 
@@ -303,6 +327,7 @@ def verifyExt(filename):
     return False
 
 @app.route('/upload_image', methods=['POST'])
+@jwt_required()
 def upload_image():
     if 'file' not in request.files:
         return jsonify({'success': False, 'error': 'No file part'})
