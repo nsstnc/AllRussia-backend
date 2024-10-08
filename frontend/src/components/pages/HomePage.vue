@@ -1,13 +1,13 @@
 <template>
-	<div class="home">
-		<main-section></main-section>
-		<main-grid></main-grid>
-		<mainEconomic />
-		<main-politic></main-politic>
-		<main-teach></main-teach>
-		<main-culture />
-		<main-theme />
-	</div>
+    <div class="home">
+      <main-section ></main-section>
+      <main-grid></main-grid>
+      <mainEconomic/>
+      <main-politic></main-politic>
+      <main-teach></main-teach>
+      <main-culture/>
+      <main-theme/>
+    </div>
 </template>
 
 <script>
