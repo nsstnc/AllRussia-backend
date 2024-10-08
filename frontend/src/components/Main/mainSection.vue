@@ -5,12 +5,16 @@ export default {
 </script>
 
 <template>
-  <div class="main__section ">
-    <div class="main__container">
-      <div class=" text-center text-white text-[200px] font-bold font-['Roboto Condensed']">ALLRUSSIA</div>
-        <div class=" text-center text-white text-4xl font-bold font-['Roboto Condensed']">Мы открываем Россию заново! Вместе с вами!</div>
-    </div>
-  </div>
+	<div class="main__section">
+		<div class="main__container">
+			<div class="text-center text-white text-[200px] font-bold font-['Roboto Condensed']">
+				ALLRUSSIA
+			</div>
+			<div class="text-center text-white text-4xl font-bold font-['Roboto Condensed']">
+				Мы открываем Россию заново! Вместе с вами!
+			</div>
+		</div>
+	</div>
 </template>
 
 <style scoped>
@@ -24,6 +28,4 @@ export default {
 	background-size: cover;
 	background-position: center;
 }
-
-
 </style>

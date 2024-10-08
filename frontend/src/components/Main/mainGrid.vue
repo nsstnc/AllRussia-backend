@@ -28,76 +28,75 @@ export default {
 </script>
 
 <template>
-
-  <div class="container">
-    <div class="item item_1">
-      <div class="item_1-one">
-        <h3 class="item_1-title">
-          {{main_article.title}}
-        </h3>
-        <p class="item_1-subtitle">
-          {{main_article.subtitle}}
-        </p>
-        <div class="vertical-line"></div>
-        <p class="item_1-text">Похожие новости</p>
-        <ul class="item_1-list">
-          <li v-for="article in same_as_article" :key="article.id">
-            {{ article.title }}
-          </li>
-        </ul>
-      </div>
-      <div class="item_1-two">
-        <img class="item_1-img" src="../../assets/comunicacion%20politica%20(1)%201.png" style="height: 400px; width: 600px;" alt="123">
-      </div>
-    </div>
-    <div class="item item_2">
-      <div class="horizontal-line"></div>
-      <div class="red-rectangle"></div>
-      <h3 class="item_2-title">
-        Последние новости
-      </h3>
-      <img src="../../assets/284320788be7027b8bea3f687155b7fb%201.png" alt="asd" style="width: 300px">
-      <p class="item_2-subtitle">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-      </p>
-      <p class="asd font-bold">17 минут назад</p>
-      <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-      <p class="item_2-list">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-      </p>
-      <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-      <p class="item_2-list">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-      </p>
-      <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-      <p class="item_2-list">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-      </p>
-      <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-      <p class="item_2-list">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-      </p>
-      <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-      <p class="item_2-list">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-      </p>
-
-    </div>
-    <div class="item item_3">
-      <img src="../../assets/1.png" alt="" class="mb-4">
-      <p class="dsa">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-    </div>
-    <div class="item item_4">
-      <img src="../../assets/2.png" alt="" class="mb-4">
-      <p class="dsa">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-    </div>
-    <div class="item item_5">
-      <img src="../../assets/3.png" alt="" class="mb-4">
-      <p class="dsa">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-    </div>
-  </div>
-
-
+	<div class="container">
+		<div class="item item_1">
+			<div class="item_1-one">
+				<h3 class="item_1-title">
+					{{ main_article.title }}
+				</h3>
+				<p class="item_1-subtitle">
+					{{ main_article.subtitle }}
+				</p>
+				<div class="vertical-line"></div>
+				<p class="item_1-text">Похожие новости</p>
+				<ul class="item_1-list">
+					<li v-for="article in same_as_article" :key="article.id">
+						{{ article.title }}
+					</li>
+				</ul>
+			</div>
+			<div class="item_1-two">
+				<img
+					class="item_1-img"
+					src="../../assets/comunicacion%20politica%20(1)%201.png"
+					style="height: 400px; width: 600px"
+					alt="123"
+				/>
+			</div>
+		</div>
+		<div class="item item_2">
+			<div class="horizontal-line"></div>
+			<div class="red-rectangle"></div>
+			<h3 class="item_2-title">Последние новости</h3>
+			<img
+				src="../../assets/284320788be7027b8bea3f687155b7fb%201.png"
+				alt="asd"
+				style="width: 300px"
+			/>
+			<p class="item_2-subtitle">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+			</p>
+			<p class="asd font-bold">17 минут назад</p>
+			<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+			<p class="item_2-list">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</p>
+			<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+			<p class="item_2-list">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</p>
+			<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+			<p class="item_2-list">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</p>
+			<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+			<p class="item_2-list">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</p>
+			<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+			<p class="item_2-list">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</p>
+		</div>
+		<div class="item item_3">
+			<img src="../../assets/1.png" alt="" class="mb-4" />
+			<p class="dsa">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.
+			</p>
+		</div>
+		<div class="item item_4">
+			<img src="../../assets/2.png" alt="" class="mb-4" />
+			<p class="dsa">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.
+			</p>
+		</div>
+		<div class="item item_5">
+			<img src="../../assets/3.png" alt="" class="mb-4" />
+			<p class="dsa">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.
+			</p>
+		</div>
+	</div>
 </template>
 
 <style scoped>

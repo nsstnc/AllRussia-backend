@@ -5,93 +5,92 @@ export default {
 </script>
 
 <template>
-  <div>
-    <div class="themes__bg"/>
-    <div class="wrapper">
-      <div class="horizontal-line"></div>
-      <div class="red-rectangle"></div>
-      <h3 >ТЕМЫ</h3>
-      <div class="container">
-        <div class="item item_1">
-          <h2 class="theme__title">СПОРТ</h2>
-          <img src="../../assets/rapper.png" alt="12">
-          <p class="item_2-subtitle">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-          </p>
-          <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-          <p class="item_2-list">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-          </p>
-          <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-          <p class="item_2-list">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-          </p>
-          <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-          <p class="item_2-list">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-          </p>
-
-        </div>
-        <div class="item item_2">
-          <h2 class="theme__title">ТУРИЗМ</h2>
-            <img src="../../assets/brige.png" alt="12">
-              <p class="item_2-subtitle">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-              </p>
-              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-              <p class="item_2-list">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-              </p>
-              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-              <p class="item_2-list">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-              </p>
-              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-              <p class="item_2-list">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-              </p>
-        </div>
-        <div class="item item_3">
-          <h2 class="theme__title">ПАРТНЕРЫ</h2>
-            <img src="../../assets/islam.png" alt="12">
-              <p class="item_2-subtitle">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-              </p>
-              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-              <p class="item_2-list">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-              </p>
-              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-              <p class="item_2-list">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-              </p>
-              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-              <p class="item_2-list">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-              </p>
-        </div>
-        <div class="item item_4">
-          <h2 class="theme__title">ПРОЕКТЫ</h2>
-            <img src="../../assets/september11.png" alt="12">
-              <p class="item_2-subtitle">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-              </p>
-              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-              <p class="item_2-list">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-              </p>
-              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-              <p class="item_2-list">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-              </p>
-              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-              <p class="item_2-list">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-              </p>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div>
+		<div class="themes__bg" />
+		<div class="wrapper">
+			<div class="horizontal-line"></div>
+			<div class="red-rectangle"></div>
+			<h3>ТЕМЫ</h3>
+			<div class="container">
+				<div class="item item_1">
+					<h2 class="theme__title">СПОРТ</h2>
+					<img src="../../assets/rapper.png" alt="12" />
+					<p class="item_2-subtitle">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+					<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+					<p class="item_2-list">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+					<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+					<p class="item_2-list">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+					<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+					<p class="item_2-list">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+				</div>
+				<div class="item item_2">
+					<h2 class="theme__title">ТУРИЗМ</h2>
+					<img src="../../assets/brige.png" alt="12" />
+					<p class="item_2-subtitle">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+					<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+					<p class="item_2-list">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+					<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+					<p class="item_2-list">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+					<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+					<p class="item_2-list">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+				</div>
+				<div class="item item_3">
+					<h2 class="theme__title">ПАРТНЕРЫ</h2>
+					<img src="../../assets/islam.png" alt="12" />
+					<p class="item_2-subtitle">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+					<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+					<p class="item_2-list">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+					<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+					<p class="item_2-list">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+					<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+					<p class="item_2-list">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+				</div>
+				<div class="item item_4">
+					<h2 class="theme__title">ПРОЕКТЫ</h2>
+					<img src="../../assets/september11.png" alt="12" />
+					<p class="item_2-subtitle">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+					<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+					<p class="item_2-list">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+					<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+					<p class="item_2-list">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+					<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+					<p class="item_2-list">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <style scoped>
