@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@vitejs/plugin-vue": "^5.1.4",
+    "@vueuse/core": "^11.1.0",
     "axios": "^1.6.8",
     "core-js": "^3.8.3",
     "ESlint": "npm:eslint@^7.32.0",
