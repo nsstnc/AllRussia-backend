@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-      <main-section></main-section>
+      <main-section ></main-section>
       <main-grid></main-grid>
       <mainEconomic/>
       <main-politic></main-politic>

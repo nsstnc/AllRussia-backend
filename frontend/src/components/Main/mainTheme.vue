@@ -18,15 +18,15 @@ export default {
           <p class="item_2-subtitle">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
           </p>
-          <div class="diviver"></div>
+          <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
           <p class="item_2-list">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
           </p>
-          <div class="diviver"></div>
+          <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
           <p class="item_2-list">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
           </p>
-          <div class="diviver"></div>
+          <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
           <p class="item_2-list">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
           </p>
@@ -38,15 +38,15 @@ export default {
               <p class="item_2-subtitle">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
               </p>
-              <div class="diviver"></div>
+              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
               <p class="item_2-list">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
               </p>
-              <div class="diviver"></div>
+              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
               <p class="item_2-list">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
               </p>
-              <div class="diviver"></div>
+              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
               <p class="item_2-list">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
               </p>
@@ -57,15 +57,15 @@ export default {
               <p class="item_2-subtitle">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
               </p>
-              <div class="diviver"></div>
+              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
               <p class="item_2-list">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
               </p>
-              <div class="diviver"></div>
+              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
               <p class="item_2-list">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
               </p>
-              <div class="diviver"></div>
+              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
               <p class="item_2-list">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
               </p>
@@ -76,15 +76,15 @@ export default {
               <p class="item_2-subtitle">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
               </p>
-              <div class="diviver"></div>
+              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
               <p class="item_2-list">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
               </p>
-              <div class="diviver"></div>
+              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
               <p class="item_2-list">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
               </p>
-              <div class="diviver"></div>
+              <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
               <p class="item_2-list">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
               </p>

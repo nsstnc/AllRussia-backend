@@ -61,39 +61,39 @@ export default {
       <p class="item_2-subtitle">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
       </p>
-      <p class="asd">17 минут назад</p>
-      <div class="diviver"></div>
+      <p class="asd font-bold">17 минут назад</p>
+      <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
       <p class="item_2-list">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
       </p>
-      <div class="diviver"></div>
+      <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
       <p class="item_2-list">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
       </p>
-      <div class="diviver"></div>
+      <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
       <p class="item_2-list">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
       </p>
-      <div class="diviver"></div>
+      <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
       <p class="item_2-list">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
       </p>
-      <div class="diviver"></div>
+      <div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
       <p class="item_2-list">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
       </p>
 
     </div>
     <div class="item item_3">
-      <img src="../../assets/1.png" alt="">
+      <img src="../../assets/1.png" alt="" class="mb-4">
       <p class="dsa">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
     </div>
     <div class="item item_4">
-      <img src="../../assets/2.png" alt="">
+      <img src="../../assets/2.png" alt="" class="mb-4">
       <p class="dsa">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
     </div>
     <div class="item item_5">
-      <img src="../../assets/3.png" alt="">
+      <img src="../../assets/3.png" alt="" class="mb-4">
       <p class="dsa">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
     </div>
   </div>
