@@ -6,7 +6,8 @@ export default {
 	data() {
 		return {
 			same_as_article: [],
-			main_article: {}
+			main_article: {},
+			n: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.'
 		}
 	},
 	mounted() {
@@ -67,16 +68,11 @@ export default {
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
 			</p>
 			<p class="asd font-bold">17 минут назад</p>
-			<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-			<p class="item_2-list">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</p>
-			<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-			<p class="item_2-list">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</p>
-			<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-			<p class="item_2-list">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</p>
-			<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-			<p class="item_2-list">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</p>
-			<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
-			<p class="item_2-list">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</p>
+
+			<div v-for="n in 5">
+				<div class="w-[345px] h-[0px] border border-[#aaaaaa] mb-2 mt-2"></div>
+				<p class="item_2-list">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</p>
+			</div>
 		</div>
 		<div class="item item_3">
 			<img src="../../assets/1.png" alt="" class="mb-4" />

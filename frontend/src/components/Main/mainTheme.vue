@@ -1,6 +1,16 @@
 <script>
 export default {
-	name: 'mainTheme'
+	name: 'mainTheme',
+	data() {
+		return {
+			titles: [
+				{ id: 1, title: '123', subtitle: '123' },
+				{ id: 2, title: '123', subtitle: '123' },
+				{ id: 3, title: '123', subtitle: '123' },
+				{ id: 4, title: '123', subtitle: '123' }
+			]
+		}
+	}
 }
 </script>
 
