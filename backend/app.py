@@ -88,8 +88,10 @@ def expired_token(*args):
 @jwt_required(optional=True)
 def admin_login():
     error = None
-    if get_jwt() and get_jwt()["fresh"]:
+    jwt_data = get_jwt()
+    if jwt_data and jwt_data.get("fresh", False):
         return redirect(url_for('admin_panel'))
+
 
     if request.method == 'GET':
         # Если GET запрос, показываем форму входа
@@ -148,8 +150,6 @@ def create_jwt_token(resp, user):
 @app.route('/admin_panel/<string:table>/<int:page>/<string:sort>/<string:order>', methods=['GET', 'POST'])
 @jwt_required()
 def admin_panel(table, page=1, sort='updated', order='desc'):
-    if 'user_id' not in session:
-        return redirect(url_for('admin_login'))
 
     # Параметры пагинации
     per_page = 10
