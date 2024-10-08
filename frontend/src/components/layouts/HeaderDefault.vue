@@ -28,9 +28,9 @@
     <div class="divider"></div>
 
     <HeaderHelp/>
-    <div class="content" :class="{'open' :showSideBar}">
+    <Transition>
       <SideBar v-if="showSideBar"/>
-    </div>
+    </Transition>
 
 
   </div>
@@ -54,6 +54,17 @@ name: 'HeaderSide',
 </script>
 
 <style scoped>
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity .2s ease-in;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
 .header {
   display: flex;
   align-items: center;
