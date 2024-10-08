@@ -7,6 +7,7 @@ export default {
     return {
       same_as_article: [],
       main_article: {},
+
     };
   },
   mounted() {

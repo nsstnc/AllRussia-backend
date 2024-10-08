@@ -91,6 +91,7 @@ export default {
   color: #4BFF68;
 }
 
+
 img {
   width: 10px;
   height: 15px;
