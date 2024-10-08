@@ -1,11 +1,18 @@
-<script>
-  export default {
-    name: 'sideBar',
-  }
+<script setup>
+import { onClickOutside } from '@vueuse/core'
+import { ref, defineEmits } from 'vue'
+
+const emit = defineEmits('onClose')
+
+const target = ref(null)
+
+onClickOutside(target, (event) => emit('onClose', event))
+
 </script>
 
+
 <template>
-  <div class="container">
+  <div class="container" ref="target">
     <ul class="sideBar_list-start">
       <li class="sideBar-name">ALLRUSSIA</li>
       <li>

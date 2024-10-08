@@ -29,7 +29,7 @@
 
     <HeaderHelp/>
     <Transition>
-      <SideBar v-if="showSideBar"/>
+      <SideBar v-if="showSideBar" @on-close.stop="showSideBar = false"/>
     </Transition>
 
 
