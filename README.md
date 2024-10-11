@@ -50,7 +50,7 @@ python app.py
 ### Маршруты:
 | Название маршрута | Маршрут |
 |------------|------------|
-| Вход в админ-панель: |http://localhost:5000/adm_login |
+| Вход в админ-панель: |http://localhost:5000/admin_login |
 | Новости "Политика" | http://localhost:5000/data_news_politics |
 | Новости "Экономика" | http://localhost:5000/data_news_economics |
 | Новости "Наука и образование" | http://localhost:5000/data_news_science_education |
@@ -96,9 +96,8 @@ ALLRUSSIA/
 ├── backend/
 │   ├── public/
 │   ├── scripts/ 
-│   │   ├── cosine_similarity.py
-│   │   ├── create_user.py # Скрипт для создания пользователей
-│   │   └── database.db # База данных SQLite
+│   │   ├── cosine_similarity.py # Скрипт рекомендательной системы для получения новостей, схожих по заголовкам
+│   │   └── create_user.py # Скрипт для создания пользователей
 ├── templates/ # Шаблоны HTML
 │   ├── add_record.html # Шаблон для добавления записи
 │   ├── admin_login.html # Шаблон для входа администратора
