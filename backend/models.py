@@ -1,31 +1,53 @@
-class Contact():
-    def __init__(self, id, address, correspondence_address, email, phones) -> None:
-        self.id = id
-        self.address = address
-        self.correscpondence_address = correspondence_address
-        self.email = email
-        self.phones = phones
+from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy.ext.declarative import declarative_base
+Base = declarative_base()
+
+# Модель для таблицы contacts
+class Contact(Base):
+    __tablename__ = "contacts"
+
+    id = Column(Integer, primary_key=True, index=True)
+    address = Column(Text, nullable=True)
+    correspondence_address = Column(Text, nullable=True)
+    email = Column(String, nullable=True)
+    phones = Column(Text, nullable=True)
 
 
-class Partner():
-    def __init__(self, id, url, title) -> None:
-        self.id = id
-        self.url = url
-        self.title = title
+# Модель для таблицы main_article
+class MainArticle(Base):
+    __tablename__ = "main_article"
+
+    id = Column(Integer, primary_key=True, index=True)
 
 
-import datetime
+# Модель для таблицы news
+class News(Base):
+    __tablename__ = "news"
+
+    id = Column(Integer, primary_key=True, index=True)
+    url = Column(Text, nullable=True)
+    title = Column(String, nullable=True)
+    title_arabian = Column(String, nullable=True)
+    subtitle = Column(String, nullable=True)
+    subtitle_arabian = Column(String, nullable=True)
+    tag = Column(String, nullable=True)
+    tag_arabian = Column(String, nullable=True)
+    updated = Column(String, nullable=True)
 
 
-class Post():
-    def __init__(self, id, url, title, title_arabian, subtitle, subtitle_arabian, tag, tag_arabian,
-                 updated=None) -> None:
-        self.id = id
-        self.url = url
-        self.title = title
-        self.title_arabian = title_arabian
-        self.subtitle = subtitle
-        self.subtitle_arabian = subtitle_arabian
-        self.tag = tag
-        self.tag_arabian = tag_arabian
-        self.updated = updated or datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+# Модель для таблицы partners
+class Partner(Base):
+    __tablename__ = "partners"
+
+    id = Column(Integer, primary_key=True, index=True)
+    url = Column(Text, nullable=True)
+    title = Column(String, nullable=True)
+
+
+# Модель для таблицы users
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, nullable=True)
+    password = Column(String, nullable=True)

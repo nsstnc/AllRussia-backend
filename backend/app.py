@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory, jsonify
 from flask_paginate import Pagination, get_page_args
-from databases import SQLiteDatabase
+# from database import SQLiteDatabase
+from database import Database
 from flask_jwt_extended import *
 import pathlib, hashlib, datetime
 from get_data import get_data_app
@@ -10,8 +11,11 @@ import json
 import os
 import uuid
 from flask_cors import CORS
+from database import database
 
-database = SQLiteDatabase(f"{str(pathlib.Path(__file__).parent.resolve())}/database.db")
+# database = SQLiteDatabase(f"{str(pathlib.Path(__file__).parent.resolve())}/database.db")
+
+
 app = Flask(__name__, template_folder="templates")
 CORS(app)
 app.secret_key = 'all_russia'
@@ -45,44 +49,6 @@ def expired_token(*args):
     return resp
 
 
-# вроде как пока не нужно и не функционирует
-
-# @app.route("/data_news")
-# def data_news():
-#     return json.dumps(database.get_all_posts_news())
-#
-#
-# @app.route("/data_contacts")
-# def data_contacts():
-#     return json.dumps(database.get_contacts_info())
-#
-#
-# @app.route("/data_main_page")
-# def data_main_page():
-#     return json.dumps(database.get_main_page_news())
-#
-#
-# @app.route("/data_articles")
-# def data_articles():
-#     return json.dumps(database.get_all_posts_articles())
-#
-#
-# @app.route("/data_partners")
-# def data_partners():
-#     return json.dumps(database.get_all_partners())
-#
-#
-# @app.route('/add', methods=['POST'])
-# def add():
-#     data = request.json
-#     url = data['url']
-#     title = data['title']
-#     subtitle = data['subtitle']
-#     tag = data['tag']
-#     database.add_post(url, title, subtitle, tag)
-#     return data
-
-
 # маршрут страницы формы для входа в админ-панель
 @app.route('/admin_login', methods=['GET', 'POST'])
 @jwt_required(optional=True)
@@ -91,7 +57,6 @@ def admin_login():
     jwt_data = get_jwt()
     if jwt_data and jwt_data.get("fresh", False):
         return redirect(url_for('admin_panel'))
-
 
     if request.method == 'GET':
         # Если GET запрос, показываем форму входа
@@ -124,10 +89,11 @@ def admin_login():
         # шифруем пароль в sha-256
         hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
         # получаем пользователя из БД с таким именем
-        user = database.select_one('SELECT * FROM users WHERE username = ?', (username,))
+        user = database.get_user_by_username(database.get_session(), username)
 
         # проверяем сходятся ли данные формы с данными БД
         if user and user['password'] == hashed_password:
+            print(user)
             # в случае успеха создаем токен
             # # и делаем переадресацию пользователя на новую страницу -> в нашу адимнку
             response = redirect(url_for('admin_panel'))
@@ -150,30 +116,32 @@ def create_jwt_token(resp, user):
 @app.route('/admin_panel/<string:table>/<int:page>/<string:sort>/<string:order>', methods=['GET', 'POST'])
 @jwt_required()
 def admin_panel(table, page=1, sort='updated', order='desc'):
-
     # Параметры пагинации
     per_page = 10
     offset = (page - 1) * per_page
 
     search_query = request.args.get('search_query', '')
 
-    columns = list(map(lambda x: x[0], database.cursor.execute('SELECT * FROM "{}"'.format(table)).description))
+    columns = database.get_model_columns(table)
 
-    main_article = None
+    # order_clause = f"ORDER BY {sort} {order}"
+    # if search_query:
+    #     total = database.select_one(f'SELECT COUNT(*) FROM "{table}" WHERE title LIKE ?', (f'%{search_query}%',))[
+    #         'COUNT(*)']
+    #     data = database.select_all(
+    #         f'SELECT * FROM "{table}" WHERE title LIKE ? {order_clause} LIMIT {per_page} OFFSET {offset}',
+    #         (f'%{search_query}%',))
+    # else:
+    #     if table == "news":
+    #         total = database.select_one('SELECT COUNT(*) FROM "{}"'.format(table))['COUNT(*)']
+    #         data = database.select_all(f'SELECT * FROM "{table}" {order_clause} LIMIT {per_page} OFFSET {offset}')
+    #         main_article = dict(database.select_one(f'SELECT id FROM main_article'))['id']
+    #     else:
+    #         data = database.select_all('SELECT * FROM "{}"'.format(table))
+    #         return render_template('admin_panel.html', tables=table_names, table=table, columns=columns, data=data)
 
-    order_clause = f"ORDER BY {sort} {order}"
-    if search_query:
-        total = database.select_one(f'SELECT COUNT(*) FROM "{table}" WHERE title LIKE ?', (f'%{search_query}%',))['COUNT(*)']
-        data = database.select_all(f'SELECT * FROM "{table}" WHERE title LIKE ? {order_clause} LIMIT {per_page} OFFSET {offset}', (f'%{search_query}%',))
-    else:
-        if table == "news":
-            total = database.select_one('SELECT COUNT(*) FROM "{}"'.format(table))['COUNT(*)']
-            data = database.select_all(f'SELECT * FROM "{table}" {order_clause} LIMIT {per_page} OFFSET {offset}')
-            main_article = dict(database.select_one(f'SELECT id FROM main_article'))['id']
-        else:
-            data = database.select_all('SELECT * FROM "{}"'.format(table))
-            return render_template('admin_panel.html', tables=table_names, table=table, columns=columns, data=data)
-
+    data, total, main_article = database.get_data_admin_panel(database.get_session(), table, search_query, sort, order,
+                                                              per_page, offset)
     # Настройка объекта пагинации
     pagination = Pagination(page=page, per_page=per_page, total=total, record_name='items')
 
@@ -195,8 +163,7 @@ def logout():
 @app.route('/admin_panel/delete/<int:id>/<string:table>', methods=['GET', 'POST'])
 @jwt_required()
 def delete(id, table):
-    database.execute('DELETE FROM {} WHERE id =?;'.format(table), (id,))
-    print("delete", id, table)
+    database.delete_record(database.get_session(), table, id)
     return redirect(url_for('admin_panel', table=table))
 
 
@@ -238,18 +205,10 @@ def edit(id, table):
         if 'content' in request.form:
             data['content'] = request.form['content']
 
-        query = f"UPDATE {table} SET "
-        for key in data.keys():
-            query += f"{key} = ?, "
-        query = query[:-2]
-        query += " WHERE id = ?;"
-        values = list(data.values())
-
-        values.append(id)
-        database.execute(query, tuple(values))
+        database.update_record(database.get_session(), table, id, data)
         return redirect(url_for('admin_panel', table=table))
     else:
-        record = database.select_one(f'SELECT * FROM {table} WHERE id=?', (id,))
+        record = database.get_record_by_id(database.get_session(), table, id)
         columns = record.keys()
         record_dict = dict(record)
         return render_template('edit_record.html', tables=table_names, table=table, id=id, record=record_dict)
@@ -260,7 +219,7 @@ def edit(id, table):
 def add_record(table):
     if request.method == 'POST':
         data = dict(request.form)
-        
+
         # Обработка изображения, если есть
         if 'file' in request.files:
             file = request.files['file']
@@ -268,39 +227,33 @@ def add_record(table):
                 unique_filename = f"{uuid.uuid4()}_{file.filename}"
                 file.save(pathlib.Path(UPLOAD_FOLDER, unique_filename))
                 data['url'] = unique_filename  # сохраняем основное изображение
-        
+
         # Обработка содержимого TinyMCE для content
         if 'content' in request.form:
             data['content'] = request.form['content']
-        
+
         # Обработка содержимого TinyMCE для subtitle
         if 'subtitle' in request.form:
             data['subtitle'] = request.form['subtitle']
-        
+
         # Обработка содержимого TinyMCE для subtitle_arabian
         if 'subtitle_arabian' in request.form:
             data['subtitle_arabian'] = request.form['subtitle_arabian']
 
-        # Получаем максимальный ID и увеличиваем его на 1 для новой записи
-        last_id = database.select_one(f'SELECT MAX(id) FROM {table}')[0]
-        new_id = last_id + 1 if last_id is not None else 1
+        new_id = database.get_next_id(database.get_session(), table)
 
         # Добавляем ID в данные для вставки в БД
         data['id'] = new_id
-
-        # Формируем запрос SQL для вставки данных
-        columns = ', '.join(data.keys())
-        placeholders = ', '.join(['?' for _ in data.keys()])
-        values = list(data.values())
-
-        # Выполняем SQL-запрос для вставки данных в таблицу
-        query = f"INSERT INTO {table} ({columns}) VALUES ({placeholders})"
-        database.execute(query, tuple(values))
+        if table == "users":
+            database.create_user(database.get_session(), data['username'], data['password'])
+        else:
+            # вставляем данные в таблицу
+            database.insert_data(database.get_session(), table, data)
 
         return redirect(url_for('admin_panel', table=table))
     else:
         # Получаем названия колонок таблицы для формирования формы
-        columns = [column[1] for column in database.cursor.execute('PRAGMA table_info({})'.format(table)).fetchall()]
+        columns = database.get_model_columns(table)
         return render_template('add_record.html', tables=table_names, table=table, columns=columns)
 
 
@@ -308,7 +261,7 @@ def add_record(table):
 @jwt_required()
 def make_main(id):
     if request.method == 'GET':
-        database.execute(f'UPDATE main_article SET id={id}')
+        database.make_main(database.get_session(), id)
         return redirect(url_for('admin_panel', table="news"))
 
 
@@ -326,12 +279,13 @@ def verifyExt(filename):
         return True
     return False
 
+
 @app.route('/upload_image', methods=['POST'])
 @jwt_required()
 def upload_image():
     if 'file' not in request.files:
         return jsonify({'success': False, 'error': 'No file part'})
-    
+
     file = request.files['file']
     if file.filename == '':
         return jsonify({'success': False, 'error': 'No selected file'})
@@ -346,6 +300,7 @@ def upload_image():
     else:
         return jsonify({'success': False, 'error': 'Invalid file format'})
 
+
 # Функция проверки формата изображения
 def verifyExt(filename):
     ext = filename.rsplit('.', 1)[1].lower()
@@ -354,6 +309,4 @@ def verifyExt(filename):
 
 print(__name__)
 if __name__ == "__main__":
-    database.connect()
-
     app.run(port=5000, debug=True)

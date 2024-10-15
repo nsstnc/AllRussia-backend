@@ -1,7 +1,7 @@
 from sklearn.neighbors import NearestNeighbors
 from sklearn.feature_extraction.text import CountVectorizer
 import pandas as pd
-from backend.databases import SQLiteDatabase
+from backend.database import database
 import json, pathlib
 
 import string
@@ -13,18 +13,16 @@ def remove_punctuation(text):
 
 
 def get_nearest_neighbours(main_article_id, count_neighbours):
-    database = SQLiteDatabase(f"{str(pathlib.Path(__file__).parent.parent.resolve())}/database.db")
-    database.connect()
+    # database = Database(f"sqlite:///{str(pathlib.Path(__file__).parent.parent.resolve())}/database.db")
 
     # 100 последних заголовков новостей из базы данных
-    rows = database.select_all(f'SELECT id, title FROM news ORDER BY updated DESC LIMIT 100')
+    rows = database.get_latest_news_titles(database.get_session(), main_article_id)
     df1 = pd.DataFrame(rows, columns=['id', 'title'])
 
-    main_article = database.select_all(f'SELECT id, title FROM news WHERE id = {main_article_id}')
+    main_article = database.get_main_article(database.get_session())
     df2 = pd.DataFrame(main_article, columns=['id', 'title'])
 
     df_news = pd.concat([df1, df2], ignore_index=True).drop_duplicates()
-
 
     df_news = df_news.sort_index()
 
@@ -51,6 +49,3 @@ def get_nearest_neighbours(main_article_id, count_neighbours):
     # print(neighbors)
     # print(result)
     return result
-
-
-
