@@ -1,9 +1,4 @@
-import json
-import sqlite3
 import hashlib
-from typing import List
-# from models import Post, Partner, Contact
-import os
 from sqlalchemy import text
 
 from sqlalchemy.orm import sessionmaker
@@ -11,11 +6,14 @@ from sqlalchemy.orm import Session
 from models import *
 from sqlalchemy import inspect, func, create_engine
 from sqlalchemy.exc import NoResultFound
+from config import DB
+
 
 
 class Database():
     def __init__(self, database_url: str):
         """Инициализация БД"""
+
         engine = create_engine(database_url)
         self.session_factory = sessionmaker(bind=engine)
         # создаем все таблицы из моделей в БД
@@ -304,7 +302,4 @@ class Database():
         news = db.query(News.id, News.title).order_by(News.updated.desc()).limit(limit).all()
         return news
 
-
-import pathlib
-
-database = Database(f"sqlite:///{str(pathlib.Path(__file__).parent.resolve())}/database.db")
+database = Database(DB.get_path())
