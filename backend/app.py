@@ -1,7 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory, jsonify
 from flask_paginate import Pagination, get_page_args
-# from database import SQLiteDatabase
-from database import Database
 from flask_jwt_extended import *
 import pathlib, hashlib, datetime
 from get_data import get_data_app
@@ -13,7 +11,6 @@ import uuid
 from flask_cors import CORS
 from database import database
 
-# database = SQLiteDatabase(f"{str(pathlib.Path(__file__).parent.resolve())}/database.db")
 
 
 app = Flask(__name__, template_folder="templates")
