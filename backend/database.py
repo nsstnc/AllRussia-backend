@@ -9,7 +9,6 @@ from sqlalchemy.exc import NoResultFound
 from config import DB
 
 
-
 class Database():
     def __init__(self, database_url: str):
         """Инициализация БД"""
@@ -92,7 +91,8 @@ class Database():
         """
         # Вытаскиваем все новости, где id совпадает с id в таблице main_article
         main_articles = db.query(News).join(MainArticle, News.id == MainArticle.id).all()
-        return [{k: v for k, v in main_article.__dict__.items() if k != '_sa_instance_state'} for main_article in main_articles]
+        return [{k: v for k, v in main_article.__dict__.items() if k != '_sa_instance_state'} for main_article in
+                main_articles]
 
     def get_news_by_id(self, db: Session, *args):
         """
@@ -302,4 +302,6 @@ class Database():
         news = db.query(News.id, News.title).order_by(News.updated.desc()).limit(limit).all()
         return news
 
+
+DB.create_database()
 database = Database(DB.get_path())
