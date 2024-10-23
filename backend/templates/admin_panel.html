@@ -28,16 +28,16 @@
 
     {% if table == 'news' %}
         <form method="GET" action="{{ url_for('admin_panel', table=table) }}" class="form-inline">
-            <input type="text" name="search_query" class="form-control mb-2 mr-sm-2" placeholder="Поиск по заголовку"
+            <input type="text" name="search_query" class="form-control mb-2 mr-sm-2" id="searchtitle" placeholder="Поиск по заголовку"
                 value="{{ search_query }}">
-            <button type="submit" class="btn btn-primary mb-2">Поиск</button>
+            <button id="search" type="submit" class="btn btn-primary mb-2">Поиск</button>
         </form>
         <div class="pagination-wrapper">
             {{ pagination.links }}
         </div>
     {% endif %}
     
-    <a href="{{ url_for('add_record', table=table) }}" class="btn btn-secondary">Добавить запись в таблицу</a>
+    <a href="{{ url_for('add_record', table=table) }}" id="addrecord" class="btn btn-secondary">Добавить запись в таблицу</a>
     <div class="table-container">
         <table class="table">
             <thead>
@@ -56,7 +56,7 @@
                         {% endif %}
                     </th>
                 {% endfor %}
-                <th scope="col">Действия</th>
+                <th id="actions" scope="col">Действия</th>
             </tr>
             </thead>
             <tbody>
@@ -76,10 +76,10 @@
                     {% endfor %}
                     <th>
                         {% if table == "news" %}
-                            <button class="btn btn-success make-main" value="{{ item.id }}">Сделать главной</button>
+                            <button id="mainrecord" class="btn btn-success make-main" value="{{ item.id }}">Сделать главной</button>
                         {% endif %}
-                        <a href="{{ url_for('edit', table=table, id=item.id) }}" class="btn btn-primary">Редактировать</a>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        <a href="{{ url_for('edit', table=table, id=item.id) }}" id="editrecord" class="btn btn-primary">Редактировать</a>
+                        <button type="button" id="deleterecord" class="btn btn-danger" data-bs-toggle="modal"
                                 data-bs-target="#exampleModal" data-bs-id="{{ item.id }}"
                                 data-bs-table-name="{{ table }}">Удалить запись
                         </button>

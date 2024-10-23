@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Редактирование записи в таблице {{ table }}</h2>
+    <h2 id="editrectable">Редактирование записи в таблице {{ table }}</h2>
     <form method="POST" action="{{ url_for('edit', table=table, id=id) }}" enctype="multipart/form-data">
         {% for column, value in record.items() %}
             {% if column != 'id' and column != 'updated' %}
                 <div class="form-group">
                     {% if column == "url" %}
-                        <label for="{{ column }}">Изображение</label>
+                        <label id="picture1" for="{{ column }}">Изображение</label>
                         <input hidden type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
                         <input type="file" class="form-control" id="file" name="file">
-                        <label>Текущее изображение</label>
+                        <label id="selectedimg">Текущее изображение</label>
                         <img class="edit-preview" src="{{ url_for('send_file', filename=value) }}" alt="No image">
                     {% elif column == "tag" %}
                         <label>{{ column }}</label>
@@ -107,6 +107,6 @@
             });
         </script>
 
-        <button type="submit" class="btn btn-primary">Сохранить запись</button>
+        <button id="saverec" type="submit" class="btn btn-primary">Сохранить запись</button>
     </form>
 {% endblock %}
