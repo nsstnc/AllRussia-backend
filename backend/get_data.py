@@ -1,7 +1,7 @@
 from flask import Blueprint
 from database import database
 import json, pathlib
-from scripts.cosine_similarity import get_nearest_neighbours
+from cosine_similarity import get_nearest_neighbours
 
 get_data_app = Blueprint('get_data_app', __name__)
 

@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Добавление записи в таблицу {{ table }}</h2>
+    <h2 id="addrectable">Добавление записи в таблицу {{ table }}</h2>
     <form method="POST" action="{{ url_for('add_record', table=table) }}" enctype="multipart/form-data">
         {% for column in columns %}
             {% if column != 'id' and column != 'updated' %}
                 <div class="form-group">
                     {% if column == "url" %}
-                        <label>Изображение</label>
+                        <label id="picture">Изображение</label>
                         <input hidden type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
                         <input type="file" class="form-control" id="file" name="file">
                     {% elif column == "tag" %}
@@ -39,7 +39,7 @@
             {% endif %}
         {% endfor %}
 
-        <button type="submit" class="btn btn-primary">Добавить запись</button>
+        <button type="submit" id="newrecord" class="btn btn-primary">Добавить запись</button>
     </form>
 
     <!-- Включаем скрипт для TinyMCE -->
