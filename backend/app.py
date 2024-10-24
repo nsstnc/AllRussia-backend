@@ -1,7 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory, jsonify
 from flask_paginate import Pagination, get_page_args
 # from database import SQLiteDatabase
-from database import Database
 from flask_jwt_extended import *
 import pathlib, hashlib, datetime
 from get_data import get_data_app
@@ -246,6 +245,18 @@ def add_record(table):
         data['id'] = new_id
         if table == "users":
             database.create_user(database.get_session(), data['username'], data['password'])
+        elif table == "news":
+            # дата и время изменения записи
+            data["updated"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+            # Проверяем наличие ключа 'tag' в данных формы
+            if 'tag' in data:
+                # разбиваем значение поля tag на русский и арабский
+                tag_russian, tag_arabian = data["tag"].split("/")
+                data["tag"] = tag_russian
+                data["tag_arabian"] = tag_arabian
+            # вставляем данные в таблицу
+            database.insert_data(database.get_session(), table, data)
         else:
             # вставляем данные в таблицу
             database.insert_data(database.get_session(), table, data)

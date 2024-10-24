@@ -7,3 +7,5 @@ flask-paginate==2024.4.12
 flask-jwt-extended==4.6.0
 pydantic
 sqlalchemy
+alembic
+psycopg2==2.9.10
