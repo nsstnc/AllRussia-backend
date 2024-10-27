@@ -40,12 +40,25 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-5. Запустите проект:
+5. Убедитесь, что клиент **PostgreSQL** запущен:
+- Windows: Откройте официальное приложение или *psql* через меню "Пуск";
+- Linux: 
+```bash
+sudo -u postgres psql
+```
+- MacOS:
+```bash
+psql postgres
+```
+6. Проверьте параметры подключения в файлах `config.py` и `alembic.ini` в директории `backend`
+7. Запустите проект:
 ```bash
 python app.py
 ```
-6. TODO - запуск и конфигурация БД и миграций
-
+8. Примените миграции:
+```bash
+alembic upgrade head
+```
 ## Маршруты и функциональность
 ### Маршруты:
 | Название маршрута | Маршрут |
