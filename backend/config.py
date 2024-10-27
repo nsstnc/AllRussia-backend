@@ -5,17 +5,33 @@ import os
 
 
 class DB():
-    host = 'localhost'
+    if os.getenv("DB_HOST"):
+        host = os.getenv("DB_HOST")
+    else:
+        host = 'localhost'
     port = 5432
-    database = 'allrussia'
-    username = 'postgres'
-    password = 'postgres'
+    if os.getenv("DB_NAME"):
+        database = os.getenv("DB_NAME")
+    else:
+        database = 'allrussia'
+    if os.getenv("DB_USERNAME"):
+        username = os.getenv("DB_USERNAME")
+    else:
+        username = 'postgres'
+    if os.getenv("DB_PASSWORD"):
+        password = os.getenv("DB_PASSWORD")
+    else:
+        password = 'postgres'
     driver = "psycopg2"
     dialect = "postgresql"
 
     @staticmethod
     def get_path():
         return f"{DB.dialect}+{DB.driver}://{DB.username}:{DB.password}@{DB.host}:{DB.port}/{DB.database}"
+
+    @staticmethod
+    def get_path_migration():
+        return f"{DB.dialect}://{DB.username}:{DB.password}@{DB.host}/{DB.database}"
 
     @staticmethod
     def create_database():
