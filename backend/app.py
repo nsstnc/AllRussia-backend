@@ -47,7 +47,9 @@ def expired_token(*args):
     unset_jwt_cookies(resp)
     return resp
 
-
+@app.route('/', methods=['GET', 'POST'])
+def hello_world():
+    return "<h1>Hello, World!<h1>"
 # маршрут страницы формы для входа в админ-панель
 @app.route('/admin_login', methods=['GET', 'POST'])
 @jwt_required(optional=True)
@@ -320,4 +322,4 @@ def verifyExt(filename):
 
 print(__name__)
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=5000,host="0.0.0.0", debug=True)
