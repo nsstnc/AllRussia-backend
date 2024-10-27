@@ -215,8 +215,8 @@ class Database():
         column_names = [column.name for column in model.__table__.columns]
         total = db.query(func.count()).select_from(model).scalar()
         if search_query:
-            total = db.query(func.count()).filter(model.title.like(f'%{search_query}%')).scalar()
-            data = db.query(model).filter(model.title.like(f'%{search_query}%')).order_by(order_clause).limit(
+            total = db.query(func.count()).filter(model.title.ilike(f'%{search_query}%')).scalar()
+            data = db.query(model).filter(model.title.ilike(f'%{search_query}%')).order_by(order_clause).limit(
                 per_page).offset(offset).all()
         else:
             if table == "news":
