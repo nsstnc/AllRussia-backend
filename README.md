@@ -40,7 +40,7 @@ docker compose create
 ```
 5. Для запуска контейнеров:
 ```bash
-docker compose start - запуск
+docker compose start
 ```
 
 ### Запуск вручную без Docker
