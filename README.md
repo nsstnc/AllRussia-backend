@@ -47,7 +47,7 @@ cd backend
 python -m venv venv
 
 # Для Windows
-. venv/scripts/activate
+. venv/Scripts/activate
 # Для Linux
 source venv/bin/activate 
 ```
