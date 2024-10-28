@@ -26,6 +26,9 @@
 git clone git@github.com:<ваш-никнейм>/AllRussia-backend.git
 cd AllRussia-backend
 ```
+```bash
+cd backend
+```
 ### Запуск через Docker
 3. Для создания образа:
 ```bash
@@ -43,7 +46,6 @@ docker compose start - запуск
 ### Запуск вручную без Docker
 3. Cоздайте и активируйте виртуальное окружение:
 ```bash
-cd backend
 python -m venv venv
 
 # Для Windows
