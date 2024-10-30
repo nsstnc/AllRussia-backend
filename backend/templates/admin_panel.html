@@ -5,12 +5,8 @@
     }
 
     .table-container {
-        width: 10%; /* Задайте нужную ширину, например, 70% */
-       
+        width: 90%;
     }
-
-    
-
 
     .table-preview {
         width: 90px;
@@ -78,113 +74,91 @@
 
     .table th,
     .table td {
-        vertical-align: left;
+        vertical-align: middle;
     }
 
-    .tooltip-inner {
-        background-color: #295b8a;
-        color: #fff;
-        padding: 5px 10px;
-        font-size: 0.9em;
-        border-radius: 5px;
+    .sortable {
+        cursor: pointer;
     }
 
-    .tooltip-arrow {
-        display: none;
+    .sort-indicator {
+        margin-left: 5px;
     }
 </style>
 
 {% extends 'base.html' %}
 {% block content %}
 
-<style>
-    .container.mt-4 {
-        margin: 0;
-        padding: 0;
-    }
-</style>
+<form method="GET" action="{{ url_for('admin_panel', table=table) }}" class="form-inline">
+    <input type="text" name="search_query" class="form-control mb-2 mr-sm-2" placeholder="Поиск по заголовку"
+           value="{{ search_query }}" data-bs-toggle="tooltip" title="Введите текст для поиска"
+           data-bs-placement="left" id="searchField">
+    <button type="submit" class="btn btn-primary mb-2" data-bs-toggle="tooltip" title="Нажмите для поиска"
+            data-bs-placement="left" id="searchButton">Поиск</button>
+</form>
 
-<div class="container mt-4 text-start">
-    <div class="instructions-card">
-        <h4>Инструкция по работе с Админ-Панелью</h4>
-        <p>Добро пожаловать в панель администратора. Здесь вы можете управлять записями на сайте.</p>
-        <ul>
-            <li><strong>Просмотр данных:</strong> просматривайте данные в таблице ниже.</li>
-            <li><strong>Редактирование:</strong> чтобы изменить запись, нажмите «Редактировать».</li>
-            <li><strong>Удаление:</strong> чтобы удалить запись, нажмите «Удалить» и подтвердите действие.</li>
-            <li><strong>Сделать главной:</strong> для новостей можно выбрать главную статью для отображения на главной странице.</li>
-        </ul>
-    </div>
+<div class="pagination-wrapper">
+    {{ pagination.links }}
 </div>
 
+<a href="{{ url_for('add_record', table=table) }}" class="btn btn-secondary" data-bs-toggle="tooltip"
+   title="Добавить новую запись в таблицу" data-bs-placement="left" id="addRecordButton">Добавить запись</a>
 
-    {% if table == 'news' %}
-    <form method="GET" action="{{ url_for('admin_panel', table=table) }}" class="form-inline">
-        <input type="text" name="search_query" class="form-control mb-2 mr-sm-2" placeholder="Поиск по заголовку"
-            value="{{ search_query }}" data-bs-toggle="tooltip" title="Введите текст для поиска"
-            data-bs-placement="left">
-        <button type="submit" class="btn btn-primary mb-2" data-bs-toggle="tooltip" title="Нажмите для поиска"
-            data-bs-placement="left">Поиск</button>
-    </form>
-    <div class="pagination-wrapper">
-        {{ pagination.links }}
-    </div>
-    {% endif %}
-
-    <a href="{{ url_for('add_record', table=table) }}" class="btn btn-secondary" data-bs-toggle="tooltip"
-        title="Добавить новую запись в таблицу" data-bs-placement="left">Добавить запись</a>
-    <div class="table-container">
-        <table class="table table-hover table-bordered">
-            <thead class="table-light">
-                <tr>
-                    {% for column in columns %}
-                    <th scope="col">{{ column }}</th>
-                    {% endfor %}
-                    <th scope="col">Действия</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in data %}
-                <tr class="{{ 'main_news' if main_article == item.id else '' }}">
-                    {% for key, cell in item.items() %}
-                    <td>
-                        <div class="table-cell-content">
-                            {% if key == 'url' %}
-                            <img src="{{ url_for('send_file', filename=cell) }}" alt="Изображение" class="table-preview"
-                                data-bs-toggle="tooltip" title="Предпросмотр изображения" data-bs-placement="left">
-                            {% else %}
-                            {{ cell|string|striptags|truncate(40) }}
-                            {% endif %}
-                        </div>
-                        {% if key == 'description' or (key != 'url' and cell|string|length > 50) %}
-                        <button type="button" class="btn btn-link read-more" data-bs-toggle="modal"
-                            data-bs-target="#readMoreModal" data-content="{{ cell|string|striptags }}"
-                            data-bs-toggle="tooltip" title="Читать полное содержание" data-bs-placement="left">
-                            Читать далее
-                        </button>
-                        {% endif %}
-                    </td>
-                    {% endfor %}
-                    <td>
-                        {% if table == "news" %}
-                        <button type="button" class="btn btn-success make-main" value="{{ item.id }}"
-                            data-bs-toggle="tooltip" title="Сделать статью главной" data-bs-placement="left">Сделать
-                            главной</button>
-                        {% endif %}
-                        <a href="{{ url_for('edit', table=table, id=item.id) }}" class="btn btn-primary"
-                            data-bs-toggle="tooltip" title="Редактировать запись"
-                            data-bs-placement="left">Редактировать</a>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                            data-bs-target="#deleteModal" data-bs-id="{{ item.id }}" data-bs-table="{{ table }}"
-                            data-bs-toggle="tooltip" title="Удалить запись" data-bs-placement="left">
-                            Удалить
-                        </button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<div class="table-container">
+    <table class="table table-hover table-bordered">
+        <thead class="table-light">
+        <tr>
+            {% for column in columns %}
+            <th scope="col" class="sortable" data-column="{{ column }}" data-sort-order="asc">
+                <a href="{{ url_for('admin_panel', table=table, page=page, sort=column, order='asc' if order == 'desc' else 'desc') }}">
+                    {{ column }}<span class="sort-indicator">▲</span>
+                </a>
+            </th>
+            {% endfor %}
+            <th scope="col" class="actions-column">Действия</th>
+        </tr>
+        </thead>
+        <tbody id="dataRows">
+        {% for item in data %}
+        <tr class="{{ 'main_news' if main_article == item.id else '' }}">
+            {% for key, cell in item.items() %}
+            <td>
+                <div class="table-cell-content">
+                    {% if key == 'url' %}
+                    <img src="{{ url_for('send_file', filename=cell) }}" alt="Изображение" class="table-preview"
+                         data-bs-toggle="tooltip" title="Предпросмотр изображения" data-bs-placement="left" id="imagePreview">
+                    {% else %}
+                    {{ cell|string|striptags|truncate(40) }}
+                    {% endif %}
+                </div>
+                {% if key == 'description' or (key != 'url' and cell|string|length > 50) %}
+                <button type="button" class="btn btn-link read-more" data-bs-toggle="modal"
+                        data-bs-target="#readMoreModal" data-content="{{ cell|string|striptags }}"
+                        data-bs-toggle="tooltip" title="Читать полное содержание" data-bs-placement="left" id="readMoreButton">
+                    Читать далее
+                </button>
+                {% endif %}
+            </td>
+            {% endfor %}
+            <td>
+                {% if table == "news" %}
+                <button type="button" class="btn btn-success make-main main-button" value="{{ item.id }}"
+                        data-bs-toggle="tooltip" title="Сделать статью главной" data-bs-placement="left">Сделать
+                    главной</button>
+                {% endif %}
+                <a href="{{ url_for('edit', table=table, id=item.id) }}" class="btn btn-primary edit-button"
+                   data-bs-toggle="tooltip" title="Редактировать запись" data-bs-placement="left">Редактировать</a>
+                <button type="button" class="btn btn-danger delete-button" data-bs-toggle="modal"
+                        data-bs-target="#deleteModal" data-bs-id="{{ item.id }}" data-bs-table="{{ table }}"
+                        data-bs-toggle="tooltip" title="Удалить запись" data-bs-placement="left">
+                    Удалить
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 </div>
 
 <!-- Модальные окна и Скрипты -->
@@ -192,14 +166,14 @@
     <div class="modal-dialog read-more-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Полное содержание</h5>
+                <h5 class="modal-title" id="fullContentTitle">Полное содержание</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <div class="modal-body">
                 <p id="fullContent"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalButton">Закрыть</button>
             </div>
         </div>
     </div>
@@ -209,15 +183,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Удаление записи</h5>
+                <h5 class="modal-title confirm-delete-text">Удаление записи</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <div class="modal-body">
-                <p>Вы уверены, что хотите удалить запись?</p>
+                <p class="confirm-delete-text">Вы уверены, что хотите удалить запись?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
-                <a href="" class="delete-path btn btn-danger">Да</a>
+                <button type="button" class="btn btn-secondary no-button" data-bs-dismiss="modal">Нет</button>
+                <a href="" class="delete-path btn btn-danger yes-button">Да</a>
             </div>
         </div>
     </div>
@@ -225,13 +199,11 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Инициализация тултипов
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         tooltipTriggerList.forEach(function (tooltipTriggerEl) {
             new bootstrap.Tooltip(tooltipTriggerEl);
         });
 
-        // Полное содержание в модальном окне
         var readMoreModal = document.getElementById('readMoreModal');
         readMoreModal.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget;
@@ -240,7 +212,6 @@
             modalBody.textContent = content;
         });
 
-        // Подтверждение удаления записи
         var deleteModal = document.getElementById('deleteModal');
         deleteModal.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget;
@@ -249,7 +220,6 @@
             deleteModal.querySelector('.delete-path').href = "/admin_panel/delete/" + id + "/" + table;
         });
 
-        // Установка основной статьи через Ajax
         document.querySelectorAll('.make-main').forEach(function (btn) {
             btn.addEventListener('click', function () {
                 var id = this.value;
@@ -261,6 +231,35 @@
                         var newTable = tempDiv.querySelector('table');
                         document.querySelector('.table-container').innerHTML = newTable.outerHTML;
                     });
+            });
+        });
+
+        // Сортировка таблицы по клику на заголовок
+        document.querySelectorAll('.sortable').forEach(function (header) {
+            header.addEventListener('click', function () {
+                var table = document.querySelector('.table');
+                var rows = Array.from(table.querySelectorAll('tbody tr'));
+                var columnIndex = Array.from(header.parentNode.children).indexOf(header);
+                var sortOrder = header.getAttribute('data-sort-order') === 'asc' ? 'desc' : 'asc';
+                var isNumeric = header.dataset.column.toLowerCase() === 'id';
+
+                // Обновление атрибута сортировки и индикатора
+                header.setAttribute('data-sort-order', sortOrder);
+                header.querySelector('.sort-indicator').textContent = sortOrder === 'asc' ? '▲' : '▼';
+
+                rows.sort(function (a, b) {
+                    var cellA = a.cells[columnIndex].textContent.trim();
+                    var cellB = b.cells[columnIndex].textContent.trim();
+
+                    if (isNumeric) {
+                        return sortOrder === 'asc' ? parseInt(cellA) - parseInt(cellB) : parseInt(cellB) - parseInt(cellA);
+                    } else {
+                        return sortOrder === 'asc' ? cellA.localeCompare(cellB, 'ru') || cellA.localeCompare(cellB, 'ar') 
+                                                    : cellB.localeCompare(cellA, 'ru') || cellB.localeCompare(cellA, 'ar');
+                    }
+                });
+
+                rows.forEach(row => table.querySelector('tbody').appendChild(row));
             });
         });
     });
