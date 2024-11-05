@@ -125,15 +125,15 @@
             <td>
                 <div class="table-cell-content">
                     {% if key == 'url' %}
-                    <img src="{{ url_for('send_file', filename=cell) }}" alt="Изображение" class="table-preview"
+                    <img src="{{ url_for('send_public_file', filename=cell) }}" alt="Изображение" class="table-preview"
                          data-bs-toggle="tooltip" title="Предпросмотр изображения" data-bs-placement="left" id="imagePreview">
                     {% else %}
-                    {{ cell|string|striptags|truncate(40) }}
+                    {{ cell|string|striptags|truncate(28) }}
                     {% endif %}
                 </div>
                 {% if key == 'description' or (key != 'url' and cell|string|length > 50) %}
                 <button type="button" class="btn btn-link read-more" data-bs-toggle="modal"
-                        data-bs-target="#readMoreModal" data-content="{{ cell|string|safe }}"
+                        data-bs-target="#readMoreModal" data-content="{{ cell|string }}"
                         data-bs-toggle="tooltip" title="Читать полное содержание" data-bs-placement="left" id="readMoreButton">
                     Читать далее
                 </button>
@@ -148,11 +148,12 @@
                 {% endif %}
                 <a href="{{ url_for('edit', table=table, id=item.id) }}" class="btn btn-primary edit-button"
                    data-bs-toggle="tooltip" title="Редактировать запись" data-bs-placement="left">Редактировать</a>
-                <button type="button" class="btn btn-danger delete-button" data-bs-toggle="modal"
-                        data-bs-target="#deleteModal" data-bs-id="{{ item.id }}" data-bs-table="{{ table }}"
-                        data-bs-toggle="tooltip" title="Удалить запись" data-bs-placement="left">
-                    Удалить
-                </button>
+                   <button type="button" class="btn btn-danger delete-button" data-bs-toggle="modal"
+                   data-bs-target="#deleteModal" data-bs-id="{{ item.id }}" data-bs-table="{{ table }}"
+                   title="Удалить запись">
+               Удалить
+           </button>
+         
             </td>
         </tr>
         {% endfor %}
@@ -161,7 +162,24 @@
 </div>
 </div>
 
-<!-- Модальные окна и Скрипты -->
+<!-- Таблица с данными и кнопкой для модального окна -->
+<td>
+    <div class="table-cell-content">
+        {{ cell|string|striptags|truncate(28) }}
+    </div>
+    {% if key == 'description' or (key != 'url' and cell|string|length > 50) %}
+    <button type="button" class="btn btn-link read-more" 
+            data-bs-toggle="modal" 
+            data-bs-target="#readMoreModal" 
+            data-content="{{ cell|string|safe }}" 
+            data-image-url="{{ url_for('send_public_file', filename=cell) }}"
+            data-bs-toggle="tooltip" title="Читать полное содержание" data-bs-placement="left" id="readMoreButton">
+        Читать далее
+    </button>
+    {% endif %}
+</td>
+
+<!-- Модальное окно для отображения содержимого и изображений -->
 <div class="modal fade" id="readMoreModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog read-more-dialog">
         <div class="modal-content">
@@ -170,6 +188,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <div class="modal-body">
+                
                 <p id="fullContent"></p>
             </div>
             <div class="modal-footer">
@@ -179,91 +198,25 @@
     </div>
 </div>
 
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title confirm-delete-text">Удаление записи</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-            </div>
-            <div class="modal-body">
-                <p class="confirm-delete-text">Вы уверены, что хотите удалить запись?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary no-button" data-bs-dismiss="modal">Нет</button>
-                <a href="" class="delete-path btn btn-danger yes-button">Да</a>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-            new bootstrap.Tooltip(tooltipTriggerEl);
-        });
-
         var readMoreModal = document.getElementById('readMoreModal');
         readMoreModal.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget;
             var content = button.getAttribute('data-content');
-            console.log(content)
-            var modalBody = readMoreModal.querySelector('#fullContent');
+            
+            var modalBody = readMoreModal.querySelector('#fullContent');          
+            
             modalBody.innerHTML = content;
-        });
-
-        var deleteModal = document.getElementById('deleteModal');
-        deleteModal.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget;
-            var id = button.getAttribute('data-bs-id');
-            var table = button.getAttribute('data-bs-table');
-            deleteModal.querySelector('.delete-path').href = "/admin_panel/delete/" + id + "/" + table;
-        });
-
-        document.querySelectorAll('.make-main').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                var id = this.value;
-                fetch("/admin_panel/make_main/" + id)
-                    .then(response => response.text())
-                    .then(html => {
-                        var tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = html;
-                        var newTable = tempDiv.querySelector('table');
-                        document.querySelector('.table-container').innerHTML = newTable.outerHTML;
-                    });
-            });
-        });
-
-        // Сортировка таблицы по клику на заголовок
-        document.querySelectorAll('.sortable').forEach(function (header) {
-            header.addEventListener('click', function () {
-                var table = document.querySelector('.table');
-                var rows = Array.from(table.querySelectorAll('tbody tr'));
-                var columnIndex = Array.from(header.parentNode.children).indexOf(header);
-                var sortOrder = header.getAttribute('data-sort-order') === 'asc' ? 'desc' : 'asc';
-                var isNumeric = header.dataset.column.toLowerCase() === 'id';
-
-                // Обновление атрибута сортировки и индикатора
-                header.setAttribute('data-sort-order', sortOrder);
-                header.querySelector('.sort-indicator').textContent = sortOrder === 'asc' ? '▲' : '▼';
-
-                rows.sort(function (a, b) {
-                    var cellA = a.cells[columnIndex].textContent.trim();
-                    var cellB = b.cells[columnIndex].textContent.trim();
-
-                    if (isNumeric) {
-                        return sortOrder === 'asc' ? parseInt(cellA) - parseInt(cellB) : parseInt(cellB) - parseInt(cellA);
-                    } else {
-                        return sortOrder === 'asc' ? cellA.localeCompare(cellB, 'ru') || cellA.localeCompare(cellB, 'ar') 
-                                                    : cellB.localeCompare(cellA, 'ru') || cellB.localeCompare(cellA, 'ar');
-                    }
-                });
-
-                rows.forEach(row => table.querySelector('tbody').appendChild(row));
-            });
+            
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = content;
+            var imgTag = tempDiv.querySelector('img'); 
+            
         });
     });
 </script>
+
+
 
 {% endblock %}
