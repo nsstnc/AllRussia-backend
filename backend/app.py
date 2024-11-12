@@ -11,7 +11,10 @@ import uuid
 from flask_cors import CORS
 from database import database
 
+api_blueprint = Blueprint('api', __name__, url_prefix='/api')
+
 app = Flask(__name__, template_folder="templates")
+app.register_blueprint(api_blueprint)
 CORS(app)
 app.secret_key = 'all_russia'
 app.config['JWT_SECRET_KEY'] = app.secret_key
@@ -32,6 +35,7 @@ table_names = {
     'news': 'News',
 }
 
+
 @jwt.expired_token_loader
 @jwt.invalid_token_loader
 @jwt.needs_fresh_token_loader
@@ -41,9 +45,6 @@ def expired_token(*args):
     unset_jwt_cookies(resp)
     return resp
 
-@app.route('/')
-def index():
-    return redirect(url_for('admin_panel'))
 
 @app.route('/upload_image', methods=['POST'])
 @jwt_required()
@@ -68,14 +69,17 @@ def upload_image():
     else:
         return jsonify({'success': False, 'error': 'Invalid file format'}), 400
 
+
 @app.route('/public/<filename>')
 @jwt_required(optional=True)
 def send_public_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 
+
 def verifyExt(filename):
     ext = filename.rsplit('.', 1)[1].lower()
     return ext in {'jpg', 'jpeg', 'png'}
+
 
 @app.route('/admin_login', methods=['GET', 'POST'])
 @jwt_required(optional=True)
@@ -89,20 +93,25 @@ def admin_login():
         return render_template('admin_login.html', captcha_key=SMARTCAPTCHA_CLIENT_KEY, error=error)
 
     def check_captcha(token):
-        resp = requests.get(
-            "https://smartcaptcha.yandexcloud.net/validate",
-            {
-                "secret": SMARTCAPTCHA_SERVER_KEY,
-                "token": token
-            },
-            timeout=1
-        )
-        server_output = resp.content.decode()
-        if resp.status_code != 200:
-            print(f"Allow access due to an error: code={resp.status_code}; message={server_output}",
-                  file=sys.stderr)
+        try:
+            resp = requests.get(
+                "https://smartcaptcha.yandexcloud.net/validate",
+                {
+                    "secret": SMARTCAPTCHA_SERVER_KEY,
+                    "token": token
+                },
+                timeout=5
+            )
+            server_output = resp.content.decode()
+
+            if resp.status_code != 200:
+                print(f"Allow access due to an error: code={resp.status_code}; message={server_output}",
+              file=sys.stderr)
+                return True
+            return json.loads(server_output)["status"] == "ok"
+        except requests.exceptions.Timeout:
+            print("Timeout occured")
             return True
-        return json.loads(server_output)["status"] == "ok"
 
     token = request.form["smart-token"]
 
@@ -121,9 +130,11 @@ def admin_login():
     else:
         print("Robot")
 
+
 def create_jwt_token(resp, user):
     token = create_access_token(identity=user['username'], fresh=True)
     set_access_cookies(resp, token)
+
 
 @app.route('/admin_panel/', defaults={'table': 'news', 'page': 1, 'sort': 'updated', 'order': 'desc'})
 @app.route('/admin_panel/<string:table>', methods=['GET', 'POST'])
@@ -144,11 +155,13 @@ def admin_panel(table, page=1, sort='updated', order='desc'):
                            main_article=main_article, pagination=pagination, search_query=search_query,
                            sort=sort, order=order, page=page)
 
+
 @app.route('/logout')
 def logout():
     resp = redirect(url_for("admin_login"))
     unset_jwt_cookies(resp)
     return resp
+
 
 @app.route('/delete/<int:id>', methods=['DELETE'])
 @jwt_required()
@@ -160,7 +173,6 @@ def delete_record(id):
         return jsonify({"success": True, "message": "Запись удалена"}), 200
     else:
         return jsonify({"success": False, "message": "Не указана таблица"}), 400
-
 
 
 @app.route('/admin_panel/edit/<int:id>/<string:table>', methods=['GET', 'POST'])
@@ -194,6 +206,7 @@ def edit(id, table):
     else:
         record = database.get_record_by_id(database.get_session(), table, id)
         return render_template('edit_record.html', tables=table_names, table=table, id=id, record=dict(record))
+
 
 @app.route('/admin_panel/add/<string:table>', methods=['GET', 'POST'])
 @jwt_required()
@@ -233,12 +246,14 @@ def add_record(table):
         columns = database.get_model_columns(table)
         return render_template('add_record.html', tables=table_names, table=table, columns=columns)
 
+
 @app.route('/admin_panel/make_main/<int:id>', methods=['GET'])
 @jwt_required()
 def make_main(id):
     if request.method == 'GET':
         database.make_main(database.get_session(), id)
         return redirect(url_for('admin_panel', table="news"))
+
 
 if __name__ == "__main__":
     app.run(port=5000, host="0.0.0.0", debug=True)

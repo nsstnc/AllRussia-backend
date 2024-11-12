@@ -1,4 +1,5 @@
-name: allrussia
+version: "3.8"
+
 services:
   postgres:
     image: postgres:13.0
@@ -26,6 +27,9 @@ services:
         condition: service_healthy
     build:
       context: .
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     ports:
       - "5000:5000"
     command: "app"

@@ -8,6 +8,10 @@ WORKDIR /opt/backend
 ENTRYPOINT ["./docker-bash.sh"]
 FROM base
 COPY requirements.txt ./
+RUN echo "deb http://archive.debian.org/debian/ buster main" > /etc/apt/sources.list
+RUN echo "deb-src http://archive.debian.org/debian/ buster main" >> /etc/apt/sources.list
+
+RUN apt-get install debian-archive-keyring
 RUN apt-get update
 RUN apt-get -y install libpq-dev && apt-get install -y build-essential
 RUN pip install -r requirements.txt
