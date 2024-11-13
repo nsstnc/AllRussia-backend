@@ -11,10 +11,10 @@ import uuid
 from flask_cors import CORS
 from database import database
 
-api_blueprint = Blueprint('api', __name__, url_prefix='/api')
 
 app = Flask(__name__, template_folder="templates")
-app.register_blueprint(api_blueprint)
+
+
 CORS(app)
 app.secret_key = 'all_russia'
 app.config['JWT_SECRET_KEY'] = app.secret_key
@@ -22,7 +22,7 @@ app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(weeks=2)
 jwt = JWTManager(app)
-app.register_blueprint(get_data_app)
+app.register_blueprint(get_data_app, url_prefix='/api')
 SMARTCAPTCHA_SERVER_KEY = os.getenv('SMARTCAPTCHA_SERVER_KEY')
 SMARTCAPTCHA_CLIENT_KEY = os.getenv('SMARTCAPTCHA_CLIENT_KEY')
 
@@ -46,7 +46,7 @@ def expired_token(*args):
     return resp
 
 
-@app.route('/upload_image', methods=['POST'])
+@app.route('/api/upload_image', methods=['POST'])
 @jwt_required()
 def upload_image():
     if 'file' not in request.files:
@@ -70,7 +70,7 @@ def upload_image():
         return jsonify({'success': False, 'error': 'Invalid file format'}), 400
 
 
-@app.route('/public/<filename>')
+@app.route('/api/public/<filename>')
 @jwt_required(optional=True)
 def send_public_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
@@ -81,7 +81,7 @@ def verifyExt(filename):
     return ext in {'jpg', 'jpeg', 'png'}
 
 
-@app.route('/admin_login', methods=['GET', 'POST'])
+@app.route('/api/admin_login', methods=['GET', 'POST'])
 @jwt_required(optional=True)
 def admin_login():
     error = None
@@ -136,10 +136,10 @@ def create_jwt_token(resp, user):
     set_access_cookies(resp, token)
 
 
-@app.route('/admin_panel/', defaults={'table': 'news', 'page': 1, 'sort': 'updated', 'order': 'desc'})
-@app.route('/admin_panel/<string:table>', methods=['GET', 'POST'])
-@app.route('/admin_panel/<string:table>/<int:page>', methods=['GET', 'POST'])
-@app.route('/admin_panel/<string:table>/<int:page>/<string:sort>/<string:order>', methods=['GET', 'POST'])
+@app.route('/api/admin_panel/', defaults={'table': 'news', 'page': 1, 'sort': 'updated', 'order': 'desc'})
+@app.route('/api/admin_panel/<string:table>', methods=['GET', 'POST'])
+@app.route('/api/admin_panel/<string:table>/<int:page>', methods=['GET', 'POST'])
+@app.route('/api/admin_panel/<string:table>/<int:page>/<string:sort>/<string:order>', methods=['GET', 'POST'])
 @jwt_required()
 def admin_panel(table, page=1, sort='updated', order='desc'):
     per_page = 10
@@ -156,14 +156,14 @@ def admin_panel(table, page=1, sort='updated', order='desc'):
                            sort=sort, order=order, page=page)
 
 
-@app.route('/logout')
+@app.route('/api/logout')
 def logout():
     resp = redirect(url_for("admin_login"))
     unset_jwt_cookies(resp)
     return resp
 
 
-@app.route('/delete/<int:id>', methods=['DELETE'])
+@app.route('/api/delete/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_record(id):
     table = request.args.get('table')
@@ -175,7 +175,7 @@ def delete_record(id):
         return jsonify({"success": False, "message": "Не указана таблица"}), 400
 
 
-@app.route('/admin_panel/edit/<int:id>/<string:table>', methods=['GET', 'POST'])
+@app.route('/api/admin_panel/edit/<int:id>/<string:table>', methods=['GET', 'POST'])
 @jwt_required()
 def edit(id, table):
     if request.method == 'POST':
@@ -208,7 +208,7 @@ def edit(id, table):
         return render_template('edit_record.html', tables=table_names, table=table, id=id, record=dict(record))
 
 
-@app.route('/admin_panel/add/<string:table>', methods=['GET', 'POST'])
+@app.route('/api/admin_panel/add/<string:table>', methods=['GET', 'POST'])
 @jwt_required()
 def add_record(table):
     if request.method == 'POST':
@@ -247,7 +247,7 @@ def add_record(table):
         return render_template('add_record.html', tables=table_names, table=table, columns=columns)
 
 
-@app.route('/admin_panel/make_main/<int:id>', methods=['GET'])
+@app.route('/api/admin_panel/make_main/<int:id>', methods=['GET'])
 @jwt_required()
 def make_main(id):
     if request.method == 'GET':

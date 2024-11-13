@@ -80,16 +80,16 @@ alembic upgrade head
 ### Маршруты:
 | Название маршрута | Маршрут |
 |------------|------------|
-| Вход в админ-панель: |http://localhost:5000/admin_login |
-| Новости "Политика" | http://localhost:5000/data_news_politics |
-| Новости "Экономика" | http://localhost:5000/data_news_economics |
-| Новости "Наука и образование" | http://localhost:5000/data_news_science_education |
-| Новости "Культура и история" | http://localhost:5000/data_culture_history |
-| Новости "Спорт" | http://localhost:5000/data_news_sport |
-| Новости "Туризм" | http://localhost:5000/data_news_tourism |
-| Новости "Партнеры" | http://localhost:5000/data_news_partners |
-| Новости "Проекты" | http://localhost:5000/data_news_projects |
-| Новости для главной страницы | http://localhost:5000/data_main_page |
+| Вход в админ-панель: |http://localhost:5000/api/admin_login |
+| Новости "Политика" | http://localhost:5000/api/data_news_politics |
+| Новости "Экономика" | http://localhost:5000/api/data_news_economics |
+| Новости "Наука и образование" | http://localhost:5000/api/data_news_science_education |
+| Новости "Культура и история" | http://localhost:5000/api/data_culture_history |
+| Новости "Спорт" | http://localhost:5000/api/data_news_sport |
+| Новости "Туризм" | http://localhost:5000/api/data_news_tourism |
+| Новости "Партнеры" | http://localhost:5000/api/ata_news_partners |
+| Новости "Проекты" | http://localhost:5000/api/data_news_projects |
+| Новости для главной страницы | http://localhost:5000/api/data_main_page |
 
 Все новости отсортированы по **убыванию даты добавления**.
 
