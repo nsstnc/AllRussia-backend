@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:13.0
+    container_name: allrussia-db
+    volumes:
+      - type: volume
+        target: /var/lib/postgresql/dataConfig
+    environment:
+      POSTGRES_DB: allrussia
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 3s
+  app:
+    image: allrussia-python
+    container_name: allrussia-python
+    depends_on:
+      postgres:
+        condition: service_healthy
+    build:
+      context: .
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    ports:
+      - "5000:5000"
+    command: "app"
+    environment:
+      DB_HOST: postgres
+      DB_NAME: allrussia
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+    volumes:
+      - .:/opt/backend

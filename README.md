@@ -26,13 +26,30 @@
 git clone git@github.com:<ваш-никнейм>/AllRussia-backend.git
 cd AllRussia-backend
 ```
-3. Cоздайте и активируйте виртуальное окружение:
 ```bash
 cd backend
+```
+### Запуск через Docker
+3. Для создания образа:
+```bash
+docker compose build
+```
+4. Для создания контейнеров:
+```bash
+docker compose create
+```
+5. Для запуска контейнеров:
+```bash
+docker compose start
+```
+
+### Запуск вручную без Docker
+3. Cоздайте и активируйте виртуальное окружение:
+```bash
 python -m venv venv
 
 # Для Windows
-. venv/scripts/activate
+. venv/Scripts/activate
 # Для Linux
 source venv/bin/activate 
 ```
@@ -40,26 +57,39 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-5. Запустите проект:
+5. Убедитесь, что клиент **PostgreSQL** запущен:
+- Windows: Откройте официальное приложение или *psql* через меню "Пуск";
+- Linux: 
+```bash
+sudo -u postgres psql
+```
+- MacOS:
+```bash
+psql postgres
+```
+6. Проверьте параметры подключения в файлах `config.py` и `alembic.ini` в директории `backend`
+7. Запустите проект:
 ```bash
 python app.py
 ```
-6. TODO - запуск и конфигурация БД и миграций
-
+8. Примените миграции:
+```bash
+alembic upgrade head
+```
 ## Маршруты и функциональность
 ### Маршруты:
 | Название маршрута | Маршрут |
 |------------|------------|
-| Вход в админ-панель: |http://localhost:5000/admin_login |
-| Новости "Политика" | http://localhost:5000/data_news_politics |
-| Новости "Экономика" | http://localhost:5000/data_news_economics |
-| Новости "Наука и образование" | http://localhost:5000/data_news_science_education |
-| Новости "Культура и история" | http://localhost:5000/data_culture_history |
-| Новости "Спорт" | http://localhost:5000/data_news_sport |
-| Новости "Туризм" | http://localhost:5000/data_news_tourism |
-| Новости "Партнеры" | http://localhost:5000/data_news_partners |
-| Новости "Проекты" | http://localhost:5000/data_news_projects |
-| Новости для главной страницы | http://localhost:5000/data_main_page |
+| Вход в админ-панель: |http://localhost:5000/api/admin_login |
+| Новости "Политика" | http://localhost:5000/api/data_news_politics |
+| Новости "Экономика" | http://localhost:5000/api/data_news_economics |
+| Новости "Наука и образование" | http://localhost:5000/api/data_news_science_education |
+| Новости "Культура и история" | http://localhost:5000/api/data_culture_history |
+| Новости "Спорт" | http://localhost:5000/api/data_news_sport |
+| Новости "Туризм" | http://localhost:5000/api/data_news_tourism |
+| Новости "Партнеры" | http://localhost:5000/api/ata_news_partners |
+| Новости "Проекты" | http://localhost:5000/api/data_news_projects |
+| Новости для главной страницы | http://localhost:5000/api/data_main_page |
 
 Все новости отсортированы по **убыванию даты добавления**.
 

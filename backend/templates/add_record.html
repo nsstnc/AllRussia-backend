@@ -42,100 +42,45 @@
         <button type="submit" id="newrecord" class="btn btn-primary">Добавить запись</button>
     </form>
 
-    <!-- Включаем скрипт для TinyMCE -->
-    <script src="https://cdn.tiny.cloud/1/o8mjpww40gaecbuhw9wuf1jq4cr76riuvcg9043cpej8bqkj/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        tinymce.init({
-            selector: 'textarea#content',
-            plugins: 'image code',
-            toolbar: 'undo redo | link image | code',
-            images_upload_url: '/upload_image',
-            automatic_uploads: true,
-            file_picker_types: 'image',
-            images_upload_handler: function (blobInfo, success, failure) {
-                var xhr, formData;
-                xhr = new XMLHttpRequest();
-                xhr.withCredentials = false;
-                xhr.open('POST', '/upload_image');
-                xhr.onload = function() {
-                    var json;
-                    if (xhr.status != 200) {
-                        failure('HTTP Error: ' + xhr.status);
-                        return;
-                    }
-                    json = JSON.parse(xhr.responseText);
-                    if (!json || typeof json.location != 'string') {
-                        failure('Invalid JSON: ' + xhr.responseText);
-                        return;
-                    }
-                    success(json.location);
-                };
-                formData = new FormData();
-                formData.append('file', blobInfo.blob(), blobInfo.filename());
-                xhr.send(formData);
-            }
-        });
+   <!-- Подключаем скрипт для TinyMCE -->
+<script src="https://cdn.tiny.cloud/1/26ulglpbrebh0dg1py5qoymx9wdis2ws2d36tzs46w1i90fi/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea#subtitle, textarea#subtitle_arabian',
+        plugins: 'image code',
+        toolbar: 'undo redo | link image | code',
+        images_upload_url: '/upload_image',
+        automatic_uploads: true,
+        file_picker_types: 'image',
+        images_upload_handler: (blobInfo, progress) => new Promise((resolve, reject) => {
+            var xhr = new XMLHttpRequest();
+            var formData = new FormData();
+            xhr.withCredentials = false;
+            xhr.open('POST', '/upload_image');
 
-        tinymce.init({
-            selector: 'textarea#subtitle',
-            plugins: 'image code',
-            toolbar: 'undo redo | link image | code',
-            images_upload_url: '/upload_image',
-            automatic_uploads: true,
-            file_picker_types: 'image',
-            images_upload_handler: function (blobInfo, success, failure) {
-                var xhr, formData;
-                xhr = new XMLHttpRequest();
-                xhr.withCredentials = false;
-                xhr.open('POST', '/upload_image');
-                xhr.onload = function() {
-                    var json;
-                    if (xhr.status != 200) {
-                        failure('HTTP Error: ' + xhr.status);
-                        return;
+            xhr.onload = function () {
+                if (xhr.status !== 200) {
+                    return reject('HTTP Error: ' + xhr.status);
+                }
+                try {
+                    var json = JSON.parse(xhr.responseText);
+                    if (!json || !json.location) {
+                        return reject('Invalid JSON: location key is missing');
                     }
-                    json = JSON.parse(xhr.responseText);
-                    if (!json || typeof json.location != 'string') {
-                        failure('Invalid JSON: ' + xhr.responseText);
-                        return;
-                    }
-                    success(json.location);
-                };
-                formData = new FormData();
-                formData.append('file', blobInfo.blob(), blobInfo.filename());
-                xhr.send(formData);
-            }
-        });
+                    resolve(json.location);
+                } catch (e) {
+                    reject('Invalid JSON format');
+                }
+            };
 
-        tinymce.init({
-            selector: 'textarea#subtitle_arabian',
-            plugins: 'image code',
-            toolbar: 'undo redo | link image | code',
-            images_upload_url: '/upload_image',
-            automatic_uploads: true,
-            file_picker_types: 'image',
-            images_upload_handler: function (blobInfo, success, failure) {
-                var xhr, formData;
-                xhr = new XMLHttpRequest();
-                xhr.withCredentials = false;
-                xhr.open('POST', '/upload_image');
-                xhr.onload = function() {
-                    var json;
-                    if (xhr.status != 200) {
-                        failure('HTTP Error: ' + xhr.status);
-                        return;
-                    }
-                    json = JSON.parse(xhr.responseText);
-                    if (!json || typeof json.location != 'string') {
-                        failure('Invalid JSON: ' + xhr.responseText);
-                        return;
-                    }
-                    success(json.location);
-                };
-                formData = new FormData();
-                formData.append('file', blobInfo.blob(), blobInfo.filename());
-                xhr.send(formData);
-            }
-        });
-    </script>
+            xhr.onerror = function () {
+                reject('Image upload failed due to a network error.');
+            };
+
+            formData.append('file', blobInfo.blob(), blobInfo.filename());
+            xhr.send(formData);
+        })
+    });
+</script>
+
 {% endblock %}

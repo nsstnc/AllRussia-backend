@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 from models import *
 from sqlalchemy import inspect, func, create_engine
 from sqlalchemy.exc import NoResultFound
+from config import DB
 
 
 class Database():
@@ -94,7 +95,8 @@ class Database():
         """
         # Вытаскиваем все новости, где id совпадает с id в таблице main_article
         main_articles = db.query(News).join(MainArticle, News.id == MainArticle.id).all()
-        return [{k: v for k, v in main_article.__dict__.items() if k != '_sa_instance_state'} for main_article in main_articles]
+        return [{k: v for k, v in main_article.__dict__.items() if k != '_sa_instance_state'} for main_article in
+                main_articles]
 
     def get_news_by_id(self, db: Session, *args):
         """
@@ -213,8 +215,8 @@ class Database():
         column_names = [column.name for column in model.__table__.columns]
         total = db.query(func.count()).select_from(model).scalar()
         if search_query:
-            total = db.query(func.count()).filter(model.title.like(f'%{search_query}%')).scalar()
-            data = db.query(model).filter(model.title.like(f'%{search_query}%')).order_by(order_clause).limit(
+            total = db.query(func.count()).filter(model.title.ilike(f'%{search_query}%')).scalar()
+            data = db.query(model).filter(model.title.ilike(f'%{search_query}%')).order_by(order_clause).limit(
                 per_page).offset(offset).all()
         else:
             if table == "news":
@@ -305,6 +307,5 @@ class Database():
         return news
 
 
-import pathlib
-
-database = Database(f"sqlite:///{str(pathlib.Path(__file__).parent.resolve())}/database.db")
+DB.create_database()
+database = Database(DB.get_path())
