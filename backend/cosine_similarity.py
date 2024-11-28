@@ -16,10 +16,10 @@ def get_nearest_neighbours(main_article_id, count_neighbours):
     # database = Database(f"sqlite:///{str(pathlib.Path(__file__).parent.parent.resolve())}/database.db")
 
     # 100 последних заголовков новостей из базы данных
-    rows = database.get_latest_news_titles(database.get_session(), main_article_id)
+    rows = database.get_latest_news_titles(main_article_id)
     df1 = pd.DataFrame(rows, columns=['id', 'title'])
 
-    main_article = database.get_main_article(database.get_session())
+    main_article = database.get_main_article()
     df2 = pd.DataFrame(main_article, columns=['id', 'title'])
 
     df_news = pd.concat([df1, df2], ignore_index=True).drop_duplicates()

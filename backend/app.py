@@ -119,7 +119,7 @@ def admin_login():
         username = request.form['username']
         password = request.form['password']
         hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-        user = database.get_user_by_username(database.get_session(), username)
+        user = database.get_user_by_username(username)
 
         if user and user['password'] == hashed_password:
             response = redirect(url_for('admin_panel'))
@@ -147,7 +147,7 @@ def admin_panel(table, page=1, sort='updated', order='desc'):
     search_query = request.args.get('search_query', '')
     columns = database.get_model_columns(table)
 
-    data, total, main_article = database.get_data_admin_panel(database.get_session(), table, search_query, sort, order,
+    data, total, main_article = database.get_data_admin_panel(table, search_query, sort, order,
                                                               per_page, offset)
     pagination = Pagination(page=page, per_page=per_page, total=total, record_name='items')
 
@@ -169,7 +169,7 @@ def delete_record(id):
     table = request.args.get('table')
     if table:
         # Удаляем запись из указанной таблицы
-        database.delete_record(database.get_session(), table, id)
+        database.delete_record(table, id)
         return jsonify({"success": True, "message": "Запись удалена"}), 200
     else:
         return jsonify({"success": False, "message": "Не указана таблица"}), 400
@@ -201,10 +201,10 @@ def edit(id, table):
         if 'content' in request.form:
             data['content'] = request.form['content']
 
-        database.update_record(database.get_session(), table, id, data)
+        database.update_record(table, id, data)
         return redirect(url_for('admin_panel', table=table))
     else:
-        record = database.get_record_by_id(database.get_session(), table, id)
+        record = database.get_record_by_id(table, id)
         return render_template('edit_record.html', tables=table_names, table=table, id=id, record=dict(record))
 
 
@@ -227,19 +227,19 @@ def add_record(table):
         if 'subtitle_arabian' in request.form:
             data['subtitle_arabian'] = request.form['subtitle_arabian']
 
-        new_id = database.get_next_id(database.get_session(), table)
+        new_id = database.get_next_id(table)
         data['id'] = new_id
         if table == "users":
-            database.create_user(database.get_session(), data['username'], data['password'])
+            database.create_user(data['username'], data['password'])
         elif table == "news":
             data["updated"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             if 'tag' in data:
                 tag_russian, tag_arabian = data["tag"].split("/")
                 data["tag"] = tag_russian
                 data["tag_arabian"] = tag_arabian
-            database.insert_data(database.get_session(), table, data)
+            database.insert_data(table, data)
         else:
-            database.insert_data(database.get_session(), table, data)
+            database.insert_data(table, data)
 
         return redirect(url_for('admin_panel', table=table))
     else:
@@ -251,7 +251,7 @@ def add_record(table):
 @jwt_required()
 def make_main(id):
     if request.method == 'GET':
-        database.make_main(database.get_session(), id)
+        database.make_main(id)
         return redirect(url_for('admin_panel', table="news"))
 
 
