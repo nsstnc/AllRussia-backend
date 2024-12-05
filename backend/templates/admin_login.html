@@ -42,6 +42,9 @@
                     <input type="checkbox" class="form-check-input" id="rememberMe">
                     <label id="rememberme" class="form-check-label" for="rememberMe">Запомнить меня</label>
                 </div>
+                {% if error %}
+                <div id="error" class="mb-3 form-text text-danger">{{ error }}</div>
+                {%  endif %}
                 <div
                         id="captcha-container"
                         class="smart-captcha"
@@ -58,7 +61,7 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    
+
     const translations = {
         russian: {
             enter:"Вход в систему",
@@ -90,11 +93,11 @@
         $('#enterbtn').text(translations[lang].enterbtn);
         $('#enter').text(translations[lang].enter);
 
-        
+
         currentLanguage = lang;
     }
 
-    
+
     $('#translateButton2').click(function() {
         translateText();
     });

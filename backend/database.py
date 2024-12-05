@@ -10,7 +10,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import Session
 from models import *
 from sqlalchemy import inspect, func, create_engine
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.exc import NoResultFound, MultipleResultsFound, IntegrityError
 from config import DB
 
 
@@ -64,6 +64,9 @@ class Database():
                 db.commit()
                 db.refresh(new_user)
                 return new_user
+            except IntegrityError as e:
+                print(f"Ошибка: {e}")
+                return None
             except Exception as e:
                 db.rollback()
                 print(f"Ошибка: {e}")
@@ -253,9 +256,11 @@ class Database():
 
             try:
                 # Поиск пользователя по имени пользователя
-                user = db.query(User).filter(User.username == username).one_or_none()
+                user = db.query(User).filter(User.username == username).one()
                 return user.__dict__
             except NoResultFound:
+                return None
+            except MultipleResultsFound:
                 return None
             except Exception as e:
                 db.rollback()
