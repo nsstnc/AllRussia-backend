@@ -1,4 +1,5 @@
-from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory, jsonify
+from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory, jsonify, \
+    make_response
 from flask_paginate import Pagination, get_page_args
 from flask_jwt_extended import *
 import pathlib, hashlib, datetime
@@ -84,12 +85,13 @@ def verifyExt(filename):
 @app.route('/api/admin_login', methods=['GET', 'POST'])
 @jwt_required(optional=True)
 def admin_login():
-    error = None
+    error = request.args.get("error")
     jwt_data = get_jwt()
     if jwt_data and jwt_data.get("fresh", False):
         return redirect(url_for('admin_panel'))
 
     if request.method == 'GET':
+        print(error)
         return render_template('admin_login.html', captcha_key=SMARTCAPTCHA_CLIENT_KEY, error=error)
 
     def check_captcha(token):
@@ -127,6 +129,7 @@ def admin_login():
             return response
         else:
             error = 'Неправильное имя пользователя или пароль'
+            return redirect(url_for("admin_login", error=error))
     else:
         print("Robot")
 
@@ -197,6 +200,9 @@ def edit(id, table):
                 tag_russian, tag_arabian = data["tag"].split("/")
                 data["tag"] = tag_russian
                 data["tag_arabian"] = tag_arabian
+        elif table == "users" and data["password"]:
+            data["password"] = hashlib.sha256(data["password"].encode('utf-8')).hexdigest()
+
 
         if 'content' in request.form:
             data['content'] = request.form['content']
@@ -230,6 +236,7 @@ def add_record(table):
         new_id = database.get_next_id(table)
         data['id'] = new_id
         if table == "users":
+
             database.create_user(data['username'], data['password'])
         elif table == "news":
             data["updated"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")

@@ -33,6 +33,9 @@
                     {% elif column == "subtitle_arabian" %}
                         <label for="{{ column }}">Subtitle (Arabian)</label>
                         <textarea id="subtitle_arabian" name="subtitle_arabian">{{ value }}</textarea>
+                    {% elif column == "password" %}
+                        <label for="{{ column }}">{{ column }}</label>
+                        <input type="text" class="form-control" placeholder="Enter new password" id="{{ column }}" name="{{ column }}" value="">
                     {% else %}
                         <label for="{{ column }}">{{ column }}</label>
                         <input type="text" class="form-control" id="{{ column }}" name="{{ column }}" value="{{ value }}">
