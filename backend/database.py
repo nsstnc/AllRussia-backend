@@ -281,6 +281,11 @@ class Database():
         """
         with self.get_session() as db:
             try:
+                allowed_sort_fields = ["title", "date"]
+                allowed_order_directions = ["ASC", "DESC"]
+
+                if sort not in allowed_sort_fields or order not in allowed_order_directions:
+                    raise ValueError("Недопустимое значение сортировки или порядка")
                 order_clause = text(f"{sort} {order}")
 
                 model = self.get_model_by_table_name(table)
