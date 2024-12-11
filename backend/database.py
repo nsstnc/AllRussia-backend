@@ -281,8 +281,8 @@ class Database():
         """
         with self.get_session() as db:
             try:
-                allowed_sort_fields = ["title", "date"]
-                allowed_order_directions = ["ASC", "DESC"]
+                allowed_sort_fields = ["", "id", "url", "title", "title_arabian", "subtitle", "subtitle_arabian", "tag", "tag_arabian", "updated"]
+                allowed_order_directions = ["ASC", "DESC", "asc", "desc"]
 
                 if sort not in allowed_sort_fields or order not in allowed_order_directions:
                     raise ValueError("Недопустимое значение сортировки или порядка")
