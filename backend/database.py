@@ -219,11 +219,11 @@ class Database():
                 instance = model(**data)
 
                 # Добавляем и коммитим изменения
-                session.add(instance)
-                session.commit()
+                db.add(instance)
+                db.commit()
 
                 # Обновляем экземпляр сессией, чтобы получить ID или другие обновленные поля
-                session.refresh(instance)
+                db.refresh(instance)
 
                 return instance
             except Exception as e:
