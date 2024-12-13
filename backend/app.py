@@ -12,9 +12,7 @@ import uuid
 from flask_cors import CORS
 from database import database
 
-
 app = Flask(__name__, template_folder="templates")
-
 
 CORS(app)
 app.secret_key = 'all_russia'
@@ -108,7 +106,7 @@ def admin_login():
 
             if resp.status_code != 200:
                 print(f"Allow access due to an error: code={resp.status_code}; message={server_output}",
-              file=sys.stderr)
+                      file=sys.stderr)
                 return True
             return json.loads(server_output)["status"] == "ok"
         except requests.exceptions.Timeout:
@@ -188,10 +186,11 @@ def edit(id, table):
             if file and verifyExt(file.filename):
                 unique_filename = f"{uuid.uuid4()}_{file.filename}"
                 file.save(pathlib.Path(UPLOAD_FOLDER, unique_filename))
-                try:
-                    pathlib.Path(UPLOAD_FOLDER, data['url']).unlink()
-                except FileNotFoundError:
-                    print("Не удалось найти файл")
+                if data['url']:
+                    try:
+                        pathlib.Path(UPLOAD_FOLDER, data['url']).unlink()
+                    except FileNotFoundError:
+                        print("Не удалось найти файл")
                 data['url'] = unique_filename
 
         if table == "news":
@@ -202,7 +201,6 @@ def edit(id, table):
                 data["tag_arabian"] = tag_arabian
         elif table == "users" and data["password"]:
             data["password"] = hashlib.sha256(data["password"].encode('utf-8')).hexdigest()
-
 
         if 'content' in request.form:
             data['content'] = request.form['content']
