@@ -142,7 +142,7 @@ def create_jwt_token(resp, user):
 @app.route('/api/admin_panel/<string:table>/<int:page>', methods=['GET', 'POST'])
 @app.route('/api/admin_panel/<string:table>/<int:page>/<string:sort>/<string:order>', methods=['GET', 'POST'])
 @jwt_required()
-def admin_panel(table, page=1, sort='updated', order='desc'):
+def admin_panel(table, sort='', order='desc',page=1):
     per_page = 10
     offset = (page - 1) * per_page
     search_query = request.args.get('search_query', '')

@@ -268,7 +268,7 @@ class Database():
                 raise
 
     def get_data_admin_panel(self, table: str, search_query: str, sort: str, order: str, per_page: int,
-                             offset: int):
+                             offset: int, search_column: str = "title"):
         """
         Получение данных из таблицы с учетом поиска, сортировки и постраничного вывода.
         :param table: Название таблицы.
@@ -277,24 +277,39 @@ class Database():
         :param order: Направление сортировки (ASC или DESC).
         :param per_page: Количество записей на странице.
         :param offset: Смещение для постраничного вывода.
+        :param search_column: Колонка для поиска
         :return: Общее количество записей и данные.
         """
         with self.get_session() as db:
             try:
-                allowed_sort_fields = ["", "id", "url", "title", "title_arabian", "subtitle", "subtitle_arabian", "tag", "tag_arabian", "updated"]
+                allowed_sort_fields = ["", "id", "url", "title", "title_arabian", "subtitle", "subtitle_arabian", "tag",
+                                       "tag_arabian", "updated"]
                 allowed_order_directions = ["ASC", "DESC", "asc", "desc"]
-
-                if sort not in allowed_sort_fields or order not in allowed_order_directions:
-                    raise ValueError("Недопустимое значение сортировки или порядка")
-                order_clause = text(f"{sort} {order}")
+                if sort:
+                    if sort not in allowed_sort_fields or order not in allowed_order_directions:
+                        raise ValueError("Недопустимое значение сортировки или порядка")
+                    order_clause = text(f"{sort} {order}")
+                else:
+                    order_clause = text(f"")
 
                 model = self.get_model_by_table_name(table)
                 column_names = [column.name for column in model.__table__.columns]
                 total = db.query(func.count()).select_from(model).scalar()
                 if search_query:
-                    total = db.query(func.count()).filter(model.title.ilike(f'%{search_query}%')).scalar()
-                    data = db.query(model).filter(model.title.ilike(f'%{search_query}%')).order_by(order_clause).limit(
-                        per_page).offset(offset).all()
+                    if table == "users":
+                        search_query_filter = model.username.ilike(f'%{search_query}%')
+                    elif table == "contacts":
+                        search_query_filter = model.address.ilike(f'%{search_query}%')
+                    else:
+                        search_query_filter = model.title.ilike(f'%{search_query}%')
+
+                    total = db.query(func.count()).filter(search_query_filter).scalar()
+                    if order_clause != " ":
+                        data = db.query(model).filter(search_query_filter).order_by(order_clause).limit(
+                            per_page).offset(offset).all()
+                    else:
+                        data = db.query(model).filter(search_query_filter).limit(
+                            per_page).offset(offset).all()
                 else:
                     if table == "news":
                         data = db.query(model).order_by(order_clause).limit(per_page).offset(offset).all()
