@@ -115,7 +115,7 @@
             if (deleteId && deleteTable) {
                 // Запрос на удаление записи
                 $.ajax({
-                    url: `/delete/${deleteId}?table=${deleteTable}`,  // Используем ID и таблицу
+                    url: `/api/delete/${deleteTable}/${deleteId}`, // Исправленный URL
                     type: 'DELETE',
                     success: function(response) {
                         console.log("Запись успешно удалена:", response);
