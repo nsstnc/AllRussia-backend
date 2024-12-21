@@ -164,16 +164,16 @@ def logout():
     return resp
 
 
-@app.route('/api/delete/<int:id>', methods=['DELETE'])
+@app.route('/api/delete/<string:table>/<int:id>', methods=['DELETE'])
 @jwt_required()
-def delete_record(id):
-    table = request.args.get('table')
+def delete_record(table, id):
     if table:
         # Удаляем запись из указанной таблицы
         database.delete_record(table, id)
         return jsonify({"success": True, "message": "Запись удалена"}), 200
     else:
         return jsonify({"success": False, "message": "Не указана таблица"}), 400
+
 
 
 @app.route('/api/admin_panel/edit/<int:id>/<string:table>', methods=['GET', 'POST'])
