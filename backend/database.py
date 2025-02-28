@@ -12,6 +12,8 @@ from sqlalchemy.exc import NoResultFound, MultipleResultsFound, IntegrityError
 from models import *
 from config import DB
 
+if not os.path.exists("logs"):
+    os.makedirs("logs")
 # Настройка логгирования
 logging.basicConfig(level=logging.INFO)
 
@@ -205,7 +207,7 @@ class Database:
                 for cls in Base.registry.mappers:
                     if cls.class_.__tablename__ == table_name:
                         return cls.class_
-                raise ValueError(f"Model for table '{table_name}' not found.")
+                raise ValueError(f"Модель для таблицы '{table_name}' не найдена.")
             except Exception as e:
                 db.rollback()
                 logger.error(f"Error retrieving model by table name: {e}")
@@ -366,7 +368,7 @@ class Database:
 
                 record = db.query(model).filter(model.id == record_id).first()
                 if record is None:
-                    raise NoResultFound(f"Record with ID {record_id} not found in table {table_name}")
+                    raise NoResultFound(f"Запись с ID {record_id} не найдена в таблице {table_name}")
 
                 db.delete(record)
                 db.commit()
@@ -390,7 +392,7 @@ class Database:
 
                 record = db.query(model).filter(model.id == record_id).first()
                 if record is None:
-                    raise NoResultFound(f"Record with ID {record_id} not found in table {table_name}")
+                    raise NoResultFound(f"Запись с ID {record_id} не найдена в таблице {table_name}")
 
                 for key, value in data.items():
                     setattr(record, key, value)
