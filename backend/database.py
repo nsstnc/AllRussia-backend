@@ -12,6 +12,10 @@ from sqlalchemy.exc import NoResultFound, MultipleResultsFound, IntegrityError
 from models import *
 from config import DB
 
+
+if not os.path.exists("logs"):
+    os.makedirs("logs")
+
 # Настройка логгирования
 logging.basicConfig(level=logging.INFO)
 
