@@ -20,7 +20,7 @@ app = Flask(__name__, template_folder="templates")
 logging.basicConfig(level=logging.INFO)
 
 # Максимальный размер лог-файла до 50 MB
-handler = RotatingFileHandler('app.log', maxBytes=50 * 1024 * 1024, backupCount=3)
+handler = RotatingFileHandler('logs/app.log', maxBytes=50 * 1024 * 1024, backupCount=3)
 handler.setLevel(logging.INFO)
 
 # Формат логирования с временной меткой и уровнем логирования
