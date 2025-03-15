@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     sh 'docker-compose down'
-                    sh 'docker-compose run --rm app python -m unittest discover -s backend/tests'
+                    sh 'docker-compose run --rm app python -m unittest discover -s backend/tests -t .'
                 }
             }
         }
