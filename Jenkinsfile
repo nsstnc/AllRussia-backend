@@ -18,6 +18,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
+                    sh 'docker-compose down'
                     sh 'docker-compose run --rm app python -m unittest discover backend/tests'
                 }
             }
@@ -26,6 +27,7 @@ pipeline {
         stage('Build & Push Docker Images') {
             steps {
                 script {
+                    sh 'docker-compose down'
                     sh 'docker-compose build'
                     sh 'docker-compose push'
                 }
