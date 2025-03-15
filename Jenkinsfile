@@ -18,7 +18,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    sh 'docker-compose run --rm allrussia-python python -m unittest discover backend/tests'
+                    sh 'docker-compose run --rm app python -m unittest discover backend/tests'
                 }
             }
         }
