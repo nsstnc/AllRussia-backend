@@ -9,8 +9,8 @@ from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy import inspect, func, create_engine
 from sqlalchemy.exc import NoResultFound, MultipleResultsFound, IntegrityError
-from models import *
-from config import DB
+from backend.models import *
+from backend.config import DB
 
 
 if not os.path.exists("logs"):

@@ -1,0 +1,3 @@
+2025-03-15 17:24:53,350 [INFO] Request: GET /api/logout - Headers: {'User-Agent': 'Werkzeug/3.1.3', 'Host': 'localhost'} - Args: ImmutableMultiDict([]) - Form: ImmutableMultiDict([])
+2025-03-15 17:24:53,351 [INFO] User logged out
+2025-03-15 17:24:53,351 [INFO] Response: 302 - Headers: {'Content-Type': 'text/html; charset=utf-8', 'Content-Length': '219', 'Location': '/api/admin_login', 'Set-Cookie': 'access_token_cookie=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; Path=/'}

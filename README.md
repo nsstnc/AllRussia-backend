@@ -26,22 +26,12 @@
 git clone git@github.com:<ваш-никнейм>/AllRussia-backend.git
 cd AllRussia-backend
 ```
-```bash
-cd backend
-```
 ### Запуск через Docker
-3. Для создания образа:
+3. Для создания образа, создания и запуска контейнеров:
 ```bash
-docker compose build
+docker-compose up --build -d
 ```
-4. Для создания контейнеров:
-```bash
-docker compose create
-```
-5. Для запуска контейнеров:
-```bash
-docker compose start
-```
+
 
 ### Запуск вручную без Docker
 3. Cоздайте и активируйте виртуальное окружение:

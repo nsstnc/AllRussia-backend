@@ -5,14 +5,14 @@ from flask import Flask, request, render_template, redirect, url_for, session, s
 from flask_paginate import Pagination, get_page_args
 from flask_jwt_extended import *
 import pathlib, hashlib, datetime
-from get_data import get_data_app
+from backend.get_data import get_data_app
 import requests
 import sys
 import json
 import os
 import uuid
 from flask_cors import CORS
-from database import database
+from backend.database import database
 
 app = Flask(__name__, template_folder="templates")
 

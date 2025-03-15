@@ -1,7 +1,7 @@
 from sklearn.neighbors import NearestNeighbors
 from sklearn.feature_extraction.text import CountVectorizer
 import pandas as pd
-from database import database
+from backend.database import database
 import json, pathlib
 
 import string

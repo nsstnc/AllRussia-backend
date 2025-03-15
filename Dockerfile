@@ -4,8 +4,8 @@ LABEL maintainer="allrussia-python"
 ENV PYTHONUNBUFFERED 1
 
 ENV PYTHONDONTWRITEBYTECODE 1
-WORKDIR /opt/backend
-ENTRYPOINT ["./docker-bash.sh"]
+WORKDIR /opt/app
+
 FROM base
 COPY requirements.txt ./
 # Используем архивные репозитории
@@ -19,5 +19,14 @@ RUN apt-get update -o Acquire::Check-Valid-Until=false && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN pip install -r requirements.txt
-COPY ./* ./
+# Копируем весь проект в контейнер
+COPY . .
+
+# Делаем скрипт исполняемым
+RUN chmod +x docker-bash.sh
+
+# Указываем ENTRYPOINT на скрипт
+ENTRYPOINT ["/opt/app/docker-bash.sh"]
+
+# Открываем порт 5000
 EXPOSE 5000

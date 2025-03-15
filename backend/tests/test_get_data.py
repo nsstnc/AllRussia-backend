@@ -2,7 +2,7 @@ import unittest
 import json
 from unittest.mock import patch, MagicMock
 from flask import Flask
-from get_data import get_data_app
+from backend.get_data import get_data_app
 
 class TestGetDataRoutes(unittest.TestCase):
     def setUp(self):
@@ -12,7 +12,7 @@ class TestGetDataRoutes(unittest.TestCase):
         self.app.testing = True
         
     def test_data_news_sorted_by_date(self):
-        with patch('get_data.database') as mock_db:
+        with patch('backend.get_data.database') as mock_db:
             mock_data = [
                 {"id": 1, "title": "Test News 1", "date": "2025-03-04"},
                 {"id": 2, "title": "Test News 2", "date": "2025-03-03"}
@@ -26,7 +26,7 @@ class TestGetDataRoutes(unittest.TestCase):
             mock_db.get_news.assert_called_with(sort_by_date_descending=True)
 
     def test_data_news_politics(self):
-        with patch('get_data.database') as mock_db:
+        with patch('backend.get_data.database') as mock_db:
             mock_data = [
                 {"id": 1, "title": "Politics News", "tag": "Политика"}
             ]
@@ -39,7 +39,7 @@ class TestGetDataRoutes(unittest.TestCase):
             mock_db.get_news.assert_called_with(tag='Политика', sort_by_date_descending=True)
 
     def test_main_page(self):
-        with patch('get_data.database') as mock_db:
+        with patch('backend.get_data.database') as mock_db:
             mock_main_article = [{"id": 1, "title": "Main Article"}]
             mock_news = [{"id": 2, "title": "News Article"}]
             mock_similar = [{"id": 3, "title": "Similar Article"}]
@@ -48,7 +48,7 @@ class TestGetDataRoutes(unittest.TestCase):
             mock_db.get_news.return_value = mock_news
             mock_db.get_news_by_id.return_value = mock_similar
 
-            with patch('get_data.get_nearest_neighbours') as mock_neighbours:
+            with patch('backend.get_data.get_nearest_neighbours') as mock_neighbours:
                 mock_neighbours.return_value = [2, 3, 4]
 
                 response = self.app.get('/data_main_page')
@@ -75,7 +75,7 @@ class TestGetDataRoutes(unittest.TestCase):
                 )
 
     def test_get_partners(self):
-        with patch('get_data.database') as mock_db:
+        with patch('backend.get_data.database') as mock_db:
             mock_data = [{"id": 1, "name": "Test Partner"}]
             mock_db.get_partners.return_value = mock_data
             
@@ -85,7 +85,7 @@ class TestGetDataRoutes(unittest.TestCase):
             self.assertEqual(json.loads(response.data), mock_data)
 
     def test_get_contacts(self):
-        with patch('get_data.database') as mock_db:
+        with patch('backend.get_data.database') as mock_db:
             mock_data = {"phone": "123456", "email": "test@test.com"}
             mock_db.get_contacts_info.return_value = mock_data
             
