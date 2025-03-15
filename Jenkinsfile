@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', credentialsId: 'github-credentials', url: 'git@github.com:nsstnc/AllRussia-backend.git'
+                git branch: 'main', credentialsId: 'ssh-key', url: 'git@github.com:nsstnc/AllRussia-backend.git'
             }
         }
 
