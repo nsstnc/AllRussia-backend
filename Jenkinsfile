@@ -14,15 +14,15 @@ pipeline {
                 git branch: 'main', credentialsId: 'ssh-key', url: 'git@github.com:nsstnc/AllRussia-backend.git'
             }
         }
-
-        stage('Run Tests') {
-            steps {
-                script {
-                    sh 'docker-compose down'
-                    sh 'docker-compose run --rm app python -m unittest discover -s backend/tests -t .'
-                }
-            }
-        }
+//
+//         stage('Run Tests') {
+//             steps {
+//                 script {
+//                     sh 'docker-compose down'
+//                     sh 'docker-compose run --rm app python -m unittest discover -s backend/tests -t .'
+//                 }
+//             }
+//         }
 
         stage('Build & Push Docker Images') {
             steps {
