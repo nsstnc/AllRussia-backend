@@ -29,8 +29,8 @@ pipeline {
         stage('Deploy to Server') {
             steps {
                 sshagent(['ssh-key']) {
-                    sh """
-                    ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'END_OF_FILE'
+                    sh '''
+                    ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << EOF
                         cd $REPO_DIR
                         git pull origin main
                         chmod +x docker-bash.sh
@@ -38,8 +38,8 @@ pipeline {
                         docker ps -aq | xargs -r docker rm -f
                         docker compose up --build -d
                         sudo systemctl restart nginx
-                    END_OF_FILE
-                    """
+                    << EOF
+                    '''
                 }
             }
         }
