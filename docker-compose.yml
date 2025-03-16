@@ -39,5 +39,3 @@ services:
       DB_NAME: allrussia
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
-    volumes:
-      - .:/opt/app
