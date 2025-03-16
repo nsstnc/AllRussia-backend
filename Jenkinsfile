@@ -20,6 +20,7 @@ pipeline {
                 script {
                     sh 'chmod +x docker-bash.sh'
                     sh 'docker-compose down'
+                    sh 'docker rm -f $(docker ps -aq)'
                     sh 'docker-compose run --rm app python -m unittest discover -s backend/tests'
                 }
             }
