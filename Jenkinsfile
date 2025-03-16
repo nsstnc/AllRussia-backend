@@ -32,6 +32,7 @@ pipeline {
                     ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
                         cd $REPO_DIR
                         git pull origin main
+                        chmod +x docker-bash.sh
                         docker-compose down
                         docker-compose up --build -d
                         sudo systemctl restart nginx
