@@ -22,6 +22,6 @@ RUN apt-get update -o Acquire::Check-Valid-Until=false && \
 RUN pip install -r requirements.txt
 # Копируем весь проект в контейнер
 COPY ./* ./
-
+RUN chmod +x docker-bash.sh
 # Открываем порт 5000
 EXPOSE 5000
