@@ -25,15 +25,6 @@ pipeline {
             }
         }
 
-        stage('Build & Push Docker Images') {
-            steps {
-                script {
-                    sh 'docker-compose build'
-                    sh 'docker-compose push'
-                }
-            }
-        }
-
         stage('Deploy to Server') {
             steps {
                 sshagent(['ssh-key']) {
