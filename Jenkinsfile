@@ -30,15 +30,15 @@ pipeline {
             steps {
                 sshagent(['ssh-key']) {
                     sh """
-                    ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
+                    ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'END_OF_FILE'
                         cd $REPO_DIR
                         git pull origin main
                         chmod +x docker-bash.sh
-                        docker-compose down
+                        docker compose down
                         docker ps -aq | xargs -r docker rm -f
-                        docker-compose up --build -d
+                        docker compose up --build -d
                         sudo systemctl restart nginx
-                    EOF
+                    END_OF_FILE
                     """
                 }
             }
