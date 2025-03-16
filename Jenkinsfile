@@ -35,6 +35,7 @@ pipeline {
                         git pull origin main
                         chmod +x docker-bash.sh
                         docker-compose down
+                        docker ps -aq | xargs -r docker rm -f
                         docker-compose up --build -d
                         sudo systemctl restart nginx
                     EOF
