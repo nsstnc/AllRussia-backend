@@ -33,7 +33,7 @@ services:
       - 8.8.4.4
     ports:
       - "5000:5000"
-    command: "./docker-bash.sh app"
+    command: "app"
     environment:
       DB_HOST: postgres
       DB_NAME: allrussia
