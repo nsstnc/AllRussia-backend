@@ -6,6 +6,7 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 WORKDIR /opt/app
 
+ENTRYPOINT ["./docker-bash.sh"]
 FROM base
 COPY requirements.txt ./
 # Используем архивные репозитории
@@ -20,13 +21,7 @@ RUN apt-get update -o Acquire::Check-Valid-Until=false && \
 
 RUN pip install -r requirements.txt
 # Копируем весь проект в контейнер
-COPY . .
-
-# Делаем скрипт исполняемым
-RUN chmod +x docker-bash.sh
-
-# Указываем ENTRYPOINT на скрипт
-ENTRYPOINT ["/opt/app/docker-bash.sh"]
+COPY ./* ./
 
 # Открываем порт 5000
 EXPOSE 5000
